@@ -1,0 +1,117 @@
+@use '../../../styles/vars';
+@use 'sass:color';
+
+.comment{
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+    @media(max-width: 769px) {
+        width: 75%;
+    }
+    @media(max-width: 426px) {
+        width: 100%;
+    }
+    &-list{
+        &-title{
+            font-size: vars.$gutter*1.8;
+            font-weight: bold;
+            padding: vars.$gutter*2;
+            margin: vars.$gutter 0;
+            background-color: vars.$background-secondary;
+            color: vars.$background-primary;
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*1.3;
+            }
+        }
+        &-item{
+            border : 1px solid #999;
+            padding: vars.$gutter;
+            text-align: left;
+            margin: vars.$gutter;
+            &-info{
+                margin-bottom: vars.$gutter;
+                &-date, &-pseudo{
+                    font-weight: bold;
+                }
+                &-pseudo{
+                    text-transform: uppercase;
+                }
+            }
+            &-content{
+                line-height: 1.1;
+            }
+        }
+    }
+    &-add{
+        margin: vars.$gutter*2 0;
+        &-title{
+            font-size: vars.$gutter*1.5;
+            padding: vars.$gutter;
+            font-weight: bold;
+            background-color: vars.$background-secondary;
+            color: vars.$background-primary;
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*1.2;
+            }
+        }
+        &-form{
+            margin: vars.$gutter vars.$gutter*3;
+            @media(max-width: 426px) {
+                margin: vars.$gutter;
+            }
+            &-item{
+                display: flex;
+                justify-content: flex-end;
+                align-items: baseline;
+                @media(max-width: 426px) {
+                    flex-direction: column;
+                }
+                &-label{
+                    flex: 2;
+                    padding: vars.$gutter*1.5 0 vars.$gutter*0.4;
+                    font-size: vars.$gutter*1.1;
+                    text-align: right;
+                    margin-right: vars.$gutter;
+                }
+                &-input, &-textarea{
+                    flex: 5;
+                    padding: vars.$gutter*0.5;
+                    @media(max-width: 426px) {
+                        width: 100%;
+                    }
+                }
+            }
+            &-submit{
+                margin: vars.$gutter*2 0;
+                padding: vars.$gutter*0.5 vars.$gutter*2;
+                font-size: vars.$gutter*1.1;
+                font-weight: bold;
+                cursor: pointer;
+                border-radius: 5px;
+                border: 2px solid vars.$link-color;
+                background-color: vars.$link-color;
+                color: vars.$background-primary;
+                &:hover{
+                    background-color: vars.$background-primary;
+                    color: vars.$link-color;
+                }
+                @media(max-width: 426px) {
+                    font-size: vars.$gutter;
+                    padding: vars.$gutter*0.5 vars.$gutter;
+                }
+            }
+        }
+    }
+}
+
+.off{
+    border: 2px solid vars.$grey;
+    background-color: vars.$grey;
+    color: vars.$background-primary;
+    cursor: not-allowed;
+    &:hover{
+        border: 2px solid vars.$grey;
+        background-color: vars.$grey;
+        color: vars.$background-primary;
+    }
+}

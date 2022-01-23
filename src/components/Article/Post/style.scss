@@ -1,0 +1,51 @@
+@use '../../../styles/vars';
+@use 'sass:color';
+
+.post{
+    width: 100%;
+    margin: 0 auto vars.$gutter*3;
+    @media( max-width: 769px ) {
+        width: 100%;
+    }
+    &-header{
+        width: 100%;
+        text-align: center;
+        position: relative;
+        &-img{
+            width:100%;
+            height: 450px;
+            object-fit: cover;
+            object-position: top;
+        }
+        &-title{
+            display: inline-block;
+            padding: vars.$gutter vars.$gutter*2;
+            margin-top: - (vars.$gutter*3);
+            font-size: vars.$gutter*3;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: vars.$background-secondary;
+            color: vars.$background-primary;
+        }
+    }
+    &-info{
+        text-align: center;
+        padding: vars.$gutter;
+        color: #999;
+        font-style: oblique;
+        &-date, &-author{
+            font-weight: bold;
+        }
+    }
+    &-content{
+        width: 80%;
+        margin: 0 auto;
+        font-size: vars.$gutter*1.2;
+        line-height: 1.2;
+        text-align: justify;
+        @media( max-width: 426px ) {
+            width: 90%;
+            font-size: vars.$gutter;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.home{
+    &-header{
+        text-align: center;
+        padding: vars.$gutter*3;
+        &-title{
+            font-size: vars.$gutter*5;
+        }
+        &-subtitle{
+            margin-top: vars.$gutter*2;
+            font-size: vars.$gutter*2;
+        }
+    }
+    &-posts{
+        text-align: center;
+        padding: 0 vars.$gutter*4;
+    }
+}
