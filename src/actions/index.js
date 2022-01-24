@@ -22,3 +22,33 @@ export const savePosts = (posts) => ({
     type: SAVE_POSTS,
     posts,
 })
+
+// action to get post id
+export const GET_POST_ID = 'GET_POST_ID';
+export const getPostId = (id) => ({
+  type:GET_POST_ID,
+  id,
+})
+
+
+/* Comments management */
+
+// action to wrote a new pseudo
+export const NEW_PSEUDO = 'NEW_PSEUDO';
+export const newPseudo = (pseudo) => ({
+  type: NEW_PSEUDO,
+  pseudo,
+})
+
+// action to wrote a new comment
+export const NEW_COMMENT = 'NEW_COMMENT';
+export const newComment = (comment) => ({
+  type: NEW_COMMENT,
+  comment,
+})
+
+// action to send comment 
+export const SEND_COMMENT = 'SEND_COMMENT';
+export const sendComment = () => ({
+  type: SEND_COMMENT,
+})

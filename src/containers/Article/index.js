@@ -2,16 +2,22 @@ import { connect } from 'react-redux';
 import Article from '../../components/Article'
 
 import {
-    getPosts
+    getPosts,
+    getPostId,
 } from '../../actions';
 
 const mapStateToProps = (state) => ({
-    posts: state.posts
+    posts: state.posts,
+    pseudo: state.pseudo,
+    comment: state.comment,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getPosts: () => {
         dispatch(getPosts());
+    },
+    getPostId: (id) => {
+        dispatch(getPostId(id));
     },
 });
 

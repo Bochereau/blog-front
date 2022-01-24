@@ -9,6 +9,7 @@ import './style.scss';
 import ScrollToTop from "../ScrollToTop";
 import Home from '../../containers/Home';
 import Article from "../../containers/Article";
+import NotFound from "../NotFound";
 
 const Blog = ({ getPosts }) => {
     useEffect(() => {
@@ -18,6 +19,7 @@ const Blog = ({ getPosts }) => {
         <main className="wrapper">
             <ScrollToTop>
                 <Routes>
+                    <Route path='*' element={<NotFound/>} />
                     <Route path="/" exact element={<Home/>} />
                     <Route path="/posts/:slug" exact element={<Article />} />
                 </Routes>

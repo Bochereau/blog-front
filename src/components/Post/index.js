@@ -5,7 +5,7 @@ import './style.scss';
 const Post = ({ attributes }) => (
     <article className="post">
         <div className="post-header">
-            <img className="post-header-img" src={`http://localhost:1337${attributes.picture.data.attributes.url}`} alt={attributes.title} />
+            <img className="post-header-img" src={`${attributes.picture.data.attributes.url}`} alt={attributes.title} />
             <h3 className="post-header-title">{attributes.title}</h3>
         </div>
         <p className="post-info">

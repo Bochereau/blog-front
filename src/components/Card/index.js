@@ -8,12 +8,12 @@ const Card = ({ attributes }) => {
     console.log(attributes);
     return (
     <li className="card">
-        <img className="card-img" src={`http://localhost:1337${attributes.picture.data.attributes.url}`} alt={attributes.title} />
+        <img className="card-img" src={`${attributes.picture.data.attributes.url}`} alt={attributes.title} />
         <h3 className="card-title">{attributes.title}</h3>
         <h4 className="card-subtitle">{attributes.subtitle}</h4>
         <Link to={`/posts/${attributes.theme}`} className="card-link">
             <p className="card-link-text">Lire l'article</p>
-            <svg 
+            <svg
                 width="24" 
                 height="24"
                 xmlns="http://www.w3.org/2000/svg" 

@@ -1,0 +1,33 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.notfound{
+    &-container {
+        text-align: center;
+        margin: vars.$gutter*2 auto;
+        &-img{
+            max-width: 80%;
+        }
+        &-404{
+            font-size: vars.$gutter*15;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            @media(max-width: 426px){
+                font-size: vars.$gutter*10;
+            }
+        }
+        &-link{
+            display: inline-block;
+            margin-top: vars.$gutter*2;
+            padding: vars.$gutter*0.5 vars.$gutter*1.5;
+            color: vars.$background-secondary;
+            border: 3px solid vars.$background-secondary;
+            border-radius: 5px;
+            font-size: vars.$gutter*1.2;
+            font-weight: bold;
+            &:hover{
+                background-color: vars.$background-secondary;
+                color: vars.$background-primary;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-@use '../../../styles/vars';
+@use '../../styles/vars';
 @use 'sass:color';
 
 .comment{
@@ -55,7 +55,7 @@
             }
         }
         &-form{
-            margin: vars.$gutter vars.$gutter*3;
+            margin: vars.$gutter vars.$gutter*2;
             @media(max-width: 426px) {
                 margin: vars.$gutter;
             }
