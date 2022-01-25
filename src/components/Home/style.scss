@@ -16,5 +16,26 @@
     &-posts{
         text-align: center;
         padding: 0 vars.$gutter*4;
+        @media(max-width: 426px) {
+            padding: 0 vars.$gutter;
+        }
+    }
+    &-top{
+        z-index: 999;
+        position: fixed;
+        right: 34px;
+        bottom: 10px;
+        background-color: vars.$background-primary;
+        padding: vars.$gutter;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+        &:hover{
+            //border: 1px solid black;
+            transform: translateY(-10px);
+        }
+        @media(max-width: 426px) {
+            display: none;
+        }
     }
 }

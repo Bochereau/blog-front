@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from 'classnames';
 
 import './style.scss';
 
@@ -48,10 +49,13 @@ const AddComment = ({ pseudo, changePseudo, comment, changeComment, sendComment 
                         />
                     </li>
                 </ul>
-                <input 
+                <input
                     type="submit" 
                     value="Soumettre votre commentaire"
-                    className="comment-add-form-submit off"
+                    className={ classNames ("comment-add-form-submit", {
+                        "off" : pseudo === '' || comment === '', 
+                        "on" : pseudo !== '' && comment !== ''
+                    })}
                 />
             </form>
         </div>

@@ -48,30 +48,26 @@
                 font-weight: bold;
                 cursor: pointer;
                 border-radius: 5px;
-                border: 2px solid vars.$link-color;
-                background-color: vars.$link-color;
-                color: vars.$background-primary;
-                &:hover{
-                    background-color: vars.$background-primary;
-                    color: vars.$link-color;
-                }
                 @media(max-width: 426px) {
                     font-size: vars.$gutter;
                     padding: vars.$gutter*0.5 vars.$gutter;
                 }
+                &--on{
+                    border: 2px solid vars.$link-color;
+                    background-color: vars.$link-color;
+                    color: vars.$background-primary;
+                    &:hover{
+                    background-color: vars.$background-primary;
+                    color: vars.$link-color;
+                }
+                }
+                &--off{
+                    border: 2px solid vars.$grey;
+                    background-color: vars.$grey;
+                    color: vars.$background-primary;
+                    cursor: not-allowed;
+                }
             }
         }
-    }
-}
-
-.off{
-    border: 2px solid vars.$grey;
-    background-color: vars.$grey;
-    color: vars.$background-primary;
-    cursor: not-allowed;
-    &:hover{
-        border: 2px solid vars.$grey;
-        background-color: vars.$grey;
-        color: vars.$background-primary;
     }
 }
