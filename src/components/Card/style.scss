@@ -13,6 +13,9 @@
         height: 500px;
         object-fit: cover;
         object-position: top;
+        @media(max-width: 426px) {
+            height: 350px;
+        }
     }
     &-title, &-subtitle{
         position: absolute;
@@ -23,11 +26,17 @@
         font-size: vars.$gutter*3;
         font-weight: bold;
         text-transform: uppercase;
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*1.8;
+        }
     }
     &-subtitle{
         top: 50%;
         font-size: vars.$gutter*2;
         font-weight: bold;
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*1.2;
+        }
     }
     &-link{
         position: absolute;

@@ -5,12 +5,21 @@
     &-header{
         text-align: center;
         padding: vars.$gutter*3;
+        @media(max-width: 426px) {
+            padding: vars.$gutter;
+        }
         &-title{
             font-size: vars.$gutter*5;
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*3;
+            }
         }
         &-subtitle{
             margin-top: vars.$gutter*2;
             font-size: vars.$gutter*2;
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*1.3;
+            }
         }
     }
     &-posts{
@@ -18,6 +27,9 @@
         padding: 0 vars.$gutter*4;
         @media(max-width: 426px) {
             padding: 0 vars.$gutter;
+        }
+        @media(max-width: 321px) {
+            padding: 0;
         }
     }
     &-top{
