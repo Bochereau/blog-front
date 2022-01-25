@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { DualRing } from "react-css-spinners/dist/DualRing";
 
 import './style.scss';
