@@ -2,6 +2,7 @@ import React from "react";
 
 import './style.scss';
 import AddComment from "../../containers/AddComment";
+import { reverseDate } from "../../utils";
 
 const Comment = ({ attributes }) => (
     <div className="comment">
@@ -15,7 +16,7 @@ const Comment = ({ attributes }) => (
                     className="comment-list-item"
                 >
                     <p className="comment-list-item-info">
-                        Par <em className="comment-list-item-info-pseudo">{comment.attributes.pseudo}</em> le <time className="comment-list-item-info-date">{comment.attributes.updatedAt}</time> :
+                        Par <em className="comment-list-item-info-pseudo">{comment.attributes.pseudo}</em> le <time className="comment-list-item-info-date">{reverseDate(comment.attributes.updatedAt)}</time> :
                     </p>
                     <p className="comment-list-item-content">{comment.attributes.content}</p>
                 </div>

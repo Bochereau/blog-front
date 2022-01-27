@@ -5,6 +5,8 @@ import {
     savePosts,
     isLoading,
     SEND_COMMENT,
+    GET_THEME,
+    saveThemes,
 } from '../actions';
 
 axios.defaults.baseURL = 'https://blog-strapi-deploy.herokuapp.com/api/';
@@ -45,6 +47,18 @@ const ajaxPost = (store) => (next) => (action) => {
         .catch((error) => {
           console.error('une erreur est survenue', error);
         });
+        break;
+      }
+      case GET_THEME: {
+        axios.get('themes')
+        .then((res) => {
+          const themes = res.data.data;
+          const themesList = themes.map((theme) => theme.attributes.name)
+          store.dispatch(saveThemes(themesList));
+        })
+        .catch((error) => {
+          console.error('error', error);
+        })
         break;
       }
     default:

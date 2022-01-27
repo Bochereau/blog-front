@@ -1,0 +1,50 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.list{
+    text-align: center;
+    &-title{
+        font-size: vars.$gutter*3;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: vars.$gutter*2 0;
+        background-color: vars.$background-secondary;
+        color: white;
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*2;
+        }
+    }
+    &-items{
+        width: 50%;
+        margin: 0 auto;
+        text-align: left;
+        padding: vars.$gutter*4 0;
+        @media(max-width: 426px) {
+            width: 90%;
+        }
+        &-description{
+            font-size: vars.$gutter*1.5;
+            padding-bottom: vars.$gutter;
+        }
+        &-theme{
+            font-size: vars.$gutter*1.7;
+            font-weight: bold;
+            padding-top: vars.$gutter*2;
+            text-transform: uppercase;
+        }
+    }
+    &-link{
+        display: block;
+        font-size: vars.$gutter*1.2;
+        margin: vars.$gutter vars.$gutter*1.5;
+        text-decoration: underline;
+        text-underline-position: under;
+        color: vars.$background-secondary;
+        &:hover{
+            color: vars.$link-color;
+        }
+        @media(max-width: 426px) {
+            margin: vars.$gutter vars.$gutter;
+        }
+    }
+}

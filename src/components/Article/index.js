@@ -9,7 +9,7 @@ import Comment from '../Comment';
 
 const Article = ({ posts, getPostId }) => {
     const { slug } = useParams();
-    const currentPost = posts.find((post) => post.attributes.theme === slug);
+    const currentPost = posts.find((post) => post.attributes.slug === slug);
     getPostId(currentPost.id);
     return (
         <div className="article">

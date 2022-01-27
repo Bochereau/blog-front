@@ -3,12 +3,14 @@ import {
     NEW_PSEUDO,
     NEW_COMMENT,
     SAVE_POSTS,
-    GET_POST_ID
+    GET_POST_ID,
+    SAVE_THEMES
 } from "../actions";
 
 const initialState = {
     loading: true,
     posts: [],
+    themes: [],
     pseudo: '',
     comment: '',
     postId: null,
@@ -34,12 +36,17 @@ const reducer = (state = initialState, action = {}) => {
     case SAVE_POSTS:
         return{
             ...state,
-            posts: action.posts
+            posts: action.posts,
+        }
+      case SAVE_THEMES:
+        return{
+            ...state,
+            themes: action.themes,
         }
     case GET_POST_ID:
         return{
             ...state,
-            postId: action.id
+            postId: action.id,
         }
     default:
       return state;

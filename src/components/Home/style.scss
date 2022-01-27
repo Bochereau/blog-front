@@ -39,6 +39,7 @@
         bottom: 10px;
         background-color: vars.$background-primary;
         padding: vars.$gutter;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         border-radius: 10px;
         cursor: pointer;
         transition: transform 0.2s ease-in-out;

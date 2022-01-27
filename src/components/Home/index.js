@@ -4,7 +4,7 @@ import { DualRing } from "react-css-spinners/dist/DualRing";
 import './style.scss';
 
 import Card from '../Card';
-
+import Menu from '../Menu';
 import arrowTop from '../../assets/icons/arrowTop.png';
 
 const Home = ({ loading, posts }) => {
@@ -15,6 +15,7 @@ const Home = ({ loading, posts }) => {
                 <h1 className="home-header-title">Limit Break</h1>
                 <h2  className="home-header-subtitle">Le blog qui vous parle de jeux vidéo.</h2>
             </div>
+            <Menu />
             <div className="home-posts">
                 <ul className="home-posts-list">
                     {loading && <DualRing color="#000" />}
@@ -33,9 +34,7 @@ const Home = ({ loading, posts }) => {
                     behavior: "smooth"
                 })}
             >
-                <p className="home-top-arrow">
-                    <img src={arrowTop} alt="flèche vers le haut" />
-                </p>
+                <img src={arrowTop} alt="flèche vers le haut" />
             </div>
         </div>
     )

@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import Blog from '../../components/Blog'
 
 import {
-    getPosts
+    getPosts,
+    getTheme,
 } from '../../actions';
 
 const mapStateToProps = () => null;
@@ -10,6 +11,9 @@ const mapStateToProps = () => null;
 const mapDispatchToProps = (dispatch) => ({
     getPosts: () => {
         dispatch(getPosts());
+    },
+    getTheme: () => {
+        dispatch(getTheme());
     },
 });
 

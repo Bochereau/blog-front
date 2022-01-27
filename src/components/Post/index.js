@@ -1,5 +1,6 @@
 import React from "react";
 
+import { reverseDate } from "../../utils";
 import './style.scss';
 
 const Post = ({ attributes }) => (
@@ -9,7 +10,7 @@ const Post = ({ attributes }) => (
             <h3 className="post-header-title">{attributes.title}</h3>
         </div>
         <p className="post-info">
-            Publié le <time className="post-info-date" dateTime={attributes.createdAt}>{attributes.date}</time> par <em className="post-info-author">{attributes.author}</em>
+            Publié le <time className="post-info-date" dateTime={attributes.createdAt}>{reverseDate(attributes.date)}</time> par <em className="post-info-author">{attributes.author}</em>
         </p>
         <p className="post-content">{attributes.content}</p>
     </article>

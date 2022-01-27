@@ -1,0 +1,83 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.about{
+    text-align: center;
+    &-title{
+        font-size: vars.$gutter*3;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: vars.$gutter*2 0;
+        background-color: vars.$background-secondary;
+        color: white;
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*2;
+        }
+    }
+    &-content{
+        width: 70%;
+        margin: 0 auto;
+        text-align: left;
+        padding: vars.$gutter*4 0;
+        line-height: 1.3;
+        font-size: vars.$gutter*1.3;
+        @media(max-width: 426px) {
+            width: 90%;
+        }
+        &-description{
+            padding-bottom: vars.$gutter;
+        }
+        &-link{
+            color: vars.$background-secondary;
+            text-decoration: underline;
+            &:hover{
+                color: vars.$link-color;
+            }
+        }
+        &-profil{
+            display:flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            border: 10px solid vars.$background-secondary;
+            padding: vars.$gutter*2;
+            margin: vars.$gutter 0;
+            @media(max-width: 426px) {
+                flex-direction: column;
+                align-items: center;
+                padding: vars.$gutter;
+            }
+            &-img{
+                width: 30%;
+                border-radius: 50%;
+                @media(max-width: 426px) {
+                    width: 60%;
+                }
+            }
+            &-description{
+                font-size: vars.$gutter*1.2;
+                padding-left: vars.$gutter*2;
+                text-align: justify;
+                @media(max-width: 426px) {
+                    padding-left: 0;
+                    padding-top: vars.$gutter;
+                }
+                & p {
+                    padding: vars.$gutter*0.5;
+                }
+                & ul {
+                    list-style-type: disc;
+                }
+                & ul>li {
+                    margin-left: vars.$gutter*2;
+                }
+            }
+        }
+        &-contact{
+            padding-top: vars.$gutter;
+        }
+    }
+}
+
+.important{
+    font-weight: bold;
+}

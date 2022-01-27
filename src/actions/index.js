@@ -52,3 +52,19 @@ export const SEND_COMMENT = 'SEND_COMMENT';
 export const sendComment = () => ({
   type: SEND_COMMENT,
 })
+
+
+/* Game List management */
+
+// action to fetch blog theme
+export const GET_THEME = 'GET_THEME';
+export const getTheme = () => ({
+  type: GET_THEME,
+})
+
+// action to save themes 
+export const SAVE_THEMES = 'SAVE_THEMES';
+export const saveThemes = (themes) => ({
+  type: SAVE_THEMES,
+  themes,
+})

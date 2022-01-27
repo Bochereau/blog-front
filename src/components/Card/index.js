@@ -11,7 +11,7 @@ const Card = ({ attributes }) => {
         <img className="card-img" src={`${attributes.picture.data.attributes.url}`} alt={attributes.title} />
         <h3 className="card-title">{attributes.title}</h3>
         <h4 className="card-subtitle">{attributes.subtitle}</h4>
-        <Link to={`/posts/${attributes.theme}`} className="card-link">
+        <Link to={`/posts/${attributes.slug}`} className="card-link">
             <p className="card-link-text">Lire l'article</p>
             <svg
                 width="24" 
