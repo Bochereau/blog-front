@@ -35,13 +35,11 @@
             }
         }
         &-profil{
-            display:flex;
-            justify-content: space-around;
-            align-items: flex-start;
             border: 10px solid vars.$background-secondary;
             padding: vars.$gutter*2;
             margin: vars.$gutter 0;
             @media(max-width: 426px) {
+                display: flex;
                 flex-direction: column;
                 align-items: center;
                 padding: vars.$gutter;
@@ -49,18 +47,18 @@
             &-img{
                 width: 30%;
                 border-radius: 50%;
+                float: left;
+                margin-right: vars.$gutter*2;
+                margin-bottom: vars.$gutter;
                 @media(max-width: 426px) {
+                    float: none;
+                    margin-right: 0;
                     width: 60%;
                 }
             }
             &-description{
                 font-size: vars.$gutter*1.2;
-                padding-left: vars.$gutter*2;
                 text-align: justify;
-                @media(max-width: 426px) {
-                    padding-left: 0;
-                    padding-top: vars.$gutter;
-                }
                 & p {
                     padding: vars.$gutter*0.5;
                 }

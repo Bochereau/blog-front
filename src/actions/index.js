@@ -7,6 +7,13 @@ export const isLoading = (bool) => ({
   bool,
 });
 
+/* Menu Management */
+// action to open menu
+export const OPEN_MENU = 'OPEN_MENU';
+export const openMenu = () => ({
+  type: OPEN_MENU,
+})
+
 
 /* Posts Management */
 

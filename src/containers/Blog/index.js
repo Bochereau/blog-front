@@ -6,7 +6,9 @@ import {
     getTheme,
 } from '../../actions';
 
-const mapStateToProps = () => null;
+const mapStateToProps = (state) => ({
+    menuOpen: state.menuOpen,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     getPosts: () => {

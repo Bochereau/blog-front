@@ -2,15 +2,10 @@
 @use 'sass:color';
 
 .header{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    text-align: right;
     padding: vars.$gutter;
-    background-color: rgb(73, 122, 187);
+    background-color: vars.$background-secondary;
     color: white;
-    @media( max-width: 426px ) {
-        align-items: center;
-     }
     &-title{
         font-size: vars.$gutter*2;
     }
@@ -19,16 +14,6 @@
         margin-top: vars.$gutter*0.5;
         @media( max-width: 426px ) {
            display: none;
-        }
-    }
-    &-link{
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        &:hover{
-            color:vars.$link-color;
-        }
-        @media( max-width: 321px ) {
-            display: none;
         }
     }
 }

@@ -11,16 +11,16 @@ const Article = ({ posts, getPostId }) => {
     const { slug } = useParams();
     const currentPost = posts.find((post) => post.attributes.slug === slug);
     getPostId(currentPost.id);
+    console.log(currentPost);
     return (
         <div className="article">
             <Header />
             <Post 
-                key={currentPost.id} 
+                key={currentPost.id}
                 {...currentPost} 
             />
             <hr/>
             <Comment 
-                key={currentPost.id} 
                 {...currentPost}
             />
         </div>

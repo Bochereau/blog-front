@@ -6,7 +6,7 @@
         text-align: center;
         padding: vars.$gutter*3;
         @media(max-width: 426px) {
-            padding: vars.$gutter;
+            padding: vars.$gutter*5 vars.$gutter 0;
         }
         &-title{
             font-size: vars.$gutter*5;
@@ -24,7 +24,7 @@
     }
     &-posts{
         text-align: center;
-        padding: 0 vars.$gutter*4;
+        padding: 0 vars.$gutter;
         @media(max-width: 426px) {
             padding: 0 vars.$gutter;
         }

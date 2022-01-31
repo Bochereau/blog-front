@@ -1,14 +1,16 @@
 import { 
     IS_LOADING,
+    OPEN_MENU,
     NEW_PSEUDO,
     NEW_COMMENT,
     SAVE_POSTS,
     GET_POST_ID,
-    SAVE_THEMES
+    SAVE_THEMES,
 } from "../actions";
 
 const initialState = {
     loading: true,
+    menuOpen: false,
     posts: [],
     themes: [],
     pseudo: '',
@@ -23,6 +25,11 @@ const reducer = (state = initialState, action = {}) => {
           ...state,
           loading: action.bool,
         };
+    case OPEN_MENU:
+      return {
+        ...state,
+        menuOpen: !state.menuOpen,
+      };
     case NEW_PSEUDO:
       return {
         ...state,

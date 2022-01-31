@@ -2,21 +2,88 @@
 @use 'sass:color';
 
 .menu{
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    background-color: vars.$background-secondary;
-    color: vars.$background-primary;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-start;
+    &-aside{
+        background-color: vars.$background-secondary;
+        color: vars.$background-primary;
+        padding: vars.$gutter;
+        min-height: 100vh;
+        width:300px;
+        @media (max-width: 426px) {
+            width: 200px;
+        }
+    }
     &-list{
-        display: flex;
-        justify-content: space-around;
         &-link{
+            border-bottom: 1px solid vars.$background-primary;
             padding: vars.$gutter 0;
             text-transform: uppercase;
             font-weight: bold;
+            text-align: center;
             &:hover{
-                text-decoration: underline;
-                text-underline-offset: 3px;
+                color: color.scale(vars.$grey, $lightness: +50%);
+            }
+        }
+    }
+    &-search{
+        text-align: center;
+        margin: vars.$gutter auto;
+        & input{
+            padding: vars.$gutter*0.5;
+        }
+    }
+    &-open{
+        padding:vars.$gutter*0.5 vars.$gutter;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: vars.$gutter*1.1;
+        background-color: vars.$background-secondary;
+        color: vars.$background-primary;
+        border : 3px solid vars.$background-primary;
+        margin-left: vars.$gutter;
+        margin-top: vars.$gutter*1.2;
+        border-radius: 5px;
+        &-icon{
+            fill: vars.$background-primary;
+        }
+        @media (max-width: 426px) {
+            margin-top: vars.$gutter*0.5;
+        }
+    }
+    &-display{
+        &-enter{
+            background-color: transparent;
+            color: transparent;
+            width: 0;
+            &-active{
+                color: vars.$background-primary;
+                background-color: vars.$background-secondary;
+                width:300px;
+                transition: all 350ms;
+                @media (max-width: 426px) {
+                    width: 200px;
+                }
+            }
+        }
+        &-exit{
+            width:300px;
+            color: vars.$background-primary;
+            background-color: vars.$background-secondary;
+            @media (max-width: 426px) {
+                width: 200px;
+            }
+            &-active{
+                background-color: transparent;
+                color: transparent;
+                width: 0;
+                transition: all 350ms;
             }
         }
     }
 }
+

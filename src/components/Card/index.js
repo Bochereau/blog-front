@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import './style.scss';
 
 const Card = ({ attributes }) => {
-    console.log(attributes);
     return (
     <li className="card">
         <img className="card-img" src={`${attributes.picture.data.attributes.url}`} alt={attributes.title} />

@@ -1,28 +1,78 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import {CSSTransition} from 'react-transition-group';
 
 import './style.scss';
 
-const Menu = () => (
+const Menu = ({ openMenu, open}) => (
     <div className="menu">
-        <ul className="menu-list">
-            <li className="menu-list-link">
-                <Link to="/">
-                    Accueil
-                </Link>
-            </li>
-            <li className="menu-list-link">
-                <Link to="/list">
-                    Liste des jeux
-                </Link>
-            </li>
-            <li className="menu-list-link">
-                <Link to="/about">
-                    A propos
-                </Link>
-            </li>
-        </ul>
+        <CSSTransition 
+            in={open}
+            timeout={350}
+            classNames="menu-display"
+            unmountOnExit
+        >
+            <div className="menu-aside">
+                <ul className="menu-list">
+                    <Link to="/">
+                        <li 
+                            className="menu-list-link"
+                            onClick={() => openMenu()}
+                        >
+                                Accueil
+                        </li>
+                    </Link>
+                    <Link to="/list">
+                        <li 
+                            className="menu-list-link"
+                            onClick={() => openMenu()}
+                        >
+                                Liste des jeux
+                        </li>
+                    </Link>
+                    <Link to="/about">
+                        <li 
+                            className="menu-list-link"
+                            onClick={() => openMenu()}
+                        >
+                                A propos
+                        </li>
+                    </Link>
+                </ul>
+                {/* <div className="menu-search">
+                    <input 
+                    
+                    type="text" 
+                    placeholder="Search.." 
+                    />
+                </div> */}
+            </div>
+        </CSSTransition>
+        <button
+            type="button"
+            className="menu-open"
+            aria-label="menu"
+            onClick={() => openMenu()}
+        >
+            {open ? (
+                <svg className="menu-open-icon" width="24px" height="24px" viewBox="5 5 13 13" xmlns="http://www.w3.org/2000/svg">
+                <g data-name="Layer 2">
+                    <g data-name="close">
+                        <rect width="100" height="24" transform="rotate(180 12 12)" opacity="0"/>
+                        <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/>
+                    </g>
+                </g>
+            </svg>
+            ) : (
+                <svg className="menu-open-icon" viewBox="0 0 100 70" width="25" height="25">
+                <rect width="100" height="20"></rect>
+                <rect y="30" width="100" height="20"></rect>
+                <rect y="60" width="100" height="20"></rect>
+            </svg>
+            )}
+           
+            
+        </button>
     </div>
 )
-
 export default Menu;
