@@ -1,11 +1,20 @@
 /* Loading Management */
-
 // action use when something is loading
 export const IS_LOADING = 'IS_LOADING';
 export const isLoading = (bool) => ({
   type: IS_LOADING,
   bool,
 });
+
+
+/* Input management */
+export const CHANGE_VALUE = 'CHANGE_VALUE';
+export const changeValue = (newValue, name) => ({
+  type: CHANGE_VALUE,
+  newValue,
+  name,
+});
+
 
 /* Menu Management */
 // action to open menu
@@ -15,21 +24,27 @@ export const openMenu = () => ({
 })
 
 
-/* Posts Management */
+/* Event message dispatch */
+// action to dispatch message
+export const DISPATCH_MESSAGE = 'DISPATCH_MESSAGE';
+export const dispatchMessage = (message) => ({
+  type: DISPATCH_MESSAGE,
+  message,
+})
 
+
+/* Posts Management */
 // action to fetch posts
 export const GET_POSTS = 'GET_POSTS';
 export const getPosts = () => ({
     type: GET_POSTS,
 })
-
 // action to save all Posts
 export const SAVE_POSTS = 'SAVE_POSTS';
 export const savePosts = (posts) => ({
     type: SAVE_POSTS,
     posts,
 })
-
 // action to get post id
 export const GET_POST_ID = 'GET_POST_ID';
 export const getPostId = (id) => ({
@@ -39,36 +54,33 @@ export const getPostId = (id) => ({
 
 
 /* Comments management */
-
-// action to wrote a new pseudo
-export const NEW_PSEUDO = 'NEW_PSEUDO';
-export const newPseudo = (pseudo) => ({
-  type: NEW_PSEUDO,
-  pseudo,
-})
-
-// action to wrote a new comment
-export const NEW_COMMENT = 'NEW_COMMENT';
-export const newComment = (comment) => ({
-  type: NEW_COMMENT,
-  comment,
-})
-
 // action to send comment 
 export const SEND_COMMENT = 'SEND_COMMENT';
 export const sendComment = () => ({
   type: SEND_COMMENT,
 })
 
+// action de vider les champs
+export const EMPTY_FIELDS = 'EMPTY_FIELDS';
+export const emptyFields = () => ({
+  type: EMPTY_FIELDS,
+})
+
+
+/* Contact form management */
+// action to send comment 
+export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const sendMessage = () => ({
+  type: SEND_MESSAGE,
+})
+
 
 /* Game List management */
-
 // action to fetch blog theme
 export const GET_THEME = 'GET_THEME';
 export const getTheme = () => ({
   type: GET_THEME,
 })
-
 // action to save themes 
 export const SAVE_THEMES = 'SAVE_THEMES';
 export const saveThemes = (themes) => ({

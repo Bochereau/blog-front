@@ -5,6 +5,7 @@ import './style.scss';
 
 import Profil from '../../assets/image/bibi.jpg';
 import Header from '../Header';
+import Contact from '../../containers/Contact';
 
 const About = () => {
     return (
@@ -46,9 +47,10 @@ const About = () => {
                         Revenons maintenant à ce blog. Pourquoi ? Comment ? <br/>
                         Il va sans dire que le site est la création d'un passionné pour les passionnés. <br/> C'est un espace de convivialité dans lequel la bonne humeur et le respect sont les maîtres mots.
                     </p> */}
-                    {/* <div className="about-content-contact">
+                    <div className="about-content-contact">
                         Si vous souhaitez me contacter, merci d'utiliser le formulaire ci-dessous.
-                    </div> */}
+                    </div>
+                    <Contact />
                 </div>
             </div>
         </>

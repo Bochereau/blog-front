@@ -7,6 +7,9 @@ import {
     SEND_COMMENT,
     GET_THEME,
     saveThemes,
+    SEND_MESSAGE,
+    dispatchMessage,
+    emptyFields,
 } from '../actions';
 
 axios.defaults.baseURL = 'https://blog-strapi-deploy.herokuapp.com/api/';
@@ -31,6 +34,20 @@ const ajaxPost = (store) => (next) => (action) => {
         });
         break;
       }
+
+      case GET_THEME: {
+        axios.get('themes')
+        .then((res) => {
+          const themes = res.data.data;
+          const themesList = themes.map((theme) => theme.attributes.name)
+          store.dispatch(saveThemes(themesList));
+        })
+        .catch((error) => {
+          console.error('error', error);
+        })
+        break;
+      }
+
       case SEND_COMMENT: {
         const state = store.getState();
         axios.post('comments',
@@ -42,6 +59,8 @@ const ajaxPost = (store) => (next) => (action) => {
           }
         })
         .then((res) => {
+          store.dispatch(dispatchMessage("Merci pour votre commentaire"));
+          store.dispatch(emptyFields());
           store.dispatch(getPosts());
         })
         .catch((error) => {
@@ -49,16 +68,24 @@ const ajaxPost = (store) => (next) => (action) => {
         });
         break;
       }
-      case GET_THEME: {
-        axios.get('themes')
+      
+      case SEND_MESSAGE: {
+        const state = store.getState();
+        axios.post('messages',
+        {
+          data: {
+            name: state.pseudo,
+            email: state.email,
+            message: state.message,
+          }
+        })
         .then((res) => {
-          const themes = res.data.data;
-          const themesList = themes.map((theme) => theme.attributes.name)
-          store.dispatch(saveThemes(themesList));
+          store.dispatch(dispatchMessage("Votre message a été envoyé avec succès"));
+          store.dispatch(emptyFields());
         })
         .catch((error) => {
-          console.error('error', error);
-        })
+          console.error('une erreur est survenue', error);
+        });
         break;
       }
     default:

@@ -1,0 +1,14 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.alert{
+    position: fixed;
+    z-index: 998;
+    bottom: vars.$gutter;
+    right: vars.$gutter;
+    padding: vars.$gutter;
+    border-radius: 5px;
+    font-weight: bold;
+    color: vars.$background-primary;
+    background-color: vars.$background-secondary;
+}

@@ -26,7 +26,8 @@
     }
     &-posts{
         text-align: center;
-        padding: 0 vars.$gutter*8;
+        
+        padding: vars.$gutter*2 vars.$gutter*8;
         @media(max-width: 426px) {
             padding: 0 vars.$gutter;
         }

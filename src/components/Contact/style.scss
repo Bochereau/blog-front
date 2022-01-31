@@ -1,0 +1,68 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.contact{
+    width: 70%;
+    margin: vars.$gutter*2 auto;
+    @media(max-width: 769px) {
+        width: 100%;
+        margin: 0;
+    }
+    &-title{
+        font-size: vars.$gutter*1.5;
+        padding: vars.$gutter;
+        font-weight: bold;
+        background-color: vars.$background-secondary;
+        color: vars.$background-primary;
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*1.2;
+        }
+    }
+    &-form{
+        margin: vars.$gutter auto;
+        text-align: center;
+        border: 10px solid vars.$background-secondary;
+        padding: vars.$gutter*2;
+        @media(max-width: 426px) {
+            margin: vars.$gutter;
+        }
+        &-item{
+            display: flex;
+            justify-content: flex-end;
+            align-items: baseline;
+            @media(max-width: 426px) {
+                flex-direction: column;
+            }
+            &-label{
+                flex: 2;
+                padding: vars.$gutter*1.5 0 vars.$gutter*0.4;
+                font-size: vars.$gutter*1.1;
+                text-align: right;
+                margin-right: vars.$gutter;
+            }
+            &-input, &-textarea{
+                flex: 5;
+                padding: vars.$gutter*0.5;
+                @media(max-width: 426px) {
+                    width: 100%;
+                }
+                &:focus{
+                    border: 1px solid vars.$background-secondary;
+                }
+            }
+        }
+        &-submit{
+            margin-top: vars.$gutter*2;
+            padding: vars.$gutter*0.5 vars.$gutter*2;
+            font-size: vars.$gutter*1.1;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            @media(max-width: 426px) {
+                font-size: vars.$gutter;
+                padding: vars.$gutter*0.5 vars.$gutter;
+            }
+        }
+    }
+}
+

@@ -12,7 +12,11 @@ const Post = ({ attributes }) => (
         <p className="post-info">
             Publié le <time className="post-info-date" dateTime={attributes.createdAt}>{reverseDate(attributes.date)}</time> par <em className="post-info-author">{attributes.author}</em>
         </p>
-        <p className="post-content">{attributes.content}</p>
+        <div className="post-content">
+            <p className="post-content-intro">{attributes.introduction}</p>
+            <p className="post-content-main">{attributes.content}</p>
+            <p className="post-content-outro">{attributes.conclusion}</p>
+        </div>
     </article>
 )
 

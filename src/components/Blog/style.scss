@@ -8,3 +8,28 @@
 .open{
     opacity: 0.2;
 }
+
+.on{
+    border: 2px solid vars.$link-color;
+    background-color: vars.$link-color;
+    color: vars.$background-primary;
+    &:hover{
+        background-color: vars.$background-primary;
+        color: vars.$link-color;
+    }
+}
+
+.off {
+    border: 2px solid vars.$grey;
+    background-color: vars.$grey;
+    color: vars.$background-primary;
+    cursor: not-allowed;
+}
+
+.ok{
+    border: 2px solid rgb(12, 224, 12);
+}
+
+.ko{
+    border: 2px solid rgb(224, 12, 40);
+}

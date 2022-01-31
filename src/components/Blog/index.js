@@ -9,6 +9,7 @@ import classNames from "classnames";
 
 import ScrollToTop from "../ScrollToTop";
 import Menu from "../../containers/Menu";
+import Alert from "../../containers/Alert";
 import Home from '../../containers/Home';
 import List from '../../containers/List';
 import Article from "../../containers/Article";
@@ -25,6 +26,7 @@ const Blog = ({ getPosts, getTheme, menuOpen }) => {
         <main className="wrapper">
             <ScrollToTop>
                 <Menu />
+                <Alert />
                 <div className={classNames ("page", { 'open' : menuOpen === true})}>
                     <Routes>
                         <Route path="/" exact element={<Home/>} />

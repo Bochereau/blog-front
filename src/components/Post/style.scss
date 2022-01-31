@@ -41,14 +41,27 @@
         }
     }
     &-content{
-        width: 80%;
+        width: 60%;
         margin: 0 auto;
         font-size: vars.$gutter*1.2;
         line-height: 1.2;
         text-align: justify;
+        @media( max-width: 769px ) {
+            width: 80%;
+        }
         @media( max-width: 426px ) {
             width: 90%;
             font-size: vars.$gutter;
+        }
+        &-intro, &-outro{
+            font-weight: bold;
+            font-size: vars.$gutter*1.3;
+        }
+        &-intro{
+            margin: vars.$gutter*2 0;
+        }
+        &-outro{
+            margin-top: vars.$gutter*2;
         }
     }
 }

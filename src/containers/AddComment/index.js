@@ -3,8 +3,7 @@ import AddComment from '../../components/AddComment'
 
 import {
     getPosts,
-    newPseudo,
-    newComment,
+    changeValue,
     sendComment,
 } from '../../actions';
 
@@ -18,11 +17,8 @@ const mapDispatchToProps = (dispatch) => ({
     getPosts: () => {
         dispatch(getPosts());
     },
-    changePseudo: (pseudo) => {
-        dispatch(newPseudo(pseudo));
-    },
-    changeComment: (comment) => {
-        dispatch(newComment(comment));
+    changeValue: (newValue, name) => {
+        dispatch(changeValue(newValue, name));
     },
     sendComment: () => {
         dispatch(sendComment());
