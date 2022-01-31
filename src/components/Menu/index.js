@@ -12,7 +12,7 @@ const Menu = ({ openMenu, open}) => (
             classNames="menu-display"
             unmountOnExit
         >
-            <div className="menu-aside">
+            <nav className="menu-aside">
                 <ul className="menu-list">
                     <Link to="/">
                         <li 
@@ -39,14 +39,7 @@ const Menu = ({ openMenu, open}) => (
                         </li>
                     </Link>
                 </ul>
-                {/* <div className="menu-search">
-                    <input 
-                    
-                    type="text" 
-                    placeholder="Search.." 
-                    />
-                </div> */}
-            </div>
+            </nav>
         </CSSTransition>
         <button
             type="button"

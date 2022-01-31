@@ -6,8 +6,6 @@ import {
 
 import './style.scss';
 import classNames from "classnames";
-import { useParams } from "react-router";
-
 
 import ScrollToTop from "../ScrollToTop";
 import Menu from "../../containers/Menu";
@@ -23,13 +21,10 @@ const Blog = ({ getPosts, getTheme, menuOpen }) => {
         getPosts();
         getTheme();
     }, []);
-    const {slug} = useParams();
     return(
         <main className="wrapper">
             <ScrollToTop>
-                <Menu 
-                    slug={slug}
-                />
+                <Menu />
                 <div className={classNames ("page", { 'open' : menuOpen === true})}>
                     <Routes>
                         <Route path="/" exact element={<Home/>} />

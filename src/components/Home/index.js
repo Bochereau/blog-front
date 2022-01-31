@@ -4,7 +4,7 @@ import { DualRing } from "react-css-spinners/dist/DualRing";
 import './style.scss';
 
 import Card from '../Card';
-import arrowTop from '../../assets/icons/arrowTop.png';
+// import arrowTop from '../../assets/icons/arrowTop.png';
 
 const Home = ({ loading, posts }) => {
     return (
@@ -12,12 +12,8 @@ const Home = ({ loading, posts }) => {
             <title>Limit Break</title>
             <div className="home">
                 <div className="home-header">
-                    <div className="triangle" />
-                    <div>
-                        <h1 className="home-header-title">Limit Break</h1>
-                        <h2  className="home-header-subtitle">Le blog qui vous parle de jeux vidéo.</h2>
-                    </div>
-                    <div/>
+                    <h1 className="home-header-title">Limit Break</h1>
+                    <h2  className="home-header-subtitle">Le blog qui vous parle de jeux vidéo.</h2>
                 </div>
                 <div className="home-posts">
                     <ul className="home-posts-list">
@@ -30,7 +26,7 @@ const Home = ({ loading, posts }) => {
                         ))}
                     </ul>
                 </div>
-                <div 
+                {/* <div 
                     className="home-top"
                     onClick={() => window.scrollTo({
                         top: 0,
@@ -38,7 +34,7 @@ const Home = ({ loading, posts }) => {
                     })}
                 >
                     <img src={arrowTop} alt="flèche vers le haut" />
-                </div>
+                </div> */}
             </div>
         </>
     )

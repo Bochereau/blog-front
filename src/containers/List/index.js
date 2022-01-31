@@ -7,7 +7,8 @@ import {
 
 const mapStateToProps = (state) => ({
     posts: state.posts,
-    themes: state.themes
+    themes: state.themes,
+    loading: state.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
