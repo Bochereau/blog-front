@@ -1,4 +1,5 @@
 import React from "react";
+import parse from 'html-react-parser';
 
 import { reverseDate } from "../../utils";
 import './style.scss';
@@ -14,7 +15,7 @@ const Post = ({ attributes }) => (
         </p>
         <div className="post-content">
             <p className="post-content-intro">{attributes.introduction}</p>
-            <p className="post-content-main">{attributes.content}</p>
+            <p className="post-content-main">{parse(attributes.content)}</p>
             <p className="post-content-outro">{attributes.conclusion}</p>
         </div>
     </article>
