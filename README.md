@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Limit Break
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Aperçu du blog](./src/assets/image/limitbreak.png)
 
-## Available Scripts
 
-In the project directory, you can run:
+## Un projet de Blog 👋
 
-### `npm start`
+Afin de me lancer un __nouveau challenge__, j'ai décidé de créer un blog qui parle de jeux vidéo.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+(Les articles du blog sont de faux articles rédigés en Lorem.)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Contenu du blog
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- __Accueil__ : la liste de tous les articles du blog avec un lien vers chaque article.
+- __Article de blog__ :
 
-### `npm run build`
+    &#10149; les éléments constitutifs de l'article (intro, corps, conclu + auteur, date de publication).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    &#10149; un espace commentaire dédié à chaque article (lire les coms, ajouter un nouveau com).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- __Liste des jeux__ : une page sur laquelle on retrouve facilement l'ensemble des articles du blog par catégorie.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- __A propos__ : 
 
-### `npm run eject`
+    &#10149; un espace qui met en avant le parcours de l'auteur et la direction de son site.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    &#10149; un formulaire de contact à l'adresse de l'auteur.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- __404__ : la page qui s'affiche lorsque l'utilisateur rentre une adresse non existante (un bouton de retour vers l'accueil est mis à disposition).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Le blog est aussi constitué d'un __menu__ afin de fluidifié la navigation sur le site.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## Les outils de création
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Coté Front
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Le blog est une single page application crée avec __React__.
 
-### Code Splitting
+__Redux__ est utilisé en supplément afin de gérer les intéractions coté client et serveur dans un state global.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+__Axios__ permet de consommer les données coté serveur.
 
-### Analyzing the Bundle Size
+__CSSTransitionGroup__ est utilisé pour animer l'ouverture et la fermeture de la barre de navigation.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Coté Back
 
-### Making a Progressive Web App
+L'ensemble des données sont gérés par __Strapi__ (un headless CMS open source crée en JS).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Strapi utilise une BDD __PostgreSQL__.
 
-### Advanced Configuration
+Les images sont stockées sur __Cloudinary.com__.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Le Deploiement
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Coté Front
 
-### `npm run build` fails to minify
+Le blog est deployé via la plateforme gratuite [vercel.com](https://vercel.com) à l'adresse suivante [https://limitbreak.vercel.app/](https://limitbreak.vercel.app/).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Une fois liée à notre compte GitHub, Vercel est une plateforme en ligne qui s'occupe de déployer automatiquement la branche master d'un projet à chaque fois qu'elle est mise à jour.
+
+### Coté Back
+
+Strapi à été déployé sur [heroku.com](https://heroku.com) qui est une plateforme gratuite.
+
+Les données sont donc stockées dans BDD Heroku Postgres, en revanche les images ne sont pas conservées sur cette BDD.
+
+Elles sont donc stockées sur [cloudinary.com](https://cloudinary.com).

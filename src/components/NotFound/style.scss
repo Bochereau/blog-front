@@ -5,14 +5,34 @@
     &-container {
         text-align: center;
         margin: vars.$gutter*2 auto;
-        &-img{
-            max-width: 80%;
+        color: vars.$background-secondary;
+        @media(max-width: 426px){
+            margin: vars.$gutter;
+        }
+        &-text{
+            font-size: vars.$gutter*1.5;
+            font-weight: bold;
+            margin-bottom: vars.$gutter*2;
+            @media(max-width: 426px){
+                font-size: vars.$gutter*1.2;
+            }
         }
         &-404{
-            font-size: vars.$gutter*15;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            @media(max-width: 426px){
-                font-size: vars.$gutter*10;
+            position: relative;
+            &-img{
+                max-width: 100%;
+            }
+            &-text{
+                font-size: vars.$gutter*15;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-style: italic;
+                position: absolute;
+                width: 100%;
+                top: 0;
+                text-shadow: 0 0 10px white;
+                @media(max-width: 426px){
+                    font-size: vars.$gutter*8;
+                }
             }
         }
         &-link{

@@ -26,13 +26,12 @@
     }
     &-posts{
         text-align: center;
-        
         padding: vars.$gutter*2 vars.$gutter*8;
         @media(max-width: 426px) {
-            padding: 0 vars.$gutter;
+            padding: vars.$gutter;
         }
         @media(max-width: 321px) {
-            padding: 0;
+            padding: vars.$gutter 0;
         }
     }
 }
