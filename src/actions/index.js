@@ -8,6 +8,7 @@ export const isLoading = (bool) => ({
 
 
 /* Input management */
+// action to change a field value
 export const CHANGE_VALUE = 'CHANGE_VALUE';
 export const changeValue = (newValue, name) => ({
   type: CHANGE_VALUE,
@@ -86,4 +87,13 @@ export const SAVE_THEMES = 'SAVE_THEMES';
 export const saveThemes = (themes) => ({
   type: SAVE_THEMES,
   themes,
+})
+
+
+/* Light/Dark theme management */
+// action to switch 
+export const CHANGE_COLOR = 'CHANGE_COLOR';
+export const changeColor = (bool) => ({
+  type: CHANGE_COLOR,
+  bool,
 })

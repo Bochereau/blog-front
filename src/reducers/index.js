@@ -7,6 +7,7 @@ import {
     CHANGE_VALUE,
     DISPATCH_MESSAGE,
     EMPTY_FIELDS,
+    CHANGE_COLOR,
 } from "../actions";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
     message: '',
     postId: null,
     alert: '',
+    lightTheme: true,
 };
 
 const reducer = (state = initialState, action = {}) => {
@@ -66,6 +68,11 @@ const reducer = (state = initialState, action = {}) => {
         comment: '',
         email: '',
         message: '',
+      }
+    case CHANGE_COLOR:
+      return{
+        ...state,
+        lightTheme: !state.lightTheme,
       }
     default:
       return state;

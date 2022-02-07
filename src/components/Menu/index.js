@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
+import classNames from "classnames";
 import { Link } from 'react-router-dom';
 import {CSSTransition} from 'react-transition-group';
 
 import './style.scss';
 
-const Menu = ({ openMenu, open}) => {
+const Menu = ({ openMenu, open, light}) => {
 
     // handle closing menu when the user clicks outside
     const menuRef = useRef();
@@ -31,7 +32,10 @@ const Menu = ({ openMenu, open}) => {
                 classNames="menu-display"
                 unmountOnExit
             >
-                <nav className="menu-aside" ref={menuRef}>
+                <nav 
+                    className={classNames ("menu-aside", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}
+                    ref={menuRef}
+                >
                     <ul className="menu-list">
                         <Link to="/">
                             <li 
@@ -70,7 +74,7 @@ const Menu = ({ openMenu, open}) => {
             </CSSTransition>
             <button
                 type="button"
-                className="menu-open"
+                className={classNames ("menu-open", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}
                 aria-label="menu"
                 onClick={() => openMenu()}
             >

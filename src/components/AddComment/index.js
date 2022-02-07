@@ -7,7 +7,8 @@ const AddComment = ({
     pseudo, 
     comment, 
     changeValue,
-    sendComment
+    sendComment,
+    light,
  }) => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -21,7 +22,9 @@ const AddComment = ({
     }
     return (
         <div className="comment-add">
-            <h5 className="comment-add-title">Laisser un commentaire</h5>
+            <h5 className={classNames ("comment-add-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
+                Laisser un commentaire
+            </h5>
             <form 
                 className="comment-add-form" 
                 onSubmit={handleSubmit}

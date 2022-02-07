@@ -11,6 +11,7 @@ const mapStateToProps = (state) => ({
     posts: state.posts,
     pseudo: state.pseudo,
     comment: state.comment,
+    light: state.lightTheme,
 });
 
 const mapDispatchToProps = (dispatch) => ({

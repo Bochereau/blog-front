@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-import Header from '../Header';
+import Header from '../../containers/Header';
 
 const Contact = ({ 
     pseudo, 
@@ -12,6 +12,7 @@ const Contact = ({
     message, 
     changeValue,
     sendMessage,
+    light,
 }) => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -29,11 +30,13 @@ const Contact = ({
         <>
             <Header />
             <div className="contact">
-                <h2 className="contact-title">Contact</h2>
+                <h2 className={classNames ("contact-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
+                    Contact
+                </h2>
                 <div className="contact-content">
                     <p className="contact-content-description">Si vous souhaitez me contacter, merci d'utiliser le formulaire ci-dessous.</p>
                     <form 
-                        className="contact-form" 
+                        className={ classNames("contact-form", {"border--light" : light === true, "border--dark": light === false}) }
                         onSubmit={handleSubmit}
                     >
                         <ul>

@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 
 import './style.scss';
 
-const Alert = ({ alert, dispatchMessage }) => {
+const Alert = ({ alert, dispatchMessage, light }) => {
     if (alert !== '') {
         setTimeout(() => {
             dispatchMessage('');
@@ -12,7 +13,7 @@ const Alert = ({ alert, dispatchMessage }) => {
     return (
         <>
             {alert !== '' && (
-                <div className="alert">
+                <div className={classNames ("alert", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
                     <p className="alert-text">{alert}</p>
                 </div>
             )

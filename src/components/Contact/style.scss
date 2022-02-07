@@ -8,8 +8,7 @@
         font-weight: bold;
         text-transform: uppercase;
         padding: vars.$gutter*2 0;
-        background-color: vars.$background-secondary;
-        color: white;
+        border-bottom: 2px solid vars.$background-primary;
         @media(max-width: 426px) {
             font-size: vars.$gutter*2;
         }
@@ -29,7 +28,7 @@
     &-form{
         margin: vars.$gutter auto;
         text-align: center;
-        border: 10px solid vars.$background-secondary;
+        //border: 10px solid vars.$background-secondary;
         padding: vars.$gutter*2;
         @media(max-width: 426px) {
             margin: vars.$gutter;

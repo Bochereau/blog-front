@@ -1,23 +1,26 @@
 import React from "react";
+import classNames from "classnames";
 import { Link } from 'react-router-dom';
 
 import './style.scss';
 
 import Profil from '../../assets/image/bibi.jpg';
-import Header from '../Header';
+import Header from '../../containers/Header';
 
-const About = () => {
+const About = ({ light }) => {
     return (
         <>
             <Header />
             <div className="about">
-                <h2 className="about-title">A propos</h2>
+                <h2 className={classNames ("about-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
+                    A propos
+                </h2>
                 <div className="about-content">
                     <p className="about-content-description">
                         Bonjour et bienvenue sur le site <em className="about-content-link"><Link to="/">Limit Break</Link></em>. Ici, on parle principalement de <em className="important">jeux vidéo</em> et plus particulièrement d'un genre qui me tient à coeur : les <em className="important">J-RPG</em> (en français : jeux de rôle japonais). <br/><br/>
                         Mais avant tout laissez moi me présenter : 
                     </p>
-                    <div className="about-content-profil">
+                    <div className={ classNames("about-content-profil", {"border--light" : light === true, "border--dark": light === false}) }>
                         <img className="about-content-profil-img" src={Profil} alt="Bibi de Final Fantasy IX" />
                         <div className="about-content-profil-description">
                             <p>Moi c'est <em className="important">Boboch</em>.</p>

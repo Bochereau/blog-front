@@ -9,6 +9,5 @@
     padding: vars.$gutter;
     border-radius: 5px;
     font-weight: bold;
-    color: vars.$background-primary;
-    background-color: vars.$background-secondary;
+    border: 2px solid vars.$background-primary;
 }

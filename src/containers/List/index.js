@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
     posts: state.posts,
     themes: state.themes,
     loading: state.loading,
+    light: state.lightTheme,
 });
 
 const mapDispatchToProps = (dispatch) => ({

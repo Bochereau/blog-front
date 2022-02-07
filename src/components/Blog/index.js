@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
+import classNames from "classnames";
 import { 
     Routes, 
     Route 
 } from "react-router-dom";
 
 import './style.scss';
-import classNames from "classnames";
 
 import ScrollToTop from "../ScrollToTop";
 import Menu from "../../containers/Menu";
@@ -13,18 +13,18 @@ import Alert from "../../containers/Alert";
 import Home from '../../containers/Home';
 import List from '../../containers/List';
 import Article from "../../containers/Article";
-import About from "../About";
+import About from "../../containers/About";
 import Contact from '../../containers/Contact';
 import NotFound from "../NotFound";
 
 
-const Blog = ({ getPosts, getTheme, menuOpen }) => {
+const Blog = ({ getPosts, getTheme, menuOpen, light }) => {
     useEffect(() => {
         getPosts();
         getTheme();
     }, []);
     return(
-        <main className="wrapper">
+        <main className={classNames ("wrapper", {"bk-p--light" : light === true, "bk-p--dark" : light === false})}>
             <ScrollToTop>
                 <Menu />
                 <Alert />

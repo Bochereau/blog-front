@@ -7,6 +7,7 @@ import {
 
 const mapStateToProps = (state) => ({
     alert: state.alert,
+    light: state.lightTheme,
 });
 
 const mapDispatchToProps = (dispatch) => ({

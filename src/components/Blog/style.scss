@@ -2,7 +2,7 @@
 @use 'sass:color';
 
 .wrapper{
-    background-color: vars.$background-primary;
+    //background-color: vars.$background-primary;
 }
 
 .open{
@@ -32,4 +32,35 @@
 
 .ko{
     border: 2px solid rgb(224, 12, 40);
+}
+
+.bk{
+    &-p{
+        &--light{
+            background-color: vars.$background-primary;
+        }
+        &--dark{
+            background-color: rgb(51, 49, 49);
+            color: white;
+        }
+    }
+    &-s{
+        &--light{
+            background-color: vars.$background-secondary;
+            color: vars.$background-primary;
+        }
+        &--dark{
+            background-color: rgb(51, 49, 49);
+            color: white;
+        }
+    }
+}
+
+.border{
+    &--light{
+        border: 10px solid vars.$background-secondary;
+    }
+    &--dark{
+        border: 10px solid vars.$grey;
+    }
 }

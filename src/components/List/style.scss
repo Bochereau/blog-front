@@ -8,8 +8,7 @@
         font-weight: bold;
         text-transform: uppercase;
         padding: vars.$gutter*2 0;
-        background-color: vars.$background-secondary;
-        color: white;
+        border-bottom: 2px solid vars.$background-primary;
         @media(max-width: 426px) {
             font-size: vars.$gutter*2;
         }

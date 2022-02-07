@@ -8,8 +8,7 @@
             font-size: vars.$gutter*1.5;
             padding: vars.$gutter;
             font-weight: bold;
-            background-color: vars.$background-secondary;
-            color: vars.$background-primary;
+            border: 2px solid vars.$background-primary;
             @media(max-width: 426px) {
                 font-size: vars.$gutter*1.2;
             }

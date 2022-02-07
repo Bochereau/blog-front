@@ -1,13 +1,14 @@
 import React from "react";
+import classNames from 'classnames';
 
 import './style.scss';
 import AddComment from "../../containers/AddComment";
 import { reverseDate } from "../../utils";
 
-const Comment = ({ attributes }) => (
+const Comment = ({ attributes, light }) => (
     <div className="comment">
         <div className="comment-list">
-            <h4 className="comment-list-title">
+            <h4 className={classNames ("comment-list-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
                 {attributes.comments.data.length} {attributes.comments.data.length === 1 ? "commentaire" : "commentaires"} sur "{attributes.title}"
             </h4>
             {attributes.comments.data.map((comment) => (

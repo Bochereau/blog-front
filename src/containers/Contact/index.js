@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
     pseudo: state.pseudo,
     email: state.email,
     message: state.message,
+    light: state.lightTheme,
 });
 
 const mapDispatchToProps = (dispatch) => ({

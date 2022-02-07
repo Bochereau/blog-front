@@ -1,18 +1,21 @@
 import React from "react";
+import classNames from "classnames";
 import {Link } from "react-router-dom";
 import { DualRing } from "react-css-spinners/dist/DualRing";
 
 import './style.scss';
 
 
-import Header from '../Header';
+import Header from '../../containers/Header';
 
-const List = ({ posts, themes, loading }) => {
+const List = ({ posts, themes, loading, light }) => {
     return (
         <>
             <Header />
             <div className="list">
-                <h2 className="list-title">Liste des jeux</h2>
+                <h2 className={classNames ("list-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
+                    Liste des jeux
+                </h2>
                 <div className="list-items">
                     <p className="list-items-description">Retrouvez sur cette page la liste des sujets abordés sur le site :</p>
                     {loading && <DualRing color="#000" />}

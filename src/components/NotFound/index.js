@@ -5,7 +5,7 @@ import './style.scss';
 
 import Braid from '../../assets/image/braid.jpg';
 
-import Header from '../Header';
+import Header from '../../containers/Header';
 
 const NotFound = () => (
     <div className="notfound">

@@ -8,6 +8,7 @@ import {
 
 const mapStateToProps = (state) => ({
     menuOpen: state.menuOpen,
+    light: state.lightTheme,
 });
 
 const mapDispatchToProps = (dispatch) => ({
