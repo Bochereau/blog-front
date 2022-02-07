@@ -38,6 +38,14 @@ const Menu = ({ openMenu, open}) => (
                                 A propos
                         </li>
                     </Link>
+                    <Link to="/contact">
+                        <li 
+                            className="menu-list-link"
+                            onClick={() => openMenu()}
+                        >
+                                Contact
+                        </li>
+                    </Link>
                 </ul>
             </nav>
         </CSSTransition>

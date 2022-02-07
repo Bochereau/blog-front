@@ -14,6 +14,7 @@ import Home from '../../containers/Home';
 import List from '../../containers/List';
 import Article from "../../containers/Article";
 import About from "../About";
+import Contact from '../../containers/Contact';
 import NotFound from "../NotFound";
 
 
@@ -32,6 +33,7 @@ const Blog = ({ getPosts, getTheme, menuOpen }) => {
                         <Route path="/" exact element={<Home/>} />
                         <Route path="/list" exact element={<List/>} />
                         <Route path="/about" exact element={<About/>} />
+                        <Route path="/contact" exact element={<Contact/>} />
                         <Route path="/posts/:slug" exact element={<Article />} />
                         <Route path='*' element={<NotFound/>} />
                     </Routes>
