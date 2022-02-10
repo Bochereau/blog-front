@@ -10,6 +10,9 @@
         @media(max-width: 426px) {
             padding: vars.$gutter*5 vars.$gutter vars.$gutter*2;
         }
+        @media(max-width: 321px) {
+            border: none;
+        }
         &-title{
             font-size: vars.$gutter*5;
             @media(max-width: 426px) {
@@ -27,12 +30,14 @@
             position: absolute;
             top: vars.$gutter;
             right: vars.$gutter;
+            width: 40px;
+            height: 40px;
             &-button{
                 border: none;
                 background-color: transparent;
-                transition: transform 0.2s ease-in-out;
+                transition: transform 0.5s ease-in-out;
                 &:hover{
-                    transform: scale(1.2);
+                    transform: rotate(-180deg);
                 }
                 &-dark, &-light{
                     padding: vars.$gutter*0.3;
@@ -45,6 +50,8 @@
                     } 
                     & svg{
                         fill: vars.$background-primary;
+                        width: 25px;
+                        height: 25px;
                         &:hover{
                             fill: rgb(3, 3, 3);
                         }
@@ -56,6 +63,8 @@
                     }
                     & svg {
                         fill: vars.$background-primary;
+                        width: 25px;
+                        height: 25px;
                         &:hover{
                             fill: rgb(217, 255, 2);
                         }
@@ -71,7 +80,7 @@
             padding: vars.$gutter;
         }
         @media(max-width: 321px) {
-            padding: vars.$gutter 0;
+            padding: 0;
         }
     }
 }
@@ -79,3 +88,77 @@
 .dark:hover{
     fill: "#000";
 }
+
+/* The switch - the box around the slider */
+.switch {
+    position: absolute;
+    right: vars.$gutter*0.5;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: vars.$background-primary;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    left: 0px;
+    bottom: 4px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    box-shadow: 0 0px 15px #2020203d;
+    background: white url('https://i.ibb.co/7JfqXxB/sunny.png');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  input:checked + .slider {
+    background-color: vars.$grey;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px vars.$grey;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
+    background: vars.$background-primary url('https://i.ibb.co/FxzBYR9/night.png');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }

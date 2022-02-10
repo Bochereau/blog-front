@@ -56,32 +56,64 @@
         }
     }
     &-display{
-        &-enter{
-            background-color: transparent;
-            color: transparent;
-            width: 0;
-            &-active{
-                color: vars.$background-primary;
-                background-color: vars.$background-secondary;
-                width:300px;
-                transition: all 350ms;
-                @media (max-width: 426px) {
-                    width: 200px;
-                }
-            }
-        }
-        &-exit{
-            width:300px;
-            color: vars.$background-primary;
-            background-color: vars.$background-secondary;
-            @media (max-width: 426px) {
-                width: 200px;
-            }
-            &-active{
+        &--light{
+            &-enter{
                 background-color: transparent;
                 color: transparent;
                 width: 0;
-                transition: all 350ms;
+                &-active{
+                    color: vars.$background-primary;
+                    background-color: vars.$background-secondary;
+                    width:300px;
+                    transition: all 350ms;
+                    @media (max-width: 426px) {
+                        width: 200px;
+                    }
+                }
+            }
+            &-exit{
+                width:300px;
+                color: vars.$background-primary;
+                background-color: vars.$background-secondary;
+                @media (max-width: 426px) {
+                    width: 200px;
+                }
+                &-active{
+                    background-color: transparent;
+                    color: transparent;
+                    width: 0;
+                    transition: all 350ms;
+                }
+            }
+        }
+        &--dark{
+            &-enter{
+                background-color: transparent;
+                color: transparent;
+                width: 0;
+                &-active{
+                    color: vars.$background-primary;
+                    background-color: rgb(18, 18, 19);
+                    width:300px;
+                    transition: all 350ms;
+                    @media (max-width: 426px) {
+                        width: 200px;
+                    }
+                }
+            }
+            &-exit{
+                width:300px;
+                color: vars.$background-primary;
+                background-color: rgb(18, 18, 19);
+                @media (max-width: 426px) {
+                    width: 200px;
+                }
+                &-active{
+                    background-color: transparent;
+                    color: transparent;
+                    width: 0;
+                    transition: all 350ms;
+                }
             }
         }
     }

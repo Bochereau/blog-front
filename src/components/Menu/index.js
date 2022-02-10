@@ -29,7 +29,7 @@ const Menu = ({ openMenu, open, light}) => {
             <CSSTransition 
                 in={open}
                 timeout={350}
-                classNames="menu-display"
+                classNames={classNames ({"menu-display--light" : light === true, "menu-display--dark" : light === false})}
                 unmountOnExit
             >
                 <nav 
