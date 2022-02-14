@@ -17,9 +17,25 @@ const Post = ({ attributes, light }) => (
             Publié le <time className="post-info-date" dateTime={attributes.createdAt}>{reverseDate(attributes.date)}</time> par <em className="post-info-author">{attributes.author}</em>
         </p>
         <div className="post-content">
-            <p className="post-content-intro">{attributes.introduction}</p>
+            <p className="post-content-intro">{parse(attributes.introduction)}</p>
+            {attributes.context !== null && (
+                <div className={classNames("post-content-context", {"frame-light": light === true, "frame-dark": light ===false})}>
+                    <p className={classNames ("post-content-context-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
+                        Un peu de contexte
+                    </p>
+                    <p className="post-content-context-text">{parse(attributes.context)}</p>
+                </div>
+            )}
             <p className="post-content-main">{parse(attributes.content)}</p>
-            <p className="post-content-outro">{attributes.conclusion}</p>
+            {attributes.contact !== null && (
+                <div className={classNames("post-content-contact", {"frame-light": light === true, "frame-dark": light ===false})}>
+                    <p className={classNames ("post-content-contact-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
+                        Premier contact
+                    </p>
+                    <p className="post-content-contact-text">{parse(attributes.contact)}</p>
+                </div>
+            )}
+            <p className="post-content-outro">{parse(attributes.conclusion)}</p>
         </div>
     </article>
 )

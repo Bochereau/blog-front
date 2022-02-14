@@ -61,5 +61,52 @@
         &-outro{
             margin-top: vars.$gutter*2;
         }
+        &-context, &-contact{
+            border-radius: 10px;
+            margin: vars.$gutter*2 0;
+            
+            &-title{
+                position: relative;
+                top: -5px;
+                padding: vars.$gutter;
+                // background-color: vars.$background-secondary;
+                // color: vars.$background-primary;
+                text-transform: uppercase;
+                font-weight: bold;
+                
+            }
+            &-text{
+                padding: vars.$gutter;
+            }
+        }
+        &-context-title{
+            float: left;
+            left: -5px;
+            margin-right: vars.$gutter;
+            border-bottom-right-radius: 10px;
+            border-top-left-radius: 10px;
+            @media( max-width: 426px ) {
+                float: none;
+                margin: 0;
+                display: inline-block;
+            }
+        }
+        &-contact-title{
+            float: right;
+            right: -5px;
+            margin-left: vars.$gutter;
+            border-bottom-left-radius: 10px;
+            border-top-right-radius: 10px;
+            @media( max-width: 426px ) {
+                float: none;
+                display: inline-block;
+                margin: 0;
+                left: -5px;
+                border-bottom-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        }
     }
 }

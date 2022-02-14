@@ -1,10 +1,6 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-.wrapper{
-    //background-color: vars.$background-primary;
-}
-
 .open{
     opacity: 0.2;
 }
@@ -54,6 +50,16 @@
             color: white;
         }
     }
+    &-t{
+        &--light{
+            background-color: vars.$background-secondary;
+            color: vars.$background-primary;
+        }
+        &--dark{
+            background-color: vars.$background-primary;
+            color: rgb(25, 25, 26);
+        }
+    }
 }
 
 .border{
@@ -62,5 +68,14 @@
     }
     &--dark{
         border: 10px solid vars.$grey;
+    }
+}
+
+.frame{
+    &-light{
+        border: 5px solid vars.$background-secondary;
+    }
+    &-dark{
+        border: 5px solid vars.$background-primary;
     }
 }
