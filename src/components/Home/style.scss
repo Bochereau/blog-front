@@ -83,7 +83,20 @@
             padding: 0;
         }
     }
+    &-loading{
+        height: 80vh;
+        &-text{
+            font-size: vars.$gutter*1.3;
+            padding: vars.$gutter*2;
+            animation: clignote 2s linear infinite;
+            @keyframes clignote {
+                50% { opacity: 0; }
+            }
+            
+        }
+    }
 }
+
 
 .dark:hover{
     fill: "#000";

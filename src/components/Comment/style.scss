@@ -3,6 +3,7 @@
 
 .comment{
     margin: 0 auto;
+    padding: vars.$gutter 0;
     text-align: center;
     width: 50%;
     @media(max-width: 769px) {

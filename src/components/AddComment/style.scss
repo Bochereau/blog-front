@@ -3,7 +3,7 @@
 
 .comment{
     &-add{
-        margin: vars.$gutter*2 0;
+        padding: vars.$gutter*2 0;
         &-title{
             font-size: vars.$gutter*1.5;
             padding: vars.$gutter;

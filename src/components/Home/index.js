@@ -24,7 +24,12 @@ const Home = ({ loading, posts, light, changeColor }) => {
                 
                 <div className={classNames ("home-posts", {"bk-p--light" : light === true, "bk-p--dark" : light === false})}>
                     <ul className="home-posts-list">
-                        {loading && <DualRing color="#000" />}
+                        {loading && (
+                            <div className="home-loading">
+                                <DualRing color={classNames({"#000" : light === true, "#FFF" : light=== false})} />
+                                <p className="home-loading-text">Veuillez Patientez</p>
+                            </div>
+                        )}
                         {!loading && posts.map((post) => (
                             <Card
                                 key={post.id}
