@@ -2,13 +2,15 @@ import React from "react";
 import classNames from "classnames";
 import {Link } from "react-router-dom";
 import { DualRing } from "react-css-spinners/dist/DualRing";
+import { sortedByNameArray } from '../../utils';
 
 import './style.scss';
-
 
 import Header from '../../containers/Header';
 
 const List = ({ posts, themes, loading, light }) => {
+    const clonePostsArray = [...posts];
+    const newArray = sortedByNameArray(clonePostsArray);
     return (
         <>
             <Header />
@@ -24,7 +26,7 @@ const List = ({ posts, themes, loading, light }) => {
                             <li key={theme.id}>
                                 <h3 className="list-items-theme">{theme}</h3>
                                 <ul>
-                                    {posts.map((post) => post.attributes.theme.data.attributes.name === theme && (
+                                    {newArray.map((post) => post.attributes.theme.data.attributes.name === theme && (
                                         <li key={post.attributes.slug} className="list-link">
                                             <Link to={`/posts/${post.attributes.slug}`} className="list-link">
                                                 <p className="list-link-name">{post.attributes.title}</p>

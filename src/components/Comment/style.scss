@@ -3,7 +3,7 @@
 
 .comment{
     margin: 0 auto;
-    padding: vars.$gutter 0;
+    padding: vars.$gutter 0 0;
     text-align: center;
     width: 50%;
     @media(max-width: 769px) {
@@ -11,6 +11,7 @@
     }
     @media(max-width: 426px) {
         width: 100%;
+        padding: vars.$gutter;
     }
     &-list{
         &-title{

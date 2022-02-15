@@ -91,9 +91,10 @@ export const saveThemes = (themes) => ({
 
 
 /* Light/Dark theme management */
-// action to switch 
+// action to switch between light/dark theme
 export const CHANGE_COLOR = 'CHANGE_COLOR';
 export const changeColor = (bool) => ({
   type: CHANGE_COLOR,
   bool,
 })
+

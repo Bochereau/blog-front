@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     getTheme: () => {
         dispatch(getTheme());
-    },
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(List);

@@ -6,6 +6,7 @@ import './style.scss';
 import Header from '../../containers/Header';
 import Post from '../Post';
 import Comment from '../Comment';
+import Related from '../Related';
 
 const Article = ({ posts, getPostId,light }) => {
     const { slug } = useParams();
@@ -21,6 +22,12 @@ const Article = ({ posts, getPostId,light }) => {
             />
             <hr/>
             <Comment
+                light={light}
+                {...currentPost}
+            />
+            <hr/>
+            <Related 
+                posts={posts}
                 light={light}
                 {...currentPost}
             />

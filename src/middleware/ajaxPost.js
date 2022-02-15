@@ -11,6 +11,7 @@ import {
     dispatchMessage,
     emptyFields,
 } from '../actions';
+import { sortedByIdArray } from '../utils';
 
 axios.defaults.baseURL = 'https://blog-strapi-deploy.herokuapp.com/api/';
 
@@ -20,11 +21,8 @@ const ajaxPost = (store) => (next) => (action) => {
         store.dispatch(isLoading(true));
         axios.get('posts/?populate=*')
         .then((res) => {
-          //console.log(res.data.data)
           const newPosts = res.data.data;
-          const sortedPosts = newPosts.sort((a, b) => a.id - b.id)
-          const reversePosts = sortedPosts.reverse();
-          store.dispatch(savePosts(reversePosts));
+          store.dispatch(savePosts(sortedByIdArray(newPosts)));
         })
         .catch((error) => {
           console.error('error', error);
