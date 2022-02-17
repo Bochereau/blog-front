@@ -10,7 +10,7 @@
         padding: vars.$gutter*2 0;
         border-bottom: 2px solid vars.$background-primary;
         @media(max-width: 426px) {
-            font-size: vars.$gutter*2;
+            font-size: vars.$gutter*1.8;
         }
     }
     &-items{

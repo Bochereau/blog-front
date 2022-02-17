@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { 
     Routes, 
@@ -15,7 +16,7 @@ import List from '../../containers/List';
 import Article from "../../containers/Article";
 import About from "../../containers/About";
 import Contact from '../../containers/Contact';
-import NotFound from "../NotFound";
+import NotFound from "../../containers/NotFound";
 
 
 const Blog = ({ getPosts, getTheme, menuOpen, light }) => {
@@ -35,12 +36,19 @@ const Blog = ({ getPosts, getTheme, menuOpen, light }) => {
                         <Route path="/about" exact element={<About/>} />
                         <Route path="/contact" exact element={<Contact/>} />
                         <Route path="/posts/:slug" exact element={<Article />} />
-                        <Route path='*' element={<NotFound/>} />
+                        <Route path="*" element={<NotFound/>} />
                     </Routes>
                 </div>
             </ScrollToTop>
         </main>
     )
+}
+
+Blog.propTypes = {
+    getPosts: PropTypes.func.isRequired,
+    getTheme: PropTypes.func.isRequired,
+    menuOpen: PropTypes.bool.isRequired,
+    light: PropTypes.bool.isRequired,
 }
 
 export default Blog;

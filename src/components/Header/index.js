@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { Link } from 'react-router-dom';
 
@@ -12,5 +13,9 @@ const Header = ({ light }) => (
         </Link>
     </div>
 )
+
+Header.propTypes = {
+    light: PropTypes.bool.isRequired,
+}
 
 export default Header;

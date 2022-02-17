@@ -1,11 +1,16 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { Link } from 'react-router-dom';
 import {CSSTransition} from 'react-transition-group';
 
 import './style.scss';
 
-const Menu = ({ openMenu, open, light}) => {
+const Menu = ({ 
+    openMenu, 
+    open, 
+    light,
+}) => {
 
     // handle closing menu when the user clicks outside
     const menuRef = useRef();
@@ -50,7 +55,7 @@ const Menu = ({ openMenu, open, light}) => {
                                 className="menu-list-link"
                                 onClick={() => openMenu()}
                             >
-                                    Liste des jeux
+                                    Liste des articles
                             </li>
                         </Link>
                         <Link to="/about">
@@ -97,6 +102,12 @@ const Menu = ({ openMenu, open, light}) => {
             </button>
         </div>
     )
+}
+
+Menu.propTypes = {
+    openMenu: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    light: PropTypes.bool.isRequired,
 }
 
 export default Menu;

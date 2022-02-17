@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './style.scss';
@@ -82,4 +83,13 @@ const AddComment = ({
         </div>
     )
 }
+
+AddComment.propTypes = {
+    pseudo: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    changeValue: PropTypes.func.isRequired,
+    sendComment: PropTypes.func.isRequired,
+    light: PropTypes.bool.isRequired,
+}
+
 export default AddComment;

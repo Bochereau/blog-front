@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
 import classNames from "classnames";
 
@@ -39,5 +40,22 @@ const Post = ({ attributes, light }) => (
         </div>
     </article>
 )
+
+Post.propTypes = {
+    attributes: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired,
+        picture: PropTypes.array.isRequired,
+        date: PropTypes.string.isRequired,
+        author: PropTypes.string.isRequired,
+        introduction: PropTypes.string.isRequired,
+        context: PropTypes.string,
+        content: PropTypes.string.isRequired,
+        contact: PropTypes.string,
+        conclusion: PropTypes.string.isRequired,
+        createdAt: PropTypes.string.isRequired,
+    }).isRequired,
+    light: PropTypes.bool.isRequired,
+}
 
 export default Post;

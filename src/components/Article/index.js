@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { useParams } from "react-router";
 
 import './style.scss';
@@ -7,6 +8,7 @@ import Header from '../../containers/Header';
 import Post from '../Post';
 import Comment from '../Comment';
 import Related from '../Related';
+import Footer from '../Footer';
 
 const Article = ({ posts, getPostId,light }) => {
     const { slug } = useParams();
@@ -31,8 +33,20 @@ const Article = ({ posts, getPostId,light }) => {
                 light={light}
                 {...currentPost}
             />
+            <Footer 
+                light={light}
+            />
         </div>
     )
+}
+
+Article.propTypes = {
+    posts: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        attributes: PropTypes.object.isRequired,
+    }).isRequired,
+    getPostId: PropTypes.number.isRequired,
+    light: PropTypes.bool.isRequired,
 }
 
 export default Article;

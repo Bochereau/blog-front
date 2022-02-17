@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { DualRing } from "react-css-spinners/dist/DualRing";
 
@@ -41,5 +42,13 @@ const Home = ({ loading, posts, light, changeColor }) => {
             </div>
         </>
     )
-    }
+}
+
+Home.propTypes = {
+    loading: PropTypes.bool.isRequired,
+    posts: PropTypes.array.isRequired,
+    light: PropTypes.bool.isRequired,
+    changeColor: PropTypes.func.isRequired,
+}
+
 export default Home;

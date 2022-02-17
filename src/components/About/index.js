@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { Link } from 'react-router-dom';
 
@@ -52,6 +53,10 @@ const About = ({ light }) => {
             </div>
         </>
     )
+}
+
+About.propTypes = {
+    light: PropTypes.bool.isRequired,
 }
 
 export default About;

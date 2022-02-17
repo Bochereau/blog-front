@@ -46,6 +46,7 @@
                 }
                 @media(max-width: 426px) {
                     width: 300px;
+                    filter: brightness(70%);
                 }
             }
             &:hover img{
@@ -81,6 +82,7 @@
                 }
                 @media(max-width: 426px) {
                     width: 300px;
+                    visibility: visible;
                 }
             }
             &:hover &-text{

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './style.scss';
@@ -27,5 +28,20 @@ const Comment = ({ attributes, light }) => (
     </div>
 )
 
+Comment.propTypes = {
+    attributes: PropTypes.shape({
+        comments: PropTypes.shape({
+            data: PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                attributes: PropTypes.shape({
+                    pseudo: PropTypes.string.isRequired,
+                    content: PropTypes.string.isRequired,
+                    updatedAt: PropTypes.string.isRequired,
+                }).isRequired,
+            }).isRequired,
+        }).isRequired,
+    }).isRequired,
+    light: PropTypes.bool.isRequired,
+}
 
 export default Comment;

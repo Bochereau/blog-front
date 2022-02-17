@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import classNames from 'classnames';
 import { createRelatedPosts } from '../../utils';
@@ -14,7 +15,10 @@ const Related = ({ posts, id, light }) => {
             </h4>
             <div className="related-posts">
                 {newPosts.map((post) => (
-                    <div className="related-posts-item">
+                    <div 
+                        className="related-posts-item"
+                        key={post.id}
+                    >
                         <Link 
                             to={`/posts/${post.attributes.slug}`}
                         >
@@ -27,6 +31,19 @@ const Related = ({ posts, id, light }) => {
             </div>
         </div>
     )
+}
+
+Related.propTypes = {
+    posts: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        attributes: PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            slug: PropTypes.string.isRequired,
+            picture: PropTypes.array.isRequired,
+        }).isRequired,
+    }).isRequired,
+    id: PropTypes.number.isRequired,
+    light: PropTypes.bool.isRequired,
 }
 
 export default Related;

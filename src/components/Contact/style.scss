@@ -30,8 +30,10 @@
         text-align: center;
         //border: 10px solid vars.$background-secondary;
         padding: vars.$gutter*2;
+        border-radius: 15px;
         @media(max-width: 426px) {
-            margin: vars.$gutter;
+            margin: vars.$gutter 0;
+            padding: vars.$gutter;
         }
         &-item{
             display: flex;
