@@ -19,7 +19,7 @@ const Post = ({ attributes, light }) => (
         </p>
         <div className="post-content">
             <p className="post-content-intro">{parse(attributes.introduction)}</p>
-            {attributes.context !== null && (
+            {attributes.context !== '' && (
                 <div className={classNames("post-content-context", {"frame-light": light === true, "frame-dark": light ===false})}>
                     <p className={classNames ("post-content-context-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
                         Un peu de contexte
@@ -28,7 +28,7 @@ const Post = ({ attributes, light }) => (
                 </div>
             )}
             <p className="post-content-main">{parse(attributes.content)}</p>
-            {attributes.contact !== null && (
+            {attributes.contact !== '' && (
                 <div className={classNames("post-content-contact", {"frame-light": light === true, "frame-dark": light ===false})}>
                     <p className={classNames ("post-content-contact-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
                         Premier contact
