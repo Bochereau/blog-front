@@ -4,6 +4,9 @@
 .header{
     text-align: right;
     padding: vars.$gutter;
+    &-button{
+        border: none;
+    }
     &-title{
         font-size: vars.$gutter*2;
     }
