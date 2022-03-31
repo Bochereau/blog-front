@@ -27,7 +27,7 @@ const Post = ({ attributes, light }) => (
                     <p className="post-content-context-text">{parse(attributes.context)}</p>
                 </div>
             )}
-            <p className="post-content-main">{parse(attributes.content)}</p>
+            <div className="post-content-main">{parse(attributes.content)}</div>
             {attributes.contact !== '' && (
                 <div className={classNames("post-content-contact", {"frame-light": light === true, "frame-dark": light ===false})}>
                     <p className={classNames ("post-content-contact-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
