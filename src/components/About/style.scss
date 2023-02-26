@@ -3,14 +3,17 @@
 
 .about{
     text-align: center;
+    background: linear-gradient(vars.$background-secondary, vars.$background-secondary, #90e0ef);
+    color: vars.$background-primary;
+    min-height: 100%;
     &-title{
-        font-size: vars.$gutter*3;
+        font-size: vars.$gutter*2;
         font-weight: bold;
         text-transform: uppercase;
         padding: vars.$gutter*2 0;
         border-bottom: 2px solid vars.$background-primary;
         @media(max-width: 426px) {
-            font-size: vars.$gutter*2;
+            font-size: vars.$gutter*1.5;
         }
     }
     &-content{
@@ -25,6 +28,11 @@
         }
         &-description{
             padding-bottom: vars.$gutter;
+            text-align: center;
+            font-size: vars.$gutter*1.6;
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*1.4;
+            }
         }
         &-link{
             color: vars.$background-secondary;
@@ -37,6 +45,8 @@
             padding: vars.$gutter*2;
             margin: vars.$gutter 0;
             border-radius: 15px;
+            background-color: vars.$background-primary;
+            color:black;
             @media(max-width: 426px) {
                 display: flex;
                 flex-direction: column;

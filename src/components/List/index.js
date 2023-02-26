@@ -7,8 +7,6 @@ import { sortedByNameArray } from '../../utils';
 
 import './style.scss';
 
-import Header from '../../containers/Header';
-
 const List = ({ 
     posts,
     themes,
@@ -19,7 +17,6 @@ const List = ({
     const newArray = sortedByNameArray(clonePostsArray);
     return (
         <>
-            <Header />
             <div className="list">
                 <h2 className={classNames ("list-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
                     Liste des articles

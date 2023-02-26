@@ -1,6 +1,17 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
+.wrapper{
+    min-height:100vh;
+}
+
+.page{
+    height: calc(100vh - 100px);
+    @media(max-width: 426px) {
+        height: calc(100vh - 50px);
+    }
+}
+
 .open{
     opacity: 0.2;
 }

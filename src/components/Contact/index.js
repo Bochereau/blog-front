@@ -4,8 +4,6 @@ import classNames from 'classnames';
 
 import './style.scss';
 
-import Header from '../../containers/Header';
-
 const Contact = ({ 
     pseudo, 
     email, 
@@ -28,30 +26,28 @@ const Contact = ({
     }
     return (
         <>
-            <Header />
             <div className="contact">
                 <h2 className={classNames ("contact-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
-                    Contact
+                    Formulaire de contact
                 </h2>
                 <div className="contact-content">
-                    <p className="contact-content-description">Si vous souhaitez me contacter, merci d'utiliser le formulaire ci-dessous.</p>
                     <form 
-                        className={ classNames("contact-form", {"border--light" : light === true, "border--dark": light === false}) }
+                        className={ classNames("contact-form") }
                         onSubmit={handleSubmit}
                     >
+                        <p className="contact-content-description">Contactez-moi !</p>
                         <ul>
                             <li className="contact-form-item">
                                 <label 
                                     className="contact-form-item-label"
                                     htmlFor="field-name"
                                 >
-                                    Nom :
+                                    Nom
                                 </label>
                                 <input
                                     id="field-name"
                                     type="text"
                                     name="pseudo"
-                                    placeholder="Ici votre nom"
                                     maxLength="50"
                                     className={ classNames ("contact-form-item-input", {
                                         "ok" : pseudo !== ''
@@ -65,13 +61,12 @@ const Contact = ({
                                     className="contact-form-item-label"
                                     htmlFor="field-email"
                                 >
-                                    Email :
+                                    Email
                                 </label>
                                 <input
                                     id="field-email"
                                     type="email"
                                     name="email"
-                                    placeholder="Ici votre adresse mail"
                                     maxLength="50"
                                     className={ classNames ("contact-form-item-input", {
                                         "ok" : email !== ''
@@ -85,12 +80,11 @@ const Contact = ({
                                     className="contact-form-item-label"
                                     htmlFor="field-message"
                                 >
-                                    Message :
+                                    Message
                                 </label>
                                 <textarea 
                                     id="field-message"
                                     name="message"
-                                    placeholder="Ici votre message"
                                     rows="8"
                                     className={ classNames ("contact-form-item-textarea", {
                                         "ok" : message !== ''

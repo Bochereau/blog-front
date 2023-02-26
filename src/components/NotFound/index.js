@@ -5,11 +5,8 @@ import './style.scss';
 
 import Braid from '../../assets/image/braid.jpg';
 
-import Header from '../../containers/Header';
-
 const NotFound = () => (
     <div className="notfound">
-        <Header />
         <div className="notfound-container">
             <p className="notfound-container-text">Oups, il semblerait que vous vous soyez perdu. L'article que vous cherché est peut-être dans un autre château...</p>
             <div className="notfound-container-404">

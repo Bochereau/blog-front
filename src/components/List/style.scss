@@ -3,14 +3,17 @@
 
 .list{
     text-align: center;
+    background-color: vars.$background-secondary;
+    min-height: 100%;
+    color:  vars.$background-primary;
     &-title{
-        font-size: vars.$gutter*3;
+        font-size: vars.$gutter*2;
         font-weight: bold;
         text-transform: uppercase;
         padding: vars.$gutter*2 0;
         border-bottom: 2px solid vars.$background-primary;
         @media(max-width: 426px) {
-            font-size: vars.$gutter*1.8;
+            font-size: vars.$gutter*1.5;
         }
     }
     &-items{

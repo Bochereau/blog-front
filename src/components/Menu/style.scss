@@ -2,30 +2,49 @@
 @use 'sass:color';
 
 .menu{
-    position: fixed;
-    z-index: 999;
-    display: flex;
-    align-items: flex-start;
-    &-aside{
-        padding: vars.$gutter;
-        min-height: 100vh;
-        width:400px;
-        left: 0;
+    &-nav{
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-around;
         @media (max-width: 426px) {
-            width: 100vw;
+            padding: 0;
         }
     }
     &-list{
-        margin-top: vars.$gutter*5;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-around;
+        flex: 1;
+        padding: vars.$gutter;
+        @media (max-width: 426px) {
+            padding: 0;
+        }
         &-link{
-            border-top: 1px solid vars.$background-primary;
-            padding: vars.$gutter 0;
+            padding: vars.$gutter 0 vars.$gutter*0.5;
             text-transform: uppercase;
             font-weight: bold;
             text-align: center;
             color: vars.$background-primary;
+            font-size: vars.$gutter*1.3;
             &:hover{
-                color: color.scale(vars.$grey, $lightness: +50%);
+                // font-style: italic;
+                transform: translateY(-3px);
+                transition: all 200ms ease-in-out;
+            }
+            @media (max-width: 768px) {
+                font-size: vars.$gutter;
+            }
+            @media (max-width: 426px) {
+                font-size: vars.$gutter*0.8;
+            }
+        }
+        &-logo{
+            height:100px;
+            @media (max-width: 426px) {
+                height:50px;
+            }
+            @media (max-width: 320px) {
+                display: none;
             }
         }
     }
@@ -78,3 +97,6 @@
     }
 }
 
+.active{
+    border-bottom: 5px solid vars.$background-primary;
+}

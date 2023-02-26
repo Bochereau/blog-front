@@ -2,6 +2,7 @@
 @use 'sass:color';
 
 .home{
+    min-height: 100%;
     &-header{
         text-align: center;
         padding: vars.$gutter*4 0;

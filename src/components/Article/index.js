@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 
 import './style.scss';
 
-import Header from '../../containers/Header';
 import Post from '../Post';
 import Comment from '../Comment';
 import Related from '../Related';
@@ -16,7 +15,6 @@ const Article = ({ posts, getPostId,light }) => {
     getPostId(currentPost.id);
     return (
         <div className="article">
-            <Header />
             <Post 
                 key={currentPost.id}
                 light={light}
