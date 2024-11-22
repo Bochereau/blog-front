@@ -13,7 +13,7 @@ import {
 } from '../actions';
 import { sortedByIdArray } from '../utils';
 
-axios.defaults.baseURL = 'https://blog-strapi-deploy.herokuapp.com/api/';
+axios.defaults.baseURL = 'https://limitbreak.vercel.app/api/';
 
 const ajaxPost = (store) => (next) => (action) => {
     switch (action.type) {
