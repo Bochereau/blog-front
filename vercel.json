@@ -5,6 +5,12 @@
             "src": "src/**/*",
             "use": "@vercel/node"
         }
-    ]
+    ],
+    "functions": {
+        "src/api/*": {
+            "maxDuration": 10,
+            "memory": 512
+        }
+    }
 }
   
