@@ -30,7 +30,7 @@ const Menu = ({
                     <NavLink to="/about">
                         <li className="menu-list-link">A propos</li>
                     </NavLink>
-                    <NavLink to="/contact" classname={({ isActive }) => isActive ? "active" : undefined}>
+                    <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : undefined}>
                         <li className="menu-list-link">Contact</li>
                     </NavLink>
                 </ul>
