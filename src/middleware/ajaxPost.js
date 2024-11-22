@@ -21,6 +21,7 @@ const ajaxPost = (store) => (next) => (action) => {
         store.dispatch(isLoading(true));
         axios.get('posts/?populate=*')
         .then((res) => {
+          console.log(res.data);  // Ajoute ce log pour vérifier les données
           const newPosts = res.data.data;
           store.dispatch(savePosts(sortedByIdArray(newPosts)));
         })
