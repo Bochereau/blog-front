@@ -3,7 +3,7 @@ import Blog from '../../components/Blog'
 
 import {
     getPosts,
-    getTheme,
+    // getTheme,
 } from '../../actions';
 
 const mapStateToProps = (state) => ({
@@ -15,9 +15,9 @@ const mapDispatchToProps = (dispatch) => ({
     getPosts: () => {
         dispatch(getPosts());
     },
-    getTheme: () => {
-        dispatch(getTheme());
-    },
+    // getTheme: () => {
+    //     dispatch(getTheme());
+    // },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Blog);

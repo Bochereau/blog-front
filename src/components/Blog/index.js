@@ -24,14 +24,13 @@ const Blog = ({
     menuOpen,
     lightTheme,
     getPosts,
-    getTheme,
     openMenu,
     changeColor
 }) => {
     useEffect(() => {
         getPosts();
-        getTheme();
-    }, [getPosts, getTheme]);
+        // getTheme();
+    }, [getPosts]);
 
     return (
         <main className={classNames("wrapper", { "bk-p--light": lightTheme, "bk-p--dark": !lightTheme })}>
@@ -60,14 +59,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     getPosts: () => dispatch({ type: 'GET_POSTS' }),
-    getTheme: () => dispatch({ type: 'GET_THEME' }),
+    // getTheme: () => dispatch({ type: 'GET_THEME' }),
     openMenu: () => dispatch(openMenu()),
     changeColor: (bool) => dispatch(changeColor(bool))
 });
 
 Blog.propTypes = {
     getPosts: PropTypes.func.isRequired,
-    getTheme: PropTypes.func.isRequired,
+    // getTheme: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
     lightTheme: PropTypes.bool.isRequired,
     openMenu: PropTypes.func.isRequired,
