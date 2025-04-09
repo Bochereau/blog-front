@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 
 import './style.scss';
 
-const Card = ({ attributes }) => {
+const Card = ({ post }) => {
+    const { title, subtitle, slug, mainImage } = post;
+    
     return (
         <li className="card">
-            <img className="card-img" src={attributes.mainImage} alt={attributes.title} />
-            <h3 className="card-title">{attributes.title}</h3>
-            <h4 className="card-subtitle">{attributes.subtitle}</h4>
-            <Link to={`/posts/${attributes.slug}`} className="card-link">
+            <img className="card-img" src={mainImage} alt={title} />
+            <h3 className="card-title">{title}</h3>
+            <h4 className="card-subtitle">{subtitle}</h4>
+            <Link to={`/posts/${slug}`} className="card-link">
                 <p className="card-link-text">Lire l'article</p>
                 <svg
                     width="24" 
@@ -26,12 +28,12 @@ const Card = ({ attributes }) => {
 }
 
 Card.propTypes = {
-    attributes: PropTypes.shape({
-        slug: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        subtitle: PropTypes.string.isRequired,
-        mainImage: PropTypes.object.isRequired,
+    post: PropTypes.shape({
+        slug: PropTypes.string,
+        title: PropTypes.string,
+        subtitle: PropTypes.string,
+        mainImage: PropTypes.string,
     }).isRequired,
-}
+};
 
 export default Card;

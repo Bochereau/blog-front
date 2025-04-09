@@ -20,7 +20,7 @@ const Home = ({ loading, posts, light, changeColor }) => {
                 {!loading && posts.map((post) => (
                     <Card
                         key={post.id}
-                        {...post}
+                        post={post}
                     />
                 ))}
             </ul>
