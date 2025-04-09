@@ -31,7 +31,7 @@ const Blog = ({
     useEffect(() => {
         getPosts();
         getTheme();
-    }, []);
+    }, [getPosts, getTheme]);
 
     return (
         <main className={classNames("wrapper", { "bk-p--light": lightTheme, "bk-p--dark": !lightTheme })}>
