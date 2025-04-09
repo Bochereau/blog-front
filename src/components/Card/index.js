@@ -30,7 +30,7 @@ Card.propTypes = {
         slug: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         subtitle: PropTypes.string.isRequired,
-        picture: PropTypes.object.isRequired,
+        mainImage: PropTypes.object.isRequired,
     }).isRequired,
 }
 
