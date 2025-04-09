@@ -6,56 +6,76 @@ import classNames from "classnames";
 import { reverseDate } from "../../utils";
 import './style.scss';
 
-const Post = ({ attributes, light }) => (
-    <article className="post">
-        <div className="post-header">
-            <img className="post-header-img" src={`${attributes.picture.data.attributes.url}`} alt={attributes.title} />
-            <h3 className={classNames ("post-header-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
-                {attributes.title}
-            </h3>
+const Post = ({ light, title, slug, mainImage, createdAt, author, introduction, context, content, firstContact, conclusion }) => (
+  <article className="post">
+    <div className="post-header">
+      {mainImage && (
+        <img className="post-header-img" src={mainImage} alt={title} />
+      )}
+      <h3 className={classNames("post-header-title", {
+        "bk-s--light": light === true,
+        "bk-s--dark": light === false
+      })}>
+        {title}
+      </h3>
+    </div>
+
+    <p className="post-info">
+      Publié le <time className="post-info-date" dateTime={createdAt}>{reverseDate(createdAt)}</time> par <em className="post-info-author">{author}</em>
+    </p>
+
+    <div className="post-content">
+      <p className="post-content-intro">{parse(introduction)}</p>
+
+      {context && (
+        <div className={classNames("post-content-context", {
+          "frame-light": light,
+          "frame-dark": !light
+        })}>
+          <p className={classNames("post-content-context-title", {
+            "bk-t--light": light,
+            "bk-t--dark": !light
+          })}>
+            Un peu de contexte
+          </p>
+          <p className="post-content-context-text">{parse(context)}</p>
         </div>
-        <p className="post-info">
-            Publié le <time className="post-info-date" dateTime={attributes.createdAt}>{reverseDate(attributes.date)}</time> par <em className="post-info-author">{attributes.author}</em>
-        </p>
-        <div className="post-content">
-            <p className="post-content-intro">{parse(attributes.introduction)}</p>
-            {attributes.context !== '' && (
-                <div className={classNames("post-content-context", {"frame-light": light === true, "frame-dark": light ===false})}>
-                    <p className={classNames ("post-content-context-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
-                        Un peu de contexte
-                    </p>
-                    <p className="post-content-context-text">{parse(attributes.context)}</p>
-                </div>
-            )}
-            <div className="post-content-main">{parse(attributes.content)}</div>
-            {attributes.contact !== '' && (
-                <div className={classNames("post-content-contact", {"frame-light": light === true, "frame-dark": light ===false})}>
-                    <p className={classNames ("post-content-contact-title", {"bk-t--light" : light === true, "bk-t--dark" : light === false})}>
-                        Premier contact
-                    </p>
-                    <p className="post-content-contact-text">{parse(attributes.contact)}</p>
-                </div>
-            )}
-            <p className="post-content-outro">{parse(attributes.conclusion)}</p>
+      )}
+
+      <div className="post-content-main">{parse(content)}</div>
+
+      {firstContact && (
+        <div className={classNames("post-content-contact", {
+          "frame-light": light,
+          "frame-dark": !light
+        })}>
+          <p className={classNames("post-content-contact-title", {
+            "bk-t--light": light,
+            "bk-t--dark": !light
+          })}>
+            Premier contact
+          </p>
+          <p className="post-content-contact-text">{parse(firstContact)}</p>
         </div>
-    </article>
-)
+      )}
+
+      <p className="post-content-outro">{parse(conclusion)}</p>
+    </div>
+  </article>
+);
 
 Post.propTypes = {
-    attributes: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        slug: PropTypes.string.isRequired,
-        picture: PropTypes.array.isRequired,
-        date: PropTypes.string.isRequired,
-        author: PropTypes.string.isRequired,
-        introduction: PropTypes.string.isRequired,
-        context: PropTypes.string,
-        content: PropTypes.string.isRequired,
-        contact: PropTypes.string,
-        conclusion: PropTypes.string.isRequired,
-        createdAt: PropTypes.string.isRequired,
-    }).isRequired,
-    light: PropTypes.bool.isRequired,
-}
+  light: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
+  mainImage: PropTypes.string,
+  createdAt: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  introduction: PropTypes.string.isRequired,
+  context: PropTypes.string,
+  content: PropTypes.string.isRequired,
+  firstContact: PropTypes.string,
+  conclusion: PropTypes.string.isRequired,
+};
 
 export default Post;
