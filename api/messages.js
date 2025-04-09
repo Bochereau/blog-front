@@ -8,7 +8,7 @@ async function connectToDatabase() {
     client = new MongoClient(uri);
     await client.connect();
   }
-  return client.db();
+  return client.db("blog");
 }
 
 export default async function handler(req, res) {
