@@ -1,92 +1,101 @@
 import axios from 'axios';
 import { 
-    GET_POSTS,
-    getPosts,
-    savePosts,
-    isLoading,
-    SEND_COMMENT,
-    GET_THEME,
-    saveThemes,
-    SEND_MESSAGE,
-    dispatchMessage,
-    emptyFields,
+  savePosts,
+  isLoading,
+  saveThemes,
+  dispatchMessage,
+  emptyFields,
+  handleApiError
 } from '../actions';
 import { sortedByIdArray } from '../utils';
 
-axios.defaults.baseURL = 'https://limitbreak.vercel.app/api/';
+// Configuration axios
+const api = axios.create({
+  baseURL: 'https://limitbreak.vercel.app/api/',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 
 const ajaxPost = (store) => (next) => (action) => {
-    switch (action.type) {
-      case GET_POSTS: {
-        store.dispatch(isLoading(true));
-        axios.get('posts')
+  switch (action.type) {
+    case 'GET_POSTS': {
+      store.dispatch(isLoading(true));
+      api.get('posts')
         .then((res) => {
-          console.log(res.data);  // Ajoute ce log pour vérifier les données
-          const newPosts = res.data.data;
-          store.dispatch(savePosts(sortedByIdArray(newPosts)));
+          if (res.data && res.data.data) {
+            const newPosts = res.data.data;
+            store.dispatch(savePosts(sortedByIdArray(newPosts)));
+          } else {
+            throw new Error('Invalid response format');
+          }
         })
         .catch((error) => {
-          console.error('error', error);
+          store.dispatch(handleApiError(error));
+          console.error('Error fetching posts:', error);
         })
         .finally(() => {
           store.dispatch(isLoading(false));
         });
-        break;
-      }
-
-      case GET_THEME: {
-        axios.get('themes')
+      break;
+    }
+    case 'GET_THEME': {
+      api.get('themes')
         .then((res) => {
-          const themes = res.data.data;
-          const themesList = themes.map((theme) => theme.attributes.name)
-          store.dispatch(saveThemes(themesList));
-        })
-        .catch((error) => {
-          console.error('error', error);
-        })
-        break;
-      }
-
-      case SEND_COMMENT: {
-        const state = store.getState();
-        axios.post('comments',
-        {
-          data: {
-            pseudo: state.pseudo,
-            content: state.comment,
-            post: [{ id : state.postId}]
+          if (res.data && res.data.data) {
+            let themesList;
+            // Gestion des deux formats de réponse
+            if (Array.isArray(res.data.data)) {
+              themesList = res.data.data.map(theme => theme.name || theme);
+            }
+            store.dispatch(saveThemes(themesList));
           }
         })
-        .then((res) => {
-          store.dispatch(dispatchMessage("Merci pour votre commentaire"));
-          store.dispatch(emptyFields());
-          store.dispatch(getPosts());
-        })
         .catch((error) => {
-          console.error('une erreur est survenue', error);
+          store.dispatch(dispatchMessage('Erreur lors du chargement des thèmes'));
+          console.error('Error fetching themes:', error);
         });
-        break;
-      }
-      
-      case SEND_MESSAGE: {
-        const state = store.getState();
-        axios.post('messages',
-        {
-          data: {
-            name: state.pseudo,
-            email: state.email,
-            message: state.message,
-          }
-        })
-        .then((res) => {
-          store.dispatch(dispatchMessage("Votre message a été envoyé avec succès"));
-          store.dispatch(emptyFields());
-        })
-        .catch((error) => {
-          console.error('une erreur est survenue', error);
-        });
-        break;
-      }
+      break;
+    }
+
+    case 'SEND_COMMENT': {
+      const { pseudo, comment, postId } = store.getState();
+      api.post('comments', {
+        postId,
+        pseudo,
+        content: comment
+      })
+      .then(() => {
+        store.dispatch(dispatchMessage("Merci pour votre commentaire"));
+        store.dispatch(emptyFields());
+        store.dispatch({ type: 'GET_POSTS' });
+      })
+      .catch((error) => {
+        store.dispatch(handleApiError(error));
+        console.error('Error sending comment:', error);
+      });
+      break;
+    }
+    
+    case 'SEND_MESSAGE': {
+      const { pseudo, email, message } = store.getState();
+      api.post('messages', {
+        name: pseudo,
+        email,
+        message
+      })
+      .then(() => {
+        store.dispatch(dispatchMessage("Votre message a été envoyé avec succès"));
+        store.dispatch(emptyFields());
+      })
+      .catch((error) => {
+        store.dispatch(handleApiError(error));
+        console.error('Error sending message:', error);
+      });
+      break;
+    }
+
     default:
       next(action);
   }

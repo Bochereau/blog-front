@@ -98,3 +98,8 @@ export const changeColor = (bool) => ({
   bool,
 })
 
+export const HANDLE_API_ERROR = 'HANDLE_API_ERROR';
+export const handleApiError = (error) => ({
+  type: HANDLE_API_ERROR,
+  error: error.message || 'Erreur serveur'
+});

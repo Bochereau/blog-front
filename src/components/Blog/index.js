@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import PropTypes from 'prop-types';
 import classNames from "classnames";
-import { 
-    Routes, 
-    Route 
+import {
+    Routes,
+    Route
 } from "react-router-dom";
+import { openMenu, changeColor } from '../../actions';
 
 import './style.scss';
 
@@ -18,25 +19,32 @@ import About from "../../containers/About";
 import Contact from '../../containers/Contact';
 import NotFound from "../../containers/NotFound";
 
-
-const Blog = ({ getPosts, getTheme, menuOpen, light }) => {
+const Blog = ({
+    menuOpen,
+    lightTheme,
+    getPosts,
+    getTheme,
+    openMenu,
+    changeColor
+}) => {
     useEffect(() => {
         getPosts();
         getTheme();
     }, []);
-    return(
-        <main className={classNames ("wrapper", {"bk-p--light" : light === true, "bk-p--dark" : light === false})}>
+
+    return (
+        <main className={classNames("wrapper", { "bk-p--light": lightTheme, "bk-p--dark": !lightTheme })}>
             <ScrollToTop>
                 <Menu />
                 <Alert />
-                <div className={classNames ("page", { 'open' : menuOpen === true})}>
+                <div className={classNames("page", { 'open': menuOpen === true })}>
                     <Routes>
-                        <Route path="/" exact element={<Home/>} />
-                        <Route path="/list" exact element={<List/>} />
-                        <Route path="/about" exact element={<About/>} />
-                        <Route path="/contact" exact element={<Contact/>} />
+                        <Route path="/" exact element={<Home />} />
+                        <Route path="/list" exact element={<List />} />
+                        <Route path="/about" exact element={<About />} />
+                        <Route path="/contact" exact element={<Contact />} />
                         <Route path="/posts/:slug" exact element={<Article />} />
-                        <Route path="*" element={<NotFound/>} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
             </ScrollToTop>
@@ -44,11 +52,25 @@ const Blog = ({ getPosts, getTheme, menuOpen, light }) => {
     )
 }
 
+const mapStateToProps = (state) => ({
+    menuOpen: state.menuOpen,
+    lightTheme: state.lightTheme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getPosts: () => dispatch({ type: 'GET_POSTS' }),
+    getTheme: () => dispatch({ type: 'GET_THEME' }),
+    openMenu: () => dispatch(openMenu()),
+    changeColor: (bool) => dispatch(changeColor(bool))
+});
+
 Blog.propTypes = {
     getPosts: PropTypes.func.isRequired,
     getTheme: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
-    light: PropTypes.bool.isRequired,
+    lightTheme: PropTypes.bool.isRequired,
+    openMenu: PropTypes.func.isRequired,
+    changeColor: PropTypes.func.isRequired
 }
 
-export default Blog;
+export default connect(mapStateToProps, mapDispatchToProps)(Blog);
