@@ -5,7 +5,7 @@ const uri = process.env.MONGODB_URI;
 let client;
 async function connectToDatabase() {
   if (!client) {
-    client = new MongoClient(uri);
+    client = new MongoClient(encodeURIComponent(uri));
     await client.connect();
   }
   return client.db();
