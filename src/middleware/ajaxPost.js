@@ -19,7 +19,7 @@ const ajaxPost = (store) => (next) => (action) => {
     switch (action.type) {
       case GET_POSTS: {
         store.dispatch(isLoading(true));
-        axios.get('posts/?populate=*')
+        axios.get('posts')
         .then((res) => {
           console.log(res.data);  // Ajoute ce log pour vérifier les données
           const newPosts = res.data.data;
