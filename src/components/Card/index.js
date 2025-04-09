@@ -7,7 +7,7 @@ import './style.scss';
 const Card = ({ attributes }) => {
     return (
         <li className="card">
-            <img className="card-img" src={`${attributes.mainImage}`} alt={attributes.title} />
+            <img className="card-img" src={attributes.mainImage} alt={attributes.title} />
             <h3 className="card-title">{attributes.title}</h3>
             <h4 className="card-subtitle">{attributes.subtitle}</h4>
             <Link to={`/posts/${attributes.slug}`} className="card-link">
