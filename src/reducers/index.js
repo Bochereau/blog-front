@@ -8,6 +8,7 @@ import {
   DISPATCH_MESSAGE,
   EMPTY_FIELDS,
   CHANGE_COLOR,
+  HANDLE_API_ERROR
 } from "../actions";
 
 const initialState = {

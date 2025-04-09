@@ -6,6 +6,7 @@ import {
     Route
 } from "react-router-dom";
 import { openMenu, changeColor } from '../../actions';
+import { connect } from 'react-redux';
 
 import './style.scss';
 
