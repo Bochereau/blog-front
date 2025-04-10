@@ -6,7 +6,19 @@ import classNames from "classnames";
 import { reverseDate } from "../../utils";
 import './style.scss';
 
-const Post = ({ light, title, slug, mainImage, createdAt, author, introduction, context, content, firstContact, conclusion }) => (
+const Post = ({
+  light,
+  title,
+  slug,
+  mainImage,
+  createdAt,
+  author,
+  introduction,
+  context,
+  body,
+  firstContact,
+  conclusion
+}) => (
   <article className="post">
     <div className="post-header">
       {mainImage && (
@@ -42,7 +54,19 @@ const Post = ({ light, title, slug, mainImage, createdAt, author, introduction, 
         </div>
       )}
 
-      <div className="post-content-main">{parse(content)}</div>
+      {body && body.map((section, index) => (
+        <div key={index} className="post-content-section">
+          {section.subtitle && <h4 className="post-content-subtitle">{parse(section.subtitle)}</h4>}
+          {section.text && <p className="post-content-text">{parse(section.text)}</p>}
+          {section.images && section.images.length > 0 && (
+            <div className="post-content-images">
+              {section.images.map((img, idx) => (
+                <img key={idx} src={img} alt={`illustration-${idx}`} className="post-content-image" />
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
 
       {firstContact && (
         <div className={classNames("post-content-contact", {
@@ -73,7 +97,11 @@ Post.propTypes = {
   author: PropTypes.string.isRequired,
   introduction: PropTypes.string.isRequired,
   context: PropTypes.string,
-  content: PropTypes.string.isRequired,
+  body: PropTypes.arrayOf(PropTypes.shape({
+    subtitle: PropTypes.string,
+    text: PropTypes.string,
+    images: PropTypes.arrayOf(PropTypes.string)
+  })),
   firstContact: PropTypes.string,
   conclusion: PropTypes.string.isRequired,
 };

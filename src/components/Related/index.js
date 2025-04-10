@@ -17,13 +17,13 @@ const Related = ({ posts, id, light }) => {
                 {newPosts.map((post) => (
                     <div 
                         className="related-posts-item"
-                        key={post.id}
+                        key={post._id}
                     >
                         <Link 
-                            to={`/posts/${post.attributes.slug}`}
+                            to={`/posts/${post.slug}`}
                         >
-                            <img src={post.attributes.picture.data.attributes.url} alt={post.attributes.title} />
-                            <h5 className="related-posts-item-title">{post.attributes.title}</h5>
+                            <img src={post.mainImage} alt={post.title} />
+                            <h5 className="related-posts-item-title">{post.title}</h5>
                             <p className="related-posts-item-text">Cliquez pour accéder à l'article suivant : </p>
                         </Link>
                     </div>
@@ -35,12 +35,10 @@ const Related = ({ posts, id, light }) => {
 
 Related.propTypes = {
     posts: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        attributes: PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            slug: PropTypes.string.isRequired,
-            picture: PropTypes.array.isRequired,
-        }).isRequired,
+        _id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        slug: PropTypes.string.isRequired,
+        mainImage: PropTypes.array.isRequired,
     }).isRequired,
     id: PropTypes.number.isRequired,
     light: PropTypes.bool.isRequired,

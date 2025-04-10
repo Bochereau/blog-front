@@ -23,7 +23,7 @@ const Article = ({ posts, getPostId, light }) => {
     <div className="article">
       <Post light={light} {...currentPost} />
       <hr />
-      <Comment light={light} {...currentPost} />
+      {/* <Comment light={light} {...currentPost} /> */}
       <hr />
       <Related posts={posts} light={light} {...currentPost} />
       <Footer light={light} />
