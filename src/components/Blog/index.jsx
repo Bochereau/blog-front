@@ -30,6 +30,7 @@ const Blog = () => {
   
     useEffect(() => {
       dispatch({ type: 'GET_POSTS' });
+      dispatch({ type: 'GET_THEME' });
     }, [dispatch]);
   
     // const handleChangeColor = (bool) => dispatch(changeColor(bool));
@@ -54,27 +55,6 @@ const Blog = () => {
             </ScrollToTop>
         </main>
     )
-}
-
-const mapStateToProps = (state) => ({
-    menuOpen: state.menuOpen,
-    lightTheme: state.lightTheme,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    getPosts: () => dispatch({ type: 'GET_POSTS' }),
-    // getTheme: () => dispatch({ type: 'GET_THEME' }),
-    openMenu: () => dispatch(openMenu()),
-    changeColor: (bool) => dispatch(changeColor(bool))
-});
-
-Blog.propTypes = {
-    getPosts: PropTypes.func.isRequired,
-    // getTheme: PropTypes.func.isRequired,
-    menuOpen: PropTypes.bool.isRequired,
-    lightTheme: PropTypes.bool.isRequired,
-    openMenu: PropTypes.func.isRequired,
-    changeColor: PropTypes.func.isRequired
 }
 
 export default Blog;

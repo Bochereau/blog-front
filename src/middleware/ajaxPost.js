@@ -43,6 +43,7 @@ const ajaxPost = (store) => (next) => (action) => {
     case 'GET_THEME': {
       api.get('themes')
         .then((res) => {
+          console.log(res)
           if (res.data && res.data.data) {
             let themesList;
             // Gestion des deux formats de réponse
