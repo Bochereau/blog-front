@@ -51,9 +51,6 @@ export default async function handler(req, res) {
             foreignField: '_id',
             as: 'comments'
           }
-        },
-        {
-          $sort: { createdAt: -1 }
         }
       ]).toArray();
 

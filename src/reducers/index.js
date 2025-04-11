@@ -1,6 +1,5 @@
 import {
   IS_LOADING,
-  OPEN_MENU,
   SAVE_POSTS,
   GET_POST_ID,
   SAVE_THEMES,
@@ -8,7 +7,9 @@ import {
   DISPATCH_MESSAGE,
   EMPTY_FIELDS,
   CHANGE_COLOR,
-  HANDLE_API_ERROR
+  HANDLE_API_ERROR,
+  ADMIN_SAVE_ALL,
+  ADMIN_SET_CURRENT
 } from "../actions";
 
 const initialState = {
@@ -36,11 +37,6 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         [action.name]: action.newValue,
-      };
-    case OPEN_MENU:
-      return {
-        ...state,
-        menuOpen: !state.menuOpen,
       };
     case SAVE_POSTS:
       return {
@@ -80,6 +76,16 @@ const reducer = (state = initialState, action = {}) => {
         ...state,
         alert: action.error,
         loading: false
+      };
+    case ADMIN_SAVE_ALL:
+      return {
+        ...state,
+        list: action.posts,
+      };
+    case ADMIN_SET_CURRENT:
+      return {
+        ...state,
+        current: action.post,
       };
     default:
       return state;

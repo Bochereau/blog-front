@@ -47,7 +47,7 @@ const ajaxPost = (store) => (next) => (action) => {
             let themesList;
             // Gestion des deux formats de réponse
             if (Array.isArray(res.data.data)) {
-              themesList = res.data.data.map(theme => theme.name || theme);
+              themesList = res.data.data;
             }
             store.dispatch(saveThemes(themesList));
           }

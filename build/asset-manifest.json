@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a65f8646.css",
+    "main.js": "/static/js/main.a836d83d.js",
+    "static/media/braid.jpg": "/static/media/braid.81e7df74b05d7c5671d3.jpg",
+    "static/media/bibi.jpg": "/static/media/bibi.90e4afab934e807f66dd.jpg",
+    "index.html": "/index.html",
+    "main.a65f8646.css.map": "/static/css/main.a65f8646.css.map",
+    "main.a836d83d.js.map": "/static/js/main.a836d83d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a65f8646.css",
+    "static/js/main.a836d83d.js"
+  ]
+}

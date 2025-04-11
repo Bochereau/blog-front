@@ -6,7 +6,6 @@ export const isLoading = (bool) => ({
   bool,
 });
 
-
 /* Input management */
 // action to change a field value
 export const CHANGE_VALUE = 'CHANGE_VALUE';
@@ -15,15 +14,6 @@ export const changeValue = (newValue, name) => ({
   newValue,
   name,
 });
-
-
-/* Menu Management */
-// action to open menu
-export const OPEN_MENU = 'OPEN_MENU';
-export const openMenu = () => ({
-  type: OPEN_MENU,
-})
-
 
 /* Event message dispatch */
 // action to dispatch message
@@ -102,4 +92,17 @@ export const HANDLE_API_ERROR = 'HANDLE_API_ERROR';
 export const handleApiError = (error) => ({
   type: HANDLE_API_ERROR,
   error: error.message || 'Erreur serveur'
+});
+
+/* Admin Posts Management */
+export const ADMIN_SAVE_ALL = 'ADMIN_SAVE_ALL';
+export const adminSaveAll = (posts) => ({
+  type: ADMIN_SAVE_ALL,
+  posts,
+});
+
+export const ADMIN_SET_CURRENT = 'ADMIN_SET_CURRENT';
+export const adminSetCurrent = (post) => ({
+  type: ADMIN_SET_CURRENT,
+  post,
 });

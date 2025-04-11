@@ -1,52 +1,118 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-.list{
-    text-align: center;
-    background-color: vars.$background-secondary;
-    min-height: 100%;
-    color:  vars.$background-primary;
-    &-title{
-        font-size: vars.$gutter*2;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: vars.$gutter*2 0;
-        border-bottom: 2px solid vars.$background-primary;
-        @media(max-width: 426px) {
-            font-size: vars.$gutter*1.5;
-        }
+.list {
+  text-align: center;
+  background-color: vars.$background-primary;
+  min-height: 100%;
+  color: vars.$background-secondary;
+
+  &-title {
+    font-size: vars.$gutter * 2;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: vars.$gutter * 2 0;
+    border-bottom: 2px solid vars.$background-secondary;
+
+    @media (max-width: 426px) {
+      font-size: vars.$gutter * 1.5;
     }
-    &-items{
-        width: 50%;
-        margin: 0 auto;
-        text-align: left;
-        padding: vars.$gutter*4 0;
-        @media(max-width: 426px) {
-            width: 90%;
-        }
-        &-description{
-            font-size: vars.$gutter*1.5;
-            padding-bottom: vars.$gutter;
-        }
-        &-theme{
-            font-size: vars.$gutter*1.7;
-            font-weight: bold;
-            padding-top: vars.$gutter*2;
-            text-transform: uppercase;
-        }
+  }
+
+  &-description {
+    font-size: vars.$gutter * 1.5;
+    margin: vars.$gutter 0;
+  }
+
+  &-search {
+    margin: vars.$gutter auto;
+    width: 90%;
+    max-width: 500px;
+
+    input {
+      width: 100%;
+      padding: vars.$gutter * 0.7 vars.$gutter;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
-    &-link{
-        display: block;
-        font-size: vars.$gutter*1.2;
-        margin: vars.$gutter vars.$gutter*1.5;
-        text-decoration: underline;
-        text-underline-position: under;
-        color: vars.$background-secondary;
-        &:hover{
-            color: vars.$link-color;
-        }
-        @media(max-width: 426px) {
-            margin: vars.$gutter vars.$gutter;
-        }
+  }
+
+  &-filters {
+    margin: vars.$gutter 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: vars.$gutter * 0.5;
+
+    .list-filter-tag {
+      background-color: #ddd;
+      border: none;
+      border-radius: 30px;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: color.scale(#ddd, $lightness: -20%);
+      }
+
+      &.selected {
+        background-color: vars.$link-color;
+        color: white;
+      }
     }
+  }
+
+  &-results {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: vars.$gutter * 2 0;
+    text-align: left;
+  }
+
+  &-post {
+    margin-bottom: vars.$gutter * 2;
+    padding: vars.$gutter;
+    background-color: color.scale(vars.$background-secondary, $lightness: 80%);
+    border-radius: 10px;
+
+    &-title {
+      font-size: vars.$gutter * 1.2;
+      font-weight: bold;
+      text-decoration: underline;
+      display: inline-block;
+      margin-bottom: vars.$gutter * 0.5;
+      color: vars.$link-color;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &-meta {
+      font-size: 0.9rem;
+      margin-bottom: vars.$gutter * 0.5;
+    }
+
+    &-subtitle {
+      font-size: 1rem;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    &-themes {
+      font-size: 0.9rem;
+      color: #666;
+    }
+  }
+
+  &-no-results {
+    margin-top: vars.$gutter * 2;
+    font-style: italic;
+    font-size: 1rem;
+    color: #888;
+  }
 }

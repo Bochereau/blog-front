@@ -24,8 +24,8 @@ export default async function handler(req, res) {
         try {
             const db = await connectToDatabase();
             const themes = await db.collection('themes').find({}).toArray();
-            const themesList = themes.map((theme) => theme.name);
-            res.status(200).json({ data: themesList });
+            console.log('Themes from DB:', themes);
+            res.status(200).json({ data: themes });
         } catch (error) {
             res.status(500).json({ error: 'Failed to fetch themes' });
         }
