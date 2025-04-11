@@ -44,6 +44,7 @@ const Post = ({
           "frame-light": light,
           "frame-dark": !light
         })}>
+          <div className="post-content-context-triangle-top"></div>
           <p className={classNames("post-content-context-title", {
             "bk-t--light": light,
             "bk-t--dark": !light
@@ -51,6 +52,7 @@ const Post = ({
             Un peu de contexte
           </p>
           <p className="post-content-context-text">{parse(context)}</p>
+          <div className="post-content-context-triangle-bottom"></div>
         </div>
       )}
 
@@ -73,6 +75,7 @@ const Post = ({
           "frame-light": light,
           "frame-dark": !light
         })}>
+          <div className="post-content-contact-triangle-top"></div>
           <p className={classNames("post-content-contact-title", {
             "bk-t--light": light,
             "bk-t--dark": !light
@@ -80,6 +83,7 @@ const Post = ({
             Premier contact
           </p>
           <p className="post-content-contact-text">{parse(firstContact)}</p>
+          <div className="post-content-contact-triangle-bottom"></div>
         </div>
       )}
 
