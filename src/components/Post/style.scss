@@ -57,6 +57,19 @@
         }
     }
 
+    &-tags{
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        &-item{
+            // background-color: vars.$background-secondary;
+            color: vars.$background-primary;
+            padding: vars.$gutter*0.5 vars.$gutter;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    }
+
     &-content {
         width: 75%;
         margin: 0 auto;
