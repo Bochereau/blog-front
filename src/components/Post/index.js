@@ -37,10 +37,15 @@ const Post = ({
       Publié le <time className="post-info-date" dateTime={createdAt}>{reverseDate(createdAt)}</time> par <em className="post-info-author">{author}</em>
     </p>
 
-    {themes.map(theme => (
-      <span key={theme._id} className="post-tag">{theme.name}</span>
-    ))}
-
+    {themes && (
+      <div className="post-tags">
+        {themes.map(theme => (
+         <span key={theme._id} className="post-tags-item" style={{ backgroundColor: theme.color }}>
+          {theme.name}
+        </span>
+        ))}
+      </div>
+    )}
 
     <div className="post-content">
       <p className="post-content-intro">{parse(introduction)}</p>
