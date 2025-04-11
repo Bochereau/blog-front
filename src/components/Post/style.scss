@@ -57,18 +57,18 @@
     }
 
     &-content {
-        width: 60%;
+        width: 75%;
         margin: 0 auto;
         font-size: vars.$gutter*1.2;
-        line-height: 1.2;
-        text-align: justify;
+        line-height: 1.5;
+        // text-align: justify;
 
         @media(max-width: 769px) {
-            width: 80%;
+            width: 85%;
         }
 
         @media(max-width: 426px) {
-            width: 90%;
+            width: 95%;
             font-size: vars.$gutter*1.1;
         }
 
