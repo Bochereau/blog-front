@@ -124,6 +124,7 @@
 
         &-context,
         &-contact {
+            margin-bottom: 20px;
 
             &-title {
                 padding: vars.$gutter;
@@ -142,7 +143,7 @@
         }
 
         &-context-title {
-            text-align: left;
+            text-align: right;
         }
 
         &-context-triangle{
@@ -183,7 +184,7 @@
         }
 
         &-contact-title {
-            text-align: right;
+            text-align: left;
         }
 
         &-contact-triangle{
