@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { X, Search, Check } from "lucide-react";
 import classNames from "classnames";
+
 import { reverseDate } from "../../utils";
 
 import "./style.scss";
@@ -39,34 +41,39 @@ const List = () => {
 
   return (
     <div className={classNames("list", { "bk-p--light": light, "bk-p--dark": !light })}>
-      <h2 className="list-title">Liste des articles</h2>
-      <p className="list-description">
-        Retrouvez sur cette page la liste des articles disponibles.
-      </p>
-
+      <div className="list-filters">
       <div className="list-search">
+        <Search className="list-search-icon" />
         <input
           type="text"
-          placeholder="Rechercher un article ou un thème"
+          placeholder="Rechercher un article"
           value={search}
           onChange={handleSearch}
         />
+        {search && (
+          <button className="list-search-clear" onClick={() => setSearch("")}>
+            <X />
+          </button>
+        )}
       </div>
 
-      <div className="list-filters">
-        {themes.map((theme) => (
-          <button
-            key={theme._id}
-            className={classNames("list-filter-tag", {
-              selected: selectedThemes.includes(theme._id),
-            })}
-            style={{ backgroundColor: theme.color }}
-            onClick={() => toggleTheme(theme._id)}
-          >
-            {theme.name}
-          </button>
-        ))}
+        <div className="list-themes">
+          {themes.map((theme) => (
+            <button
+              key={theme._id}
+              className={"list-themes-tag"}
+              style={{ backgroundColor: theme.color }}
+              onClick={() => toggleTheme(theme._id)}
+            >
+              {selectedThemes.includes(theme._id) && (
+                <Check size={15} color={"white"} />
+              )}
+              {theme.name}
+            </button>
+          ))}
+        </div>
       </div>
+
 
       <div className="list-results">
         {filteredPosts.length === 0 && (
@@ -77,18 +84,21 @@ const List = () => {
 
         {filteredPosts.map((post) => (
           <div key={post._id} className="list-post">
-            <Link to={`/posts/${post.slug}`} className="list-post-title">
-              {post.title}
+            <Link to={`/posts/${post.slug}`}>
+              <div className="list-post-link">
+                <span className="list-post-title">{post.title}</span>{post.subtitle && ", " + post.subtitle}
+              </div>
             </Link>
             <p className="list-post-meta">
-              Par <strong>{post.author}</strong> le <time>{reverseDate(post.createdAt)}</time>
+              Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.createdAt)}</time>
             </p>
-            <p className="list-post-subtitle">{post.subtitle}</p>
-            {post.themes?.length > 0 && (
-              <p className="list-post-themes">
-                Thèmes : {post.themes.map((theme) => theme.name).join(", ")}
-              </p>
-            )}
+            <div className="list-post-themes">
+              {post.themes.map((theme) => (
+                <p className="list-post-themes-item">
+                  {theme.name}
+                </p>
+              ))}
+            </div>
           </div>
         ))}
       </div>
