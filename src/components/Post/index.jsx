@@ -48,7 +48,7 @@ const Post = ({
     )}
 
     <div className="post-content">
-      <p className="post-content-intro">{parse(introduction)}</p>
+      <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{parse(introduction)}</p>
 
       {context && (
         <div className="post-content-context">
@@ -56,7 +56,7 @@ const Post = ({
           <p className="post-content-context-title">
             Un peu de contexte
           </p>
-          <p className="post-content-context-text">{parse(context)}</p>
+          <p className="post-content-context-text" style={{ whiteSpace: 'pre-line' }}>{parse(context)}</p>
           <div className="post-content-context-triangle-bottom"></div>
         </div>
       )}
@@ -64,7 +64,7 @@ const Post = ({
       {body && body.map((section, index) => (
         <div key={index} className="post-content-section">
           {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
-          {section.text && <p className="post-content-text">{parse(section.text)}</p>}
+          {section.text && <p className="post-content-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>}
           {section.images && section.images.length > 0 && (
             <div className="post-content-images">
               {section.images && section.images.length > 0 && (
@@ -90,12 +90,12 @@ const Post = ({
           <p className="post-content-contact-title">
             Premier contact
           </p>
-          <p className="post-content-contact-text">{parse(firstContact)}</p>
+          <p className="post-content-contact-text" style={{ whiteSpace: 'pre-line' }}>{parse(firstContact)}</p>
           <div className="post-content-contact-triangle-bottom"></div>
         </div>
       )}
 
-      <p className="post-content-outro">{parse(conclusion)}</p>
+      <p className="post-content-outro" style={{ whiteSpace: 'pre-line' }}>{parse(conclusion)}</p>
     </div>
   </article>
 );
