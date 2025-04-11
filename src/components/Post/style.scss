@@ -124,18 +124,20 @@
 
         &-context,
         &-contact {
-            background-color: vars.$background-secondary;
-            color: vars.$background-primary;
 
             &-title {
                 padding: vars.$gutter;
                 text-transform: uppercase;
                 font-weight: bold;
                 display: block;
+                background-color: vars.$background-secondary;
+                color: vars.$background-primary;
             }
 
             &-text {
                 padding: vars.$gutter;
+                background-color: vars.$background-secondary;
+                color: vars.$background-primary;
             }
         }
 

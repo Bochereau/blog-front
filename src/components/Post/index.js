@@ -40,15 +40,9 @@ const Post = ({
       <p className="post-content-intro">{parse(introduction)}</p>
 
       {context && (
-        <div className={classNames("post-content-context", {
-          "frame-light": light,
-          "frame-dark": !light
-        })}>
+        <div className="post-content-context">
           <div className="post-content-context-triangle-top"></div>
-          <p className={classNames("post-content-context-title", {
-            "bk-t--light": light,
-            "bk-t--dark": !light
-          })}>
+          <p className="post-content-context-title">
             Un peu de contexte
           </p>
           <p className="post-content-context-text">{parse(context)}</p>
@@ -71,15 +65,9 @@ const Post = ({
       ))}
 
       {firstContact && (
-        <div className={classNames("post-content-contact", {
-          "frame-light": light,
-          "frame-dark": !light
-        })}>
+        <div className="post-content-contact">
           <div className="post-content-contact-triangle-top"></div>
-          <p className={classNames("post-content-contact-title", {
-            "bk-t--light": light,
-            "bk-t--dark": !light
-          })}>
+          <p className="post-content-contact-title">
             Premier contact
           </p>
           <p className="post-content-contact-text">{parse(firstContact)}</p>
