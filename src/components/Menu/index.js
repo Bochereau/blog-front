@@ -12,6 +12,11 @@ const Menu = ({
 }) => {
     return(
         <div className="menu" >
+            <Link to="/">
+                <div className="menu-small">
+                    <img className="menu-small-logo" src={Logo} alt="logo limit break" />
+                </div>
+            </Link>
             <nav
                 className={classNames ("menu-nav", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}
             >

@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
 const dbName = 'blog';
@@ -34,7 +34,29 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const db = await connectToDatabase();
-      const posts = await db.collection('posts').find({}).toArray();
+
+      const posts = await db.collection('posts').aggregate([
+        {
+          $lookup: {
+            from: 'themes',
+            localField: 'themes',
+            foreignField: '_id',
+            as: 'themes'
+          }
+        },
+        {
+          $lookup: {
+            from: 'comments',
+            localField: 'comments',
+            foreignField: '_id',
+            as: 'comments'
+          }
+        },
+        {
+          $sort: { createdAt: -1 }
+        }
+      ]).toArray();
+
       res.status(200).json({ data: posts });
     } catch (error) {
       console.error('❌ Erreur MongoDB:', error);

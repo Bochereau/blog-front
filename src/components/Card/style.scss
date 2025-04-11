@@ -20,12 +20,14 @@
     &-title, &-subtitle{
         position: absolute;
         width: 100%;
+        text-shadow: 0 0 10px black;
     }
     &-title{
         top: 30%;
         font-size: vars.$gutter*3;
         font-weight: bold;
         text-transform: uppercase;
+        font-family: 'Orbitron', sans-serif;
         @media(max-width: 426px) {
             font-size: vars.$gutter*1.8;
         }

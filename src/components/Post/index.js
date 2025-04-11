@@ -17,7 +17,8 @@ const Post = ({
   context,
   body,
   firstContact,
-  conclusion
+  conclusion,
+  themes
 }) => (
   <article className="post">
     <div className="post-header">
@@ -36,6 +37,11 @@ const Post = ({
       Publié le <time className="post-info-date" dateTime={createdAt}>{reverseDate(createdAt)}</time> par <em className="post-info-author">{author}</em>
     </p>
 
+    {themes.map(theme => (
+      <span key={theme._id} className="post-tag">{theme.name}</span>
+    ))}
+
+
     <div className="post-content">
       <p className="post-content-intro">{parse(introduction)}</p>
 
@@ -52,13 +58,22 @@ const Post = ({
 
       {body && body.map((section, index) => (
         <div key={index} className="post-content-section">
-          {section.subtitle && <h4 className="post-content-subtitle">{parse(section.subtitle)}</h4>}
+          {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
           {section.text && <p className="post-content-text">{parse(section.text)}</p>}
           {section.images && section.images.length > 0 && (
             <div className="post-content-images">
-              {section.images.map((img, idx) => (
-                <img key={idx} src={img} alt={`illustration-${idx}`} className="post-content-image" />
-              ))}
+              {section.images && section.images.length > 0 && (
+                <div className={`post-content-images has-${section.images.length}`}>
+                  {section.images.map((img, idx) => (
+                    <img
+                      key={idx}
+                      src={img}
+                      alt={`illustration-${idx}`}
+                      className="post-content-image"
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
