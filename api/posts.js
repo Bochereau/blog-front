@@ -62,4 +62,23 @@ export default async function handler(req, res) {
   } else {
     res.status(405).json({ error: 'Method not allowed' });
   }
+
+  if (req.method === "POST") {
+    try {
+      const db = await connectToDatabase();
+      const post = req.body;
+
+      if (!post.createdAt) {
+        post.createdAt = new Date().toISOString();
+      }
+
+      const result = await db.collection("posts").insertOne(post);
+      res.status(201).json({ success: true, id: result.insertedId });
+    } catch (error) {
+      console.error("Erreur API POST /posts :", error);
+      res.status(500).json({ success: false, message: "Erreur serveur" });
+    }
+  } else {
+    res.status(405).json({ success: false, message: "Méthode non autorisée" });
+  }
 }

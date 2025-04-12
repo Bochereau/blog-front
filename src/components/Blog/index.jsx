@@ -19,20 +19,23 @@ import Article from "../Article";
 import About from "../About";
 import Contact from '../Contact';
 import NotFound from "../NotFound";
-// import AdminPosts from '../Admin/AdminPosts';
-// import AdminDashboard from '../Admin/AdminDashboard';
+import AdminLogin from '../Admin/AdminLogin';
+import AdminDashboard from '../Admin/AdminDashboard';
+import AdminRoute from '../Admin/AdminRoute';
+import AdminPosts from '../Admin/AdminPosts';
+import AdminCreatePost from '../Admin/AdminCreatePost';
 
 const Blog = () => {
     const dispatch = useDispatch();
 
     const menuOpen = useSelector((state) => state.menuOpen);
     const lightTheme = useSelector((state) => state.lightTheme);
-  
+
     useEffect(() => {
-      dispatch({ type: 'GET_POSTS' });
-      dispatch({ type: 'GET_THEME' });
+        dispatch({ type: 'GET_POSTS' });
+        dispatch({ type: 'GET_THEME' });
     }, [dispatch]);
-  
+
     // const handleChangeColor = (bool) => dispatch(changeColor(bool));
 
     return (
@@ -48,8 +51,22 @@ const Blog = () => {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/posts/:slug" element={<Article />} />
                         <Route path="*" element={<NotFound />} />
-                        {/* <Route path="/admin" element={<AdminDashboard />} />
-                        <Route path="/admin/posts" element={<AdminPosts />} /> */}
+                        <Route path="/admin" element={<AdminLogin />} />
+                        <Route path="/admin/dashboard" element={
+                            <AdminRoute>
+                                <AdminDashboard />
+                            </AdminRoute>
+                        } />
+                        <Route path="/admin/posts" element={
+                            <AdminRoute>
+                                <AdminPosts />
+                            </AdminRoute>
+                        } />
+                        <Route path="/admin/posts/create" element={
+                            <AdminRoute>
+                                <AdminCreatePost />
+                            </AdminRoute>
+                        } />
                     </Routes>
                 </div>
             </ScrollToTop>

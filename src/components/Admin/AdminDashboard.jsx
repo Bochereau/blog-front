@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './admin.scss';
+import './style.scss';
 
 const AdminDashboard = () => {
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("isAdminAuthenticated");
+    if (isAuthenticated !== "true") {
+      navigate("/admin");
+    }
+  }, []);
+
   return (
     <div className="admin-dashboard">
       <h1 className="admin-dashboard-title">Espace d'administration</h1>
