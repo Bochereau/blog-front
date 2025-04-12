@@ -15,6 +15,8 @@ const AdminPosts = () => {
 
     return (
         <div className={classNames("admin-posts", { "bk-p--light": light, "bk-p--dark": !light })}>
+            <Link to="/admin/dashboard" className="admin-return">&#8592; Retour</Link>
+
             <h2 className="admin-posts-title">Gestion des articles</h2>
 
             <div className="admin-posts-controls">

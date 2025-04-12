@@ -42,36 +42,40 @@ const List = () => {
   return (
     <div className={classNames("list", { "bk-p--light": light, "bk-p--dark": !light })}>
       <div className="list-filters">
-      <div className="list-search">
-        <Search className="list-search-icon" />
-        <input
-          type="text"
-          placeholder="Rechercher un article"
-          value={search}
-          onChange={handleSearch}
-        />
-        {search && (
-          <button className="list-search-clear" onClick={() => setSearch("")}>
-            <X />
-          </button>
-        )}
-      </div>
+        <div className="list-search">
+          <Search className="list-search-icon" />
+          <input
+            type="text"
+            placeholder="Rechercher un article"
+            value={search}
+            onChange={handleSearch}
+          />
+          {search && (
+            <button className="list-search-clear" onClick={() => setSearch("")}>
+              <X />
+            </button>
+          )}
+        </div>
 
         <div className="list-themes">
-          {themes.map((theme) => (
-            <button
-              key={theme._id}
-              className={"list-themes-tag"}
-              style={{ backgroundColor: theme.color }}
-              onClick={() => toggleTheme(theme._id)}
-            >
-              {selectedThemes.includes(theme._id) && (
-                <Check size={15} color={"white"} />
-              )}
-              {theme.name}
-            </button>
-          ))}
+          <p className="list-themes-title">Filtrer par thème : </p>
+          <div className="list-themes-tag">
+            {themes.map((theme) => (
+              <button
+                key={theme._id}
+                className={"list-themes-tag-item"}
+                style={{ backgroundColor: theme.color }}
+                onClick={() => toggleTheme(theme._id)}
+              >
+                {selectedThemes.includes(theme._id) && (
+                  <Check size={15} color={"white"} />
+                )}
+                {theme.name}
+              </button>
+            ))}
+          </div>
         </div>
+
       </div>
 
 
@@ -83,12 +87,11 @@ const List = () => {
         )}
 
         {filteredPosts.map((post) => (
+          <Link to={`/posts/${post.slug}`}>
           <div key={post._id} className="list-post">
-            <Link to={`/posts/${post.slug}`}>
               <div className="list-post-link">
                 <span className="list-post-title">{post.title}</span>{post.subtitle && ", " + post.subtitle}
               </div>
-            </Link>
             <p className="list-post-meta">
               Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.createdAt)}</time>
             </p>
@@ -100,6 +103,7 @@ const List = () => {
               ))}
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </div>

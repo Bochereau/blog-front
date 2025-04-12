@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./style.scss";
 
@@ -84,6 +84,8 @@ const AdminCreatePost = () => {
 
     return (
         <div className="admin-create">
+            <Link to="/admin/posts" className="admin-return">&#8592; Retour</Link>
+        
             <h2>Créer un article</h2>
             <form onSubmit={handleSubmit}>
                 <div className="admin-create-short-fields">
