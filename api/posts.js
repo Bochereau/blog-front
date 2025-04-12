@@ -1,3 +1,26 @@
+import { MongoClient, ObjectId } from 'mongodb';
+
+const uri = process.env.MONGODB_URI;
+const dbName = 'blog';
+
+if (!uri) {
+  throw new Error('❌ MONGODB_URI non définie dans les variables d’environnement');
+}
+
+let client;
+let clientPromise;
+
+async function connectToDatabase() {
+  if (!client) {
+    client = new MongoClient(uri, {
+      serverApi: { version: '1' },
+    });
+    clientPromise = client.connect();
+  }
+  await clientPromise;
+  return client.db(dbName);
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
