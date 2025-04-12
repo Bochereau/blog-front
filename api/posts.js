@@ -1,28 +1,4 @@
-import { MongoClient, ObjectId } from 'mongodb';
-
-const uri = process.env.MONGODB_URI;
-const dbName = 'blog';
-
-if (!uri) {
-  throw new Error('❌ MONGODB_URI non définie dans les variables d’environnement');
-}
-
-let client;
-let clientPromise;
-
-async function connectToDatabase() {
-  if (!client) {
-    client = new MongoClient(uri, {
-      serverApi: { version: '1' },
-    });
-    clientPromise = client.connect();
-  }
-  await clientPromise;
-  return client.db(dbName);
-}
-
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
@@ -34,7 +10,6 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const db = await connectToDatabase();
-
       const posts = await db.collection('posts').aggregate([
         {
           $lookup: {
@@ -59,14 +34,15 @@ export default async function handler(req, res) {
       console.error('❌ Erreur MongoDB:', error);
       res.status(500).json({ error: 'Failed to fetch posts', message: error.message });
     }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  if (req.method === "POST") {
+  } else if (req.method === 'POST') {
     try {
       const db = await connectToDatabase();
       const post = req.body;
+
+      // 💡 cast les ObjectId si besoin
+      if (post.themes && post.themes.length > 0) {
+        post.themes = post.themes.map((id) => new ObjectId(id));
+      }
 
       if (!post.createdAt) {
         post.createdAt = new Date().toISOString();
@@ -79,6 +55,6 @@ export default async function handler(req, res) {
       res.status(500).json({ success: false, message: "Erreur serveur" });
     }
   } else {
-    res.status(405).json({ success: false, message: "Méthode non autorisée" });
+    res.status(405).json({ error: 'Method not allowed' });
   }
 }
