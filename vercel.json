@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "functions": {
-    "api/**/*.js": {
-      "memory": 1024,
-      "maxDuration": 20
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/.*",
@@ -13,12 +14,8 @@
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization"
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type"
       }
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
