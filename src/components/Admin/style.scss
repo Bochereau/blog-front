@@ -118,6 +118,10 @@
         width: 100%;
         border-collapse: collapse;
 
+        tbody{
+          background-color: white;
+        }
+
         th,
         td {
             padding: 0.75rem;
@@ -268,7 +272,7 @@
   position: absolute;
   left: 2rem;
   display: inline-block;
-  padding: 1rem 2rem;
+  padding: 0.8rem 1rem;
   background: #111;
   color: #fff;
   text-decoration: none;
@@ -311,22 +315,23 @@
       background: none;
     }
 
-    .admin-themes-add {
-      padding: 0.5rem 1rem;
-      font-weight: bold;
-      background-color: vars.$background-secondary;
-      color: vars.$background-primary;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-    }
+  }
+  
+  &-add {
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    background-color: vars.$background-secondary;
+    color: vars.$background-primary;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
   }
 
   &-list {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 600px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin: 0 auto;
   }
 }
@@ -339,6 +344,7 @@
   background-color: white;
   padding: 0.5rem 1rem;
   border-radius: 8px;
+  width: 30%;
 
   input[type="text"] {
     flex: 1;
@@ -356,18 +362,22 @@
 
   .theme-item-name {
     font-weight: bold;
+    flex: 3;
   }
 
   .theme-item-color {
     width: 50px;
     height: 30px;
     border-radius: 5px;
+    flex: 1;
   }
 
   .theme-item-actions,
   .theme-item-actions-edit {
     display: flex;
     gap: 0.5rem;
+    flex: 3;
+    justify-content: flex-end;
 
     button {
       padding: 0.3rem 0.6rem;
