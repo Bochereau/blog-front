@@ -133,9 +133,9 @@
   &-post {
     margin-bottom: vars.$gutter * 0.5;
     padding: vars.$gutter 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 5px solid vars.$background-secondary;
     background-color: #fff;
     padding: vars.$gutter;
@@ -149,10 +149,20 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
-    }    
+    }
 
     &-link{
-      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      & img{
+        width: 100px;
+        max-height: 50px;
+        object-fit: cover;
+        @media (max-width: 769px) {
+          display: none;
+        }
+      }
     }
 
     &-title {
