@@ -2,152 +2,153 @@
 @use 'sass:color';
 
 .admin-dashboard {
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
 
-    &-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+  &-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &-link {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #333;
     }
-
-    &-menu {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    &-link {
-        display: inline-block;
-        padding: 1rem 2rem;
-        background: #111;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 6px;
-        font-weight: bold;
-        transition: background 0.2s;
-
-        &:hover {
-            background: #333;
-        }
-    }
+  }
 }
 
 .admin-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: vars.$background-primary;
+  color: vars.$background-secondary;
+  margin-top: vars.$gutter*3;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: vars.$gutter * 2;
+  }
+
+  form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: vars.$background-primary;
-    color: vars.$background-secondary;
-    margin-top: vars.$gutter*3;
+    width: 300px;
+    gap: vars.$gutter;
 
-    h2 {
-        font-size: 2rem;
-        margin-bottom: vars.$gutter * 2;
+    input {
+      padding: vars.$gutter;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
     }
 
-    form {
-        display: flex;
-        flex-direction: column;
-        width: 300px;
-        gap: vars.$gutter;
+    button {
+      padding: vars.$gutter*0.5 vars.$gutter;
+      background-color: vars.$background-secondary;
+      color: vars.$background-primary;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
 
-        input {
-            padding: vars.$gutter;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-        }
-
-        button {
-            padding: vars.$gutter*0.5 vars.$gutter;
-            background-color: vars.$background-secondary;
-            color: vars.$background-primary;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-                background-color: color.adjust(vars.$background-secondary, $lightness: -10%);
-            }
-        }
+      &:hover {
+        background-color: color.adjust(vars.$background-secondary, $lightness: -10%);
+      }
     }
+  }
 }
 
 
 .admin-posts {
-    padding: 2rem;
-    text-align: center;
+  padding: 2rem;
+  text-align: center;
 
-    &-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+  &-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+
+    input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
-    &-controls {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        gap: 1rem;
+    .admin-posts-create {
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      background-color: vars.$background-secondary;
+      color: vars.$background-primary;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+  }
 
-        input {
-            flex: 1;
-            padding: 0.5rem;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+  &-table {
+    width: 100%;
+    border-collapse: collapse;
 
-        .admin-posts-create {
-            padding: 0.5rem 1rem;
-            font-weight: bold;
-            background-color: vars.$background-secondary;
-            color: vars.$background-primary;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
+    tbody {
+      background-color: white;
     }
 
-    &-table {
-        width: 100%;
-        border-collapse: collapse;
-
-        tbody{
-          background-color: white;
-        }
-
-        th,
-        td {
-            padding: 0.75rem;
-            border-bottom: 1px solid #ccc;
-        }
-
-        th {
-            background-color: vars.$background-secondary;
-            color: vars.$background-primary;
-        }
-
-        td {
-            text-align: center;
-        }
-
-        .admin-posts-edit,
-        .admin-posts-delete {
-            margin: 0 0.25rem;
-            cursor: pointer;
-            border: none;
-            font-size: 1.2rem;
-            background: none;
-        }
+    th,
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #ccc;
     }
+
+    th {
+      background-color: vars.$background-secondary;
+      color: vars.$background-primary;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    .admin-posts-edit,
+    .admin-posts-delete {
+      margin: 0 0.25rem;
+      cursor: pointer;
+      border: none;
+      font-size: 1.2rem;
+      background: none;
+    }
+  }
 }
 
+.admin-edit,
 .admin-create {
   padding: vars.$gutter * 2;
 
@@ -167,7 +168,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: vars.$gutter;
-    
+
     input {
       flex: 1 1 20%;
     }
@@ -186,9 +187,10 @@
 
   textarea {
     resize: vertical;
+    height: 250px;
   }
 
-  &-body{
+  &-body {
     border: 1px solid black;
     border-radius: 8px;
     padding: vars.$gutter*2;
@@ -200,6 +202,13 @@
     border: 1px dashed #999;
     background-color: vars.$background-primary;
     border-radius: 6px;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
   }
 
   .add-section-btn {
@@ -218,23 +227,24 @@
     }
   }
 
-  .theme-select{
+  .theme-select {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    &-item{
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 5px 15px;
-        color: white;
-        border-radius: 5px;
 
-        & input[type="checkbox"]{
-            width: 20px;
-            height: 20px;
-        }
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 5px 15px;
+      color: white;
+      border-radius: 5px;
+
+      & input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 
@@ -246,16 +256,16 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-  
+
     &:hover {
       background-color: color.adjust(#444, $lightness: -10%);
     }
   }
 
+  .cancel-btn,
   .submit-btn {
     margin-top: vars.$gutter;
-    padding: 1rem;
-    background-color: green;
+    padding: 0.8rem;
     color: white;
     font-weight: bold;
     border: none;
@@ -266,9 +276,24 @@
       background-color: color.adjust(vars.$background-secondary, $lightness: -10%);
     }
   }
+
+  .cancel-btn {
+    background-color: #e93023;
+    // padding: 0.6rem;
+  }
+
+  .submit-btn {
+    background-color: green;
+  }
+
+  &-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
 }
 
-.admin-return{
+.admin-return {
   position: absolute;
   left: 2rem;
   display: inline-block;
@@ -280,7 +305,7 @@
   font-weight: bold;
 
   &:hover {
-      background: #333;
+    background: #333;
   }
 }
 
@@ -316,7 +341,7 @@
     }
 
   }
-  
+
   &-add {
     padding: 0.5rem 1rem;
     font-weight: bold;
@@ -399,3 +424,27 @@
   }
 }
 
+
+
+.image-input-container {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.remove-image-btn {
+  position: absolute;
+  right: 5px;
+  background-color: #e93023;
+  padding: 10px;
+  top: 4px;
+  border: none;
+  border-radius: 5px;
+}
+
+.remove-section-btn {
+  background-color: #e93023;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 8px;
+}

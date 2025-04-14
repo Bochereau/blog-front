@@ -46,15 +46,8 @@ export default async function handler(req, res) {
         }
 
         if (req.method === 'DELETE') {
-            const { id } = req.query;
-            if (!id) {
-                return res.status(400).json({ error: 'ID du thème manquant' });
-            }
-            await collection.deleteOne({ _id: new ObjectId(id) });
-            if (result.deletedCount === 0) {
-                return res.status(404).json({ error: 'Thème non trouvé' });
-            }
-        
+            const { _id } = req.query;
+            await collection.deleteOne({ _id: new ObjectId(_id) });
             return res.status(200).json({ message: 'Thème supprimé' });
         }
 

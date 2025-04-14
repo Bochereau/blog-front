@@ -2,6 +2,9 @@ import {
   IS_LOADING,
   SAVE_POSTS,
   GET_POST_ID,
+  ADD_POST,
+  UPDATE_POST,
+  DELETE_POST,
   SAVE_THEMES,
   ADD_THEME,
   UPDATE_THEME,
@@ -46,6 +49,23 @@ const reducer = (state = initialState, action = {}) => {
         ...state,
         posts: action.posts,
       }
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
+    case UPDATE_POST:
+      return {
+        ...state,
+        posts: state.posts.map((p) =>
+          p._id === action.payload._id ? action.payload : p
+        ),
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((p) => p._id !== action.payload),
+      };
     case SAVE_THEMES:
       return {
         ...state,

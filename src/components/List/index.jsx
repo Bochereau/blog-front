@@ -87,8 +87,8 @@ const List = () => {
         )}
 
         {filteredPosts.map((post) => (
-          <Link to={`/posts/${post.slug}`}>
-            <div key={post._id} className="list-post">
+          <Link to={`/posts/${post.slug}`} key={post._id}>
+            <div className="list-post">
               <div className="list-post-link">
                 <img src={post.mainImage}></img>
                 <div>
@@ -100,7 +100,7 @@ const List = () => {
               </p>
               <div className="list-post-themes">
                 {post.themes.map((theme) => (
-                  <p className="list-post-themes-item">
+                  <p className="list-post-themes-item" key={theme.name}>
                     {theme.name}
                   </p>
                 ))}

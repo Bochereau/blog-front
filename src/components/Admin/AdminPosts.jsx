@@ -46,7 +46,9 @@ const AdminPosts = () => {
                             <td>{post.author}</td>
                             <td>{new Date(post.createdAt).toLocaleDateString()}</td>
                             <td>
-                                <button className="admin-posts-edit">✏️</button>
+                                <Link to={`/admin/posts/edit/${post._id}`}>
+                                    <button className="admin-posts-edit">✏️</button>
+                                </Link>
                                 <button className="admin-posts-delete">🗑️</button>
                             </td>
                         </tr>

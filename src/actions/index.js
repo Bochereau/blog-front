@@ -42,7 +42,24 @@ export const getPostId = (id) => ({
   type:GET_POST_ID,
   id,
 })
-
+// Ajouter un post
+export const ADD_POST = 'ADD_POST';
+export const addPost = (post) => ({
+  type: ADD_POST,
+  payload: post,
+});
+// Mettre à jour un post
+export const UPDATE_POST = 'UPDATE_POST';
+export const updatePost = (post) => ({
+  type: UPDATE_POST,
+  payload: post,
+});
+// Supprimer un post
+export const DELETE_POST = 'DELETE_POST';
+export const deletePost = (id) => ({
+  type: DELETE_POST,
+  payload: id,
+});
 
 /* Comments management */
 // action to send comment 
@@ -50,13 +67,11 @@ export const SEND_COMMENT = 'SEND_COMMENT';
 export const sendComment = () => ({
   type: SEND_COMMENT,
 })
-
 // action de vider les champs
 export const EMPTY_FIELDS = 'EMPTY_FIELDS';
 export const emptyFields = () => ({
   type: EMPTY_FIELDS,
 })
-
 
 /* Contact form management */
 // action to send comment 
@@ -71,35 +86,30 @@ export const GET_THEME = 'GET_THEME';
 export const getTheme = () => ({
   type: GET_THEME,
 })
-
 // action to save themes 
 export const SAVE_THEMES = 'SAVE_THEMES';
 export const saveThemes = (themes) => ({
   type: SAVE_THEMES,
   themes,
 })
-
 // Création d'un thème
 export const ADD_THEME = 'ADD_THEME';
 export const addTheme = (theme) => ({
   type: ADD_THEME,
   payload: theme,
 });
-
 // Mise à jour d’un thème
 export const UPDATE_THEME = 'UPDATE_THEME';
 export const updateTheme = (theme) => ({
   type: UPDATE_THEME,
   payload: theme,
 });
-
 // Suppression d’un thème
 export const DELETE_THEME = 'DELETE_THEME';
 export const deleteTheme = (id) => ({
   type: DELETE_THEME,
   payload: id,
 });
-
 
 /* Light/Dark theme management */
 // action to switch between light/dark theme
@@ -108,7 +118,6 @@ export const changeColor = (bool) => ({
   type: CHANGE_COLOR,
   bool,
 })
-
 export const HANDLE_API_ERROR = 'HANDLE_API_ERROR';
 export const handleApiError = (error) => ({
   type: HANDLE_API_ERROR,
@@ -121,7 +130,6 @@ export const adminSaveAll = (posts) => ({
   type: ADMIN_SAVE_ALL,
   posts,
 });
-
 export const ADMIN_SET_CURRENT = 'ADMIN_SET_CURRENT';
 export const adminSetCurrent = (post) => ({
   type: ADMIN_SET_CURRENT,

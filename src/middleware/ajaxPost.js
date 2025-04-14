@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { 
+import {
   savePosts,
   isLoading,
   saveThemes,
@@ -7,7 +7,7 @@ import {
   emptyFields,
   handleApiError
 } from '../actions';
-import { sortedByIdArray } from '../utils';
+import { sortedByCreationArray } from '../utils';
 
 // Configuration axios
 const api = axios.create({
@@ -19,7 +19,6 @@ const api = axios.create({
 });
 
 const ajaxPost = (store) => (next) => (action) => {
-  console.log(action);
   switch (action.type) {
     case 'GET_POSTS': {
       store.dispatch(isLoading(true));
@@ -27,7 +26,7 @@ const ajaxPost = (store) => (next) => (action) => {
         .then((res) => {
           if (res.data && res.data.data) {
             const newPosts = res.data.data;
-            store.dispatch(savePosts(sortedByIdArray(newPosts)));
+            store.dispatch(savePosts(newPosts));
           } else {
             throw new Error('Invalid response format');
           }
@@ -38,6 +37,40 @@ const ajaxPost = (store) => (next) => (action) => {
         })
         .finally(() => {
           store.dispatch(isLoading(false));
+        });
+      break;
+    }
+
+    case 'ADD_POST': {
+      api.post('posts', action.payload)
+        .then((res) => {
+          store.dispatch(getPosts());
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Erreur lors de l\'ajout du post:', error);
+        });
+      break;
+    }
+
+    case 'UPDATE_POST': {
+      const { _id, ...postData } = action.payload;
+      api.put(`posts?_id=${_id}`, postData)
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Erreur lors de la modification du post:', error);
+        });
+      break;
+    }
+
+    case 'DELETE_POST': {
+      api.delete(`posts?_id=${action.payload}`)
+        .then(() => {
+          store.dispatch(getPosts());
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Erreur lors de la suppression du post:', error);
         });
       break;
     }
@@ -76,7 +109,7 @@ const ajaxPost = (store) => (next) => (action) => {
 
     case 'UPDATE_THEME': {
       const { _id, name, color } = action.payload;
-      api.patch(`themes/${_id}`, { name, color })
+      api.put(`themes?_id=${_id}`, { name, color })
         .then(() => {
           store.dispatch({ type: 'GET_THEME' });
         })
@@ -88,7 +121,7 @@ const ajaxPost = (store) => (next) => (action) => {
     }
 
     case 'DELETE_THEME': {
-      api.delete(`themes?id=${action.payload}`)
+      api.delete(`themes?_id=${action.payload}`)
         .then(() => {
           store.dispatch({ type: 'GET_THEME' });
         })
@@ -106,18 +139,18 @@ const ajaxPost = (store) => (next) => (action) => {
         pseudo,
         content: comment
       })
-      .then(() => {
-        store.dispatch(dispatchMessage("Merci pour votre commentaire"));
-        store.dispatch(emptyFields());
-        store.dispatch({ type: 'GET_POSTS' });
-      })
-      .catch((error) => {
-        store.dispatch(handleApiError(error));
-        console.error('Error sending comment:', error);
-      });
+        .then(() => {
+          store.dispatch(dispatchMessage("Merci pour votre commentaire"));
+          store.dispatch(emptyFields());
+          store.dispatch({ type: 'GET_POSTS' });
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Error sending comment:', error);
+        });
       break;
     }
-    
+
     case 'SEND_MESSAGE': {
       const { pseudo, email, message } = store.getState();
       api.post('messages', {
@@ -125,14 +158,14 @@ const ajaxPost = (store) => (next) => (action) => {
         email,
         message
       })
-      .then(() => {
-        store.dispatch(dispatchMessage("Votre message a été envoyé avec succès"));
-        store.dispatch(emptyFields());
-      })
-      .catch((error) => {
-        store.dispatch(handleApiError(error));
-        console.error('Error sending message:', error);
-      });
+        .then(() => {
+          store.dispatch(dispatchMessage("Votre message a été envoyé avec succès"));
+          store.dispatch(emptyFields());
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Error sending message:', error);
+        });
       break;
     }
 

@@ -28,9 +28,9 @@ export const themedArray = (array, theme) => {
     return newArray;
 }
 
-// function to sort and reverse an array by id
-export const sortedByIdArray = (array) => {
-    let newArray = array.sort((a, b) => a.id - b.id).reverse();
+// function to sort and reverse an array by date
+export const sortedByCreationArray = (array) => {
+    let newArray = array.sort((a, b) => a.createdAt - b.createdAt).reverse();
     return newArray;
 }
 

@@ -23,6 +23,7 @@ import AdminDashboard from '../Admin/AdminDashboard';
 import AdminRoute from '../Admin/AdminRoute';
 import AdminPosts from '../Admin/AdminPosts';
 import AdminCreatePost from '../Admin/AdminCreatePost';
+import AdminEditPost from "../Admin/AdminEditPost";
 import AdminThemes from "../Admin/AdminThemes";
 
 const Blog = () => {
@@ -63,6 +64,11 @@ const Blog = () => {
                         <Route path="/admin/posts/create" element={
                             <AdminRoute>
                                 <AdminCreatePost />
+                            </AdminRoute>
+                        } />
+                        <Route path="/admin/posts/edit/:id" element={
+                            <AdminRoute>
+                                <AdminEditPost />
                             </AdminRoute>
                         } />
                         <Route path="/admin/themes" element={
