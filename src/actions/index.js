@@ -83,21 +83,21 @@ export const saveThemes = (themes) => ({
 export const ADD_THEME = 'ADD_THEME';
 export const addTheme = (theme) => ({
   type: ADD_THEME,
-  theme,
+  payload: theme,
 });
 
 // Mise à jour d’un thème
 export const UPDATE_THEME = 'UPDATE_THEME';
 export const updateTheme = (theme) => ({
   type: UPDATE_THEME,
-  theme,
+  payload: theme,
 });
 
 // Suppression d’un thème
 export const DELETE_THEME = 'DELETE_THEME';
 export const deleteTheme = (id) => ({
   type: DELETE_THEME,
-  id,
+  payload: id,
 });
 
 

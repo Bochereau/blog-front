@@ -19,6 +19,7 @@ const api = axios.create({
 });
 
 const ajaxPost = (store) => (next) => (action) => {
+  console.log(action);
   switch (action.type) {
     case 'GET_POSTS': {
       store.dispatch(isLoading(true));
@@ -40,7 +41,7 @@ const ajaxPost = (store) => (next) => (action) => {
         });
       break;
     }
-    
+
     case 'GET_THEME': {
       api.get('themes')
         .then((res) => {
