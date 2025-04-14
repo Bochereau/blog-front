@@ -50,7 +50,6 @@ const Blog = () => {
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/posts/:slug" element={<Article />} />
-                        <Route path="*" element={<NotFound />} />
                         <Route path="/admin" element={<AdminLogin />} />
                         <Route path="/admin/dashboard" element={
                             <AdminRoute>
@@ -72,6 +71,7 @@ const Blog = () => {
                                 <AdminThemes />
                             </AdminRoute>
                         } />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
             </ScrollToTop>
