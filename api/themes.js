@@ -36,19 +36,21 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'PUT') {
-      const { _id, name, color } = body;
-      await collection.updateOne(
-        { _id: new ObjectId(_id) },
-        { $set: { name, color } }
-      );
-      return res.status(200).json({ message: 'Thème modifié' });
-    }
-
-    if (req.method === 'DELETE') {
-      const { _id } = body;
-      await collection.deleteOne({ _id: new ObjectId(_id) });
-      return res.status(200).json({ message: 'Thème supprimé' });
-    }
+        const { name, color } = body;
+        const { _id } = req.query;
+        await collection.updateOne(
+          { _id: new ObjectId(_id) },
+          { $set: { name, color } }
+        );
+        return res.status(200).json({ message: 'Thème modifié' });
+      }
+      
+      if (req.method === 'DELETE') {
+        const { _id } = req.query;
+        await collection.deleteOne({ _id: new ObjectId(_id) });
+        return res.status(200).json({ message: 'Thème supprimé' });
+      }
+      
 
     res.status(405).json({ error: 'Méthode non autorisée' });
   } catch (error) {
