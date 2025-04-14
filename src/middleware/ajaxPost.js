@@ -88,7 +88,7 @@ const ajaxPost = (store) => (next) => (action) => {
     }
 
     case 'DELETE_THEME': {
-      api.delete(`themes/${action.payload}`)
+      api.delete(`themes?id=${action.payload}`)
         .then(() => {
           store.dispatch({ type: 'GET_THEME' });
         })
