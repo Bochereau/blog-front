@@ -65,13 +65,13 @@ export const sendMessage = () => ({
   type: SEND_MESSAGE,
 })
 
-
 /* Game List management */
 // action to fetch blog theme
 export const GET_THEME = 'GET_THEME';
 export const getTheme = () => ({
   type: GET_THEME,
 })
+
 // action to save themes 
 export const SAVE_THEMES = 'SAVE_THEMES';
 export const saveThemes = (themes) => ({

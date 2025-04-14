@@ -40,6 +40,7 @@ const ajaxPost = (store) => (next) => (action) => {
         });
       break;
     }
+    
     case 'GET_THEME': {
       api.get('themes')
         .then((res) => {
@@ -56,6 +57,43 @@ const ajaxPost = (store) => (next) => (action) => {
         .catch((error) => {
           store.dispatch(dispatchMessage('Erreur lors du chargement des thèmes'));
           console.error('Error fetching themes:', error);
+        });
+      break;
+    }
+
+    case 'ADD_THEME': {
+      api.post('themes', action.payload)
+        .then(() => {
+          store.dispatch({ type: 'GET_THEME' });
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Erreur lors de l’ajout du thème:', error);
+        });
+      break;
+    }
+
+    case 'UPDATE_THEME': {
+      const { _id, name, color } = action.payload;
+      api.patch(`themes/${_id}`, { name, color })
+        .then(() => {
+          store.dispatch({ type: 'GET_THEME' });
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Erreur lors de la modification du thème:', error);
+        });
+      break;
+    }
+
+    case 'DELETE_THEME': {
+      api.delete(`themes/${action.payload}`)
+        .then(() => {
+          store.dispatch({ type: 'GET_THEME' });
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error));
+          console.error('Erreur lors de la suppression du thème:', error);
         });
       break;
     }
