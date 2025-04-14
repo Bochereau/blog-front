@@ -24,11 +24,11 @@ import AdminDashboard from '../Admin/AdminDashboard';
 import AdminRoute from '../Admin/AdminRoute';
 import AdminPosts from '../Admin/AdminPosts';
 import AdminCreatePost from '../Admin/AdminCreatePost';
+import AdminThemes from "../Admin/AdminThemes";
 
 const Blog = () => {
     const dispatch = useDispatch();
 
-    const menuOpen = useSelector((state) => state.menuOpen);
     const lightTheme = useSelector((state) => state.lightTheme);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const Blog = () => {
             <ScrollToTop>
                 <Menu />
                 <Alert />
-                <div className={classNames("page", { 'open': menuOpen === true })}>
+                <div className={"page"}>
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/list" element={<List />} />
@@ -65,6 +65,11 @@ const Blog = () => {
                         <Route path="/admin/posts/create" element={
                             <AdminRoute>
                                 <AdminCreatePost />
+                            </AdminRoute>
+                        } />
+                        <Route path="/admin/themes" element={
+                            <AdminRoute>
+                                <AdminThemes />
                             </AdminRoute>
                         } />
                     </Routes>

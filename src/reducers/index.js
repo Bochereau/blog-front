@@ -3,6 +3,9 @@ import {
   SAVE_POSTS,
   GET_POST_ID,
   SAVE_THEMES,
+  ADD_THEME,
+  UPDATE_THEME,
+  DELETE_THEME,
   CHANGE_VALUE,
   DISPATCH_MESSAGE,
   EMPTY_FIELDS,
@@ -48,6 +51,23 @@ const reducer = (state = initialState, action = {}) => {
         ...state,
         themes: action.themes,
       }
+    case ADD_THEME:
+      return {
+        ...state,
+        themes: [...state.themes, action.theme],
+      };
+    case UPDATE_THEME:
+      return {
+        ...state,
+        themes: state.themes.map((t) =>
+          t._id === action.theme._id ? action.theme : t
+        ),
+      };
+    case DELETE_THEME:
+      return {
+        ...state,
+        themes: state.themes.filter((t) => t._id !== action.id),
+      };
     case GET_POST_ID:
       return {
         ...state,

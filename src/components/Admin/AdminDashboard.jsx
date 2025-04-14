@@ -16,6 +16,7 @@ const AdminDashboard = () => {
       <div className="admin-dashboard-menu">
         <Link to="/admin/posts" className="admin-dashboard-link">📝 Gérer les articles</Link>
         <Link to="/admin/comments" className="admin-dashboard-link">💬 Gérer les commentaires</Link>
+        <Link to="/admin/themes" className="admin-dashboard-link">🎨 Gérer les thèmes</Link>
         <Link to="/" className="admin-dashboard-link">⬅ Retour au site</Link>
       </div>
     </div>
