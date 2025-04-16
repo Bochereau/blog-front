@@ -66,19 +66,15 @@ const Post = ({
           {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
           {section.text && <p className="post-content-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>}
           {section.images && section.images.length > 0 && (
-            <div className="post-content-images">
-              {section.images && section.images.length > 0 && (
-                <div className={`post-content-images has-${section.images.length}`}>
-                  {section.images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`illustration-${idx}`}
-                      className="post-content-image"
-                    />
-                  ))}
-                </div>
-              )}
+            <div className={`post-content-images has-${section.images.length}`}>
+              {section.images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`illustration-${idx}`}
+                  className="post-content-image"
+                />
+              ))}
             </div>
           )}
         </div>
