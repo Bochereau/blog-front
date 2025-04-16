@@ -37,9 +37,6 @@
         &-link{
             color: vars.$background-secondary;
             text-decoration: underline;
-            &:hover{
-                color: vars.$link-color;
-            }
         }
         &-profil{
             padding: vars.$gutter*2;

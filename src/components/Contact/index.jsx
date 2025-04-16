@@ -109,12 +109,12 @@ const Contact = ({
     )
 }
 
-Contact.propTypes = {
-    pseudo : PropTypes.string.isRequired,
-    email : PropTypes.string.isRequired,
-    message : PropTypes.string.isRequired,
-    changeValue : PropTypes.func.isRequired,
-    sendMessage : PropTypes.func.isRequired,
-}
+// Contact.propTypes = {
+//     pseudo : PropTypes.string.isRequired,
+//     email : PropTypes.string.isRequired,
+//     message : PropTypes.string.isRequired,
+//     changeValue : PropTypes.func.isRequired,
+//     sendMessage : PropTypes.func.isRequired,
+// }
 
 export default Contact;

@@ -32,14 +32,14 @@ const Related = ({ posts, _id, themes, light }) => {
 
   return (
     <div className="related">
-      <h4
+      <div
         className={classNames("related-title", {
           "bk-s--light": light === true,
           "bk-s--dark": light === false,
         })}
       >
-        Articles Similaires
-      </h4>
+        <h4 className="related-title-text">Articles Similaires</h4>
+      </div>
       <div className="related-posts">
         {relatedPosts.map((post) => (
           <div className="related-posts-item" key={post._id}>

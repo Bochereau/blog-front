@@ -1,24 +1,14 @@
 import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
-const dbName = 'blog';
-
-if (!uri) {
-  throw new Error('❌ MONGODB_URI non définie dans les variables d\'environnement');
-}
-
 let client;
-let clientPromise;
 
 async function connectToDatabase() {
   if (!client) {
-    client = new MongoClient(uri, {
-      serverApi: { version: '1' },
-    });
-    clientPromise = client.connect();
+    client = new MongoClient(uri);
+    await client.connect();
   }
-  await clientPromise;
-  return client.db(dbName);
+  return client.db("blog");
 }
 
 export default async function handler(req, res) {
@@ -35,7 +25,7 @@ export default async function handler(req, res) {
   console.log("Request body:", req.body);
 
   const db = await connectToDatabase();
-  
+
   // GET - Récupérer tous les posts
   if (req.method === 'GET') {
     try {
@@ -66,7 +56,7 @@ export default async function handler(req, res) {
       console.error('❌ Erreur MongoDB:', error);
       res.status(500).json({ error: 'Failed to fetch posts', message: error.message });
     }
-  } 
+  }
   // POST - Ajouter un post
   else if (req.method === 'POST') {
     try {
@@ -87,7 +77,7 @@ export default async function handler(req, res) {
       console.error("Erreur API POST /posts :", error);
       res.status(500).json({ success: false, message: "Erreur serveur" });
     }
-  } 
+  }
   // PUT - Modifier un post
   else if (req.method === 'PUT') {
     try {
@@ -95,29 +85,29 @@ export default async function handler(req, res) {
       if (!_id) {
         return res.status(400).json({ error: 'ID manquant' });
       }
-      
+
       const postData = req.body;
-      
+
       // 💡 cast les ObjectId si besoin
       if (postData.themes && postData.themes.length > 0) {
         postData.themes = postData.themes.map((id) => new ObjectId(id));
       }
-      
+
       const result = await db.collection('posts').updateOne(
         { _id: new ObjectId(_id) },
         { $set: postData }
       );
-      
+
       if (result.matchedCount === 0) {
         return res.status(404).json({ error: 'Post non trouvé' });
       }
-      
+
       res.status(200).json({ success: true, message: 'Post mis à jour' });
     } catch (error) {
       console.error("Erreur API PUT /posts :", error);
       res.status(500).json({ success: false, message: "Erreur serveur" });
     }
-  } 
+  }
   // DELETE - Supprimer un post
   else if (req.method === 'DELETE') {
     try {
@@ -125,21 +115,21 @@ export default async function handler(req, res) {
       if (!_id) {
         return res.status(400).json({ error: 'ID manquant' });
       }
-      
+
       const result = await db.collection('posts').deleteOne({
         _id: new ObjectId(_id)
       });
-      
+
       if (result.deletedCount === 0) {
         return res.status(404).json({ error: 'Post non trouvé' });
       }
-      
+
       res.status(200).json({ success: true, message: 'Post supprimé' });
     } catch (error) {
       console.error("Erreur API DELETE /posts :", error);
       res.status(500).json({ success: false, message: "Erreur serveur" });
     }
-  } 
+  }
   // Autres méthodes non autorisées
   else {
     res.status(405).json({ error: 'Method not allowed' });

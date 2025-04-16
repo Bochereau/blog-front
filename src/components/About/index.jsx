@@ -55,8 +55,4 @@ const About = () => {
     )
 }
 
-About.propTypes = {
-    light: PropTypes.bool.isRequired,
-}
-
 export default About;

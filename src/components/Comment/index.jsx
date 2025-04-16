@@ -1,44 +1,86 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './style.scss';
 import AddComment from "../AddComment";
-import { reverseDate } from "../../utils";
+import { reverseDate, buildCommentTree } from "../../utils";
+import {
+  fetchComments,
+  setReplyTo
+} from "../../actions";
 
-const Comment = ({ comments, title, light }) => (
-  <div className="comment">
-    <div className="comment-list">
-      <h4 className={classNames("comment-list-title", {
-        "bk-s--light": light,
-        "bk-s--dark": !light
-      })}>
-        {comments.length} {comments.length === 1 ? "commentaire" : "commentaires"} sur "{title}"
-      </h4>
+const CommentItem = ({ comment, light, level = 0 }) => {
+  const dispatch = useDispatch();
 
-      {comments.map((comment) => (
-        <div key={comment._id} className="comment-list-item">
+  const handleReply = () => {
+    dispatch(setReplyTo(comment._id, comment.pseudo));
+    document.querySelector('.comment-add').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className={classNames({"comment--reply": level > 0})} style={{ marginLeft: `${level * 8}px` }}>
+      <div className="comment-list-item">
+        <div className="comment-list-item-box">
           <p className="comment-list-item-info">
-            Par <em className="comment-list-item-info-pseudo">{comment.pseudo}</em> le <time className="comment-list-item-info-date">{reverseDate(comment.createdAt)}</time> :
+            {level > 0 && (
+              <p>&#x21aa;</p>
+            )}
+            Par <em className="comment-list-item-info-pseudo">{comment.pseudo}</em> le{" "}
+            <time className="comment-list-item-info-date">{reverseDate(comment.createdAt)}</time> :
           </p>
           <p className="comment-list-item-content">{comment.content}</p>
         </div>
+        <div className="comment-list-item-actions">
+          <button onClick={handleReply} className="comment-list-item-action reply">Répondre</button>
+          {/* <button onClick={handleEdit} className="comment-list-item-action edit">Modifier</button> */}
+          {/* <button onClick={handleDelete} className="comment-list-item-action delete">Supprimer</button> */}
+        </div>
+      </div>
+      {comment.replies?.map((reply) => (
+        <CommentItem key={reply._id} comment={reply} light={light} level={level + 1} />
       ))}
     </div>
+  );
+};
 
-    <AddComment />
-  </div>
-);
+const Comment = ({ postId, title, light }) => {
+  const dispatch = useDispatch();
+  const comments = useSelector(state => state.comments);
+
+  // Récupérer les commentaires au chargement du composant
+  useEffect(() => {
+    if (postId) {
+      dispatch(fetchComments(postId));
+    }
+  }, [dispatch, postId]);
+
+  const structuredComments = buildCommentTree(comments);
+
+  return (
+    <div className="comment">
+      <div
+        className={classNames("comment-title", {
+          "bk-s--light": light === true,
+          "bk-s--dark": light === false,
+        })}
+      >
+        <h4 className="comment-title-text">Commentaires</h4>
+      </div>
+      <div className="comment-list">
+        {structuredComments?.map(comment => (
+          <CommentItem key={comment._id} comment={comment} light={light} />
+        ))}
+      </div>
+
+      <AddComment postId={postId} />
+    </div>
+  );
+};
 
 Comment.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      pseudo: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired
-    })
-  ).isRequired,
+  postId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   light: PropTypes.bool.isRequired
 };

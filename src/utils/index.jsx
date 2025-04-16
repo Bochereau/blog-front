@@ -37,9 +37,9 @@ export const sortedByCreationArray = (array) => {
 // function to sort an array by name
 export const sortedByNameArray = (array) => {
     console.log(array)
-    let newArray = array.sort(function(a, b) {
-        if(a.slug < b.slug) { return -1; }
-        if(a.slug > b.slug) { return 1; }
+    let newArray = array.sort(function (a, b) {
+        if (a.slug < b.slug) { return -1; }
+        if (a.slug > b.slug) { return 1; }
         return 0;
     })
     return newArray;
@@ -48,17 +48,35 @@ export const sortedByNameArray = (array) => {
 // function to get related posts from a post
 export const createRelatedPosts = (posts, currentId, currentThemes, limit = 5) => {
     let related = posts.filter(post => {
-      if (post._id === currentId) return false;
-      const themeIds = post.themes.map(t => t._id);
-      return themeIds.some(id => currentThemes.includes(id));
+        if (post._id === currentId) return false;
+        const themeIds = post.themes.map(t => t._id);
+        return themeIds.some(id => currentThemes.includes(id));
     });
-  
+
     // Complément aléatoire si moins que le minimum
     if (related.length < limit) {
-      const others = posts.filter(p => p._id !== currentId && !related.includes(p));
-      related = [...related, ...shuffleArray(others).slice(0, limit - related.length)];
+        const others = posts.filter(p => p._id !== currentId && !related.includes(p));
+        related = [...related, ...shuffleArray(others).slice(0, limit - related.length)];
     }
-  
+
     return shuffleArray(related).slice(0, limit);
-  };
-  
+};
+
+export function buildCommentTree(comments) {
+    const map = {};
+    const roots = [];
+
+    comments?.forEach(comment => {
+        map[comment._id] = { ...comment, replies: [] };
+    });
+
+    comments?.forEach(comment => {
+        if (comment.replyTo && map[comment.replyTo]) {
+            map[comment.replyTo].replies.push(map[comment._id]);
+        } else {
+            roots.push(map[comment._id]);
+        }
+    });
+
+    return roots;
+}

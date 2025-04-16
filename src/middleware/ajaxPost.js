@@ -5,9 +5,10 @@ import {
   saveThemes,
   dispatchMessage,
   emptyFields,
-  handleApiError
+  handleApiError,
+  saveComments,
+  addComment
 } from '../actions';
-import { sortedByCreationArray } from '../utils';
 
 // Configuration axios
 const api = axios.create({
@@ -78,7 +79,6 @@ const ajaxPost = (store) => (next) => (action) => {
     case 'GET_THEME': {
       api.get('themes')
         .then((res) => {
-          console.log(res)
           if (res.data && res.data.data) {
             let themesList;
             // Gestion des deux formats de réponse
@@ -132,21 +132,70 @@ const ajaxPost = (store) => (next) => (action) => {
       break;
     }
 
-    case 'SEND_COMMENT': {
-      const { pseudo, comment, postId } = store.getState();
-      api.post('comments', {
-        postId,
-        pseudo,
-        content: comment
-      })
-        .then(() => {
-          store.dispatch(dispatchMessage("Merci pour votre commentaire"));
-          store.dispatch(emptyFields());
-          store.dispatch({ type: 'GET_POSTS' });
+    case 'FETCH_COMMENTS': {
+      const { postId } = action;
+      api.get(`comments?postId=${postId}`)
+        .then((response) => {
+          console.log(response);
+          store.dispatch(saveComments(response.data));
         })
         .catch((error) => {
-          store.dispatch(handleApiError(error));
+          store.dispatch(handleApiError(error.message || 'Erreur lors de la récupération des commentaires'));
+          console.error('Error fetching comments:', error);
+        });
+      break;
+    }
+
+    case 'SEND_COMMENT': {
+      const { pseudo, comment, postId, replyTo } = store.getState();
+      const payload = {
+        postId,
+        pseudo,
+        content: comment,
+      };
+
+      if (replyTo) {
+        payload.replyTo = replyTo;
+      }
+
+      api.post('comments', payload)
+        .then((response) => {
+          store.dispatch(addComment(response.data.comment));
+          store.dispatch(dispatchMessage("Merci pour votre commentaire"));
+          store.dispatch(emptyFields());
+          store.dispatch(clearReplyTo());
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error.message || 'Erreur lors de l\'envoi du commentaire'));
           console.error('Error sending comment:', error);
+        });
+      break;
+    }
+
+    case 'UPDATE_COMMENT': {
+      const { id, content } = action;
+      api.put(`comments?id=${id}`, { content })
+        .then((response) => {
+          store.dispatch({ type: 'UPDATE_COMMENT_SUCCESS', id, content });
+          store.dispatch(dispatchMessage("Commentaire mis à jour"));
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error.message || 'Erreur lors de la mise à jour du commentaire'));
+          console.error('Error updating comment:', error);
+        });
+      break;
+    }
+
+    case 'DELETE_COMMENT': {
+      const { id } = action;
+      api.delete(`comments?id=${id}`)
+        .then((response) => {
+          store.dispatch({ type: 'DELETE_COMMENT_SUCCESS', id });
+          store.dispatch(dispatchMessage("Commentaire supprimé"));
+        })
+        .catch((error) => {
+          store.dispatch(handleApiError(error.message || 'Erreur lors de la suppression du commentaire'));
+          console.error('Error deleting comment:', error);
         });
       break;
     }

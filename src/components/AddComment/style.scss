@@ -3,12 +3,15 @@
 
 .comment{
     &-add{
-        padding: vars.$gutter*2 0 0;
+        background-color: vars.$light;
+        width: 90%;
+        margin: vars.$gutter*3 auto;
+        border: 3px solid vars.$background-secondary;
         &-title{
             font-size: vars.$gutter*1.5;
             padding: vars.$gutter;
             font-weight: bold;
-            border: 2px solid vars.$background-primary;
+            // border: 2px solid vars.$background-primary;
             @media(max-width: 426px) {
                 font-size: vars.$gutter*1.2;
             }

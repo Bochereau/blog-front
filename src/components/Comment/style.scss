@@ -1,56 +1,125 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-.comment{
+.comment {
     margin: 0 auto;
     padding: vars.$gutter 0 0;
     text-align: center;
-    width: 50%;
+    width: 75%;
+
     @media(max-width: 769px) {
-        width: 75%;
+        width: 85%;
     }
+
     @media(max-width: 426px) {
-        width: 100%;
-        padding: vars.$gutter;
+        width: 95%;
     }
-    &-list{
-        &-title{
+
+    &-title {
+        background-color: vars.$background-secondary;
+        color: vars.$background-primary;
+        font-size: vars.$gutter*1.5;
+        font-weight: bold;
+        text-align: center;
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        transform: skewY(-1deg);
+        text-transform: uppercase;
+
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*1.3;
+            width: 100%;
+        }
+
+        &-text {
+            transform: skewY(1deg);
+        }
+    }
+
+    &-list {
+        &-title {
             font-size: vars.$gutter*1.8;
             font-weight: bold;
             padding: vars.$gutter*2;
             margin: vars.$gutter 0;
             border: 2px solid vars.$background-primary;
+
             @media(max-width: 426px) {
                 font-size: vars.$gutter*1.3;
             }
         }
-        &-item{
-            border : 1px solid #999;
+
+        &-item {
             padding: vars.$gutter;
             text-align: left;
-            margin: vars.$gutter;
-            &-info{
-                margin-bottom: vars.$gutter;
-                &-date, &-pseudo{
+            margin: vars.$gutter vars.$gutter*0.5;
+            background-color: vars.$light;
+            border: 1px solid vars.$background-secondary;
+            box-shadow: 5px 10px 2px vars.$background-secondary;
+            flex: 1;
+
+            &-box {
+                display: flex;
+                align-items: flex-start;
+                gap: vars.$gutter;
+
+                @media(max-width: 426px) {
+                    flex-direction: column;
+                }
+            }
+
+            &-info {
+                padding-bottom: 8px;
+                display: flex;
+                gap: 8px;
+                border-bottom: 3px solid vars.$background-secondary;
+
+                &-date,
+                &-pseudo {
                     font-weight: bold;
                 }
-                &-pseudo{
+
+                &-pseudo {
                     text-transform: uppercase;
                 }
             }
-            &-content{
+
+            &-content {
                 line-height: 1.1;
+                margin-bottom: vars.$gutter;
+            }
+
+            &-actions {
+                text-align: right;
+
+                button {
+                    padding: vars.$gutter*0.5 vars.$gutter;
+                    border: 3px solid vars.$background-secondary;
+                    background-color: vars.$light;
+                    color: vars.$background-secondary;
+
+                    &:hover {
+                        background-color: vars.$background-secondary;
+                        color: vars.$background-primary;
+                        transform: skewY(-2deg);
+                        transition: all ease-in-out 250ms;
+                    }
+                }
             }
         }
     }
 }
 
-.off{
+.off {
     border: 2px solid vars.$grey;
     background-color: vars.$grey;
     color: vars.$background-primary;
     cursor: not-allowed;
-    &:hover{
+
+    &:hover {
         border: 2px solid vars.$grey;
         background-color: vars.$grey;
         color: vars.$background-primary;

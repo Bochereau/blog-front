@@ -15,7 +15,15 @@ import {
   CHANGE_COLOR,
   HANDLE_API_ERROR,
   ADMIN_SAVE_ALL,
-  ADMIN_SET_CURRENT
+  ADMIN_SET_CURRENT,
+  SAVE_COMMENTS,
+  ADD_COMMENT,
+  UPDATE_COMMENT,
+  DELETE_COMMENT,
+  SET_EDITING_COMMENT,
+  CANCEL_EDITING,
+  SET_REPLY_TO,
+  CLEAR_REPLY_TO
 } from "../actions";
 
 const initialState = {
@@ -126,6 +134,56 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         current: action.post,
+      };
+    case SAVE_COMMENTS:
+      return {
+        ...state,
+        comments: action.comments,
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        comments: [action.comment, ...state.comments],
+      };
+    case UPDATE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.map((comment) =>
+          comment._id === action.id
+            ? { ...comment, content: action.content, updatedAt: new Date().toISOString() }
+            : comment
+        ),
+        editingComment: null,
+        editingContent: '',
+      };
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.filter((comment) => comment._id !== action.id),
+      };
+    case SET_EDITING_COMMENT:
+      return {
+        ...state,
+        editingComment: action.id,
+        editingContent: action.content,
+      };
+    case CANCEL_EDITING:
+      return {
+        ...state,
+        editingComment: null,
+        editingContent: '',
+      };
+    case SET_REPLY_TO:
+      return {
+        ...state,
+        replyTo: action.id,
+        replyToPseudo: action.pseudo,
+      };
+    case CLEAR_REPLY_TO:
+      return {
+        ...state,
+        replyTo: null,
+        replyToPseudo: null,
       };
     default:
       return state;

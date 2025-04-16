@@ -28,18 +28,18 @@ export const dispatchMessage = (message) => ({
 // action to fetch posts
 export const GET_POSTS = 'GET_POSTS';
 export const getPosts = () => ({
-    type: GET_POSTS,
+  type: GET_POSTS,
 })
 // action to save all Posts
 export const SAVE_POSTS = 'SAVE_POSTS';
 export const savePosts = (posts) => ({
-    type: SAVE_POSTS,
-    posts,
+  type: SAVE_POSTS,
+  posts,
 })
 // action to get post id
 export const GET_POST_ID = 'GET_POST_ID';
 export const getPostId = (id) => ({
-  type:GET_POST_ID,
+  type: GET_POST_ID,
   id,
 })
 // Ajouter un post
@@ -66,12 +66,58 @@ export const deletePost = (id) => ({
 export const SEND_COMMENT = 'SEND_COMMENT';
 export const sendComment = () => ({
   type: SEND_COMMENT,
-})
+});
 // action de vider les champs
 export const EMPTY_FIELDS = 'EMPTY_FIELDS';
 export const emptyFields = () => ({
   type: EMPTY_FIELDS,
-})
+});
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const fetchComments = (postId) => ({
+  type: FETCH_COMMENTS,
+  postId,
+});
+export const SAVE_COMMENTS = 'SAVE_COMMENTS';
+export const saveComments = (comments) => ({
+  type: SAVE_COMMENTS,
+  comments,
+});
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const addComment = (comment) => ({
+  type: ADD_COMMENT,
+  comment,
+});
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';
+export const updateComment = (id, content) => ({
+  type: UPDATE_COMMENT,
+  id,
+  content,
+});
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const deleteComment = (id) => ({
+  type: DELETE_COMMENT,
+  id,
+});
+export const SET_EDITING_COMMENT = 'SET_EDITING_COMMENT';
+export const setEditingComment = (id, content) => ({
+  type: SET_EDITING_COMMENT,
+  id,
+  content,
+});
+export const CANCEL_EDITING = 'CANCEL_EDITING';
+export const cancelEditing = () => ({
+  type: CANCEL_EDITING,
+});
+export const SET_REPLY_TO = 'SET_REPLY_TO';
+export const setReplyTo = (id, pseudo) => ({
+  type: SET_REPLY_TO,
+  id,
+  pseudo,
+});
+export const CLEAR_REPLY_TO = 'CLEAR_REPLY_TO';
+export const clearReplyTo = () => ({
+  type: CLEAR_REPLY_TO,
+});
 
 /* Contact form management */
 // action to send comment 

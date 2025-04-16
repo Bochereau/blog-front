@@ -1,6 +1,12 @@
-.article-loading,
-.article-notfound {
-  padding: 4rem;
-  text-align: center;
-  font-size: 1.25rem;
+@use '../../styles/vars';
+@use 'sass:color';
+
+.article{
+  background-color: vars.$background-primary;
+  &-loading,
+  &-notfound {
+    padding: 4rem;
+    text-align: center;
+    font-size: 1.25rem;
+  }
 }

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getPostId } from "../../actions";
 
 import Post from "../Post";
-// import Comment from "../Comment";
+import Comment from "../Comment";
 import Related from "../Related";
 import Footer from "../Footer";
 
@@ -44,7 +44,11 @@ const Article = () => {
     <div className="article">
       <Post light={light} {...currentPost} />
       <hr />
-      {/* <Comment light={light} {...currentPost} /> */}
+      <Comment
+        postId={currentPost._id}
+        title={currentPost.title}
+        light={light}
+      />
       <hr />
       <Related posts={posts} light={light} {...currentPost} />
       <Footer light={light} />

@@ -2,16 +2,18 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
 
-import { changeValue, sendComment } from "../../actions";
+import { changeValue, sendComment, clearReplyTo } from "../../actions";
 
 import "./style.scss";
 
-const AddComment = () => {
+const AddComment = ({ postId }) => {
   const dispatch = useDispatch();
 
   const pseudo = useSelector((state) => state.pseudo);
   const comment = useSelector((state) => state.comment);
   const light = useSelector((state) => state.lightTheme);
+  const replyTo = useSelector((state) => state.replyTo);
+  const replyToPseudo = useSelector((state) => state.replyToPseudo);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -24,6 +26,10 @@ const AddComment = () => {
     dispatch(changeValue(evt.target.value, evt.target.name));
   };
 
+  const handleCancelReply = () => {
+    dispatch(clearReplyTo());
+  };
+
   return (
     <div className="comment-add">
       <h5
@@ -34,6 +40,15 @@ const AddComment = () => {
       >
         Laisser un commentaire
       </h5>
+
+      {replyTo && (
+        <div className="comment-add-reply-info">
+          <p>En réponse à <strong>{replyToPseudo}</strong></p>
+          <button onClick={handleCancelReply} className="comment-add-reply-cancel">
+            Annuler la réponse
+          </button>
+        </div>
+      )}
 
       <form className="comment-add-form" onSubmit={handleSubmit}>
         <ul>
