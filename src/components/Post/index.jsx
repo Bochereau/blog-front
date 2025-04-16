@@ -123,9 +123,13 @@ const Post = ({
       {isModalOpen && (
         <div className="image-modal">
           <button className="close-btn" onClick={closeModal}>×</button>
-          <button className="prev-btn" onClick={prevImage}>‹</button>
+          {modalImages.length > 1 && (
+            <button className="prev-btn" onClick={prevImage}>‹</button>
+          )}
           <img src={modalImages[currentIndex]} alt="image large" />
-          <button className="next-btn" onClick={nextImage}>›</button>
+          {modalImages.length > 1 && (
+            <button className="next-btn" onClick={nextImage}>›</button>
+          )}
         </div>
       )}
     </article>
