@@ -5,6 +5,7 @@ import {
   ADD_POST,
   UPDATE_POST,
   DELETE_POST,
+  UPDATE_POST_STATUS,
   SAVE_THEMES,
   ADD_THEME,
   UPDATE_THEME,
@@ -73,6 +74,11 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...state,
         posts: state.posts.filter((p) => p._id !== action.payload),
+      };
+    case UPDATE_POST_STATUS:
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
       };
     case SAVE_THEMES:
       return {

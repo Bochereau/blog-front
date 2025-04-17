@@ -90,7 +90,7 @@ const ArticlePreview = () => {
                     </div>
                     
                     {post.body.map((section, index) => (
-                        <div key={index} className="article-sections">
+                        <div key={index} className="body-section">
                             <h3>Section {index + 1}</h3>
                             {section.subtitle && <h3>{section.subtitle}</h3>}
                             <div className="section-content">
