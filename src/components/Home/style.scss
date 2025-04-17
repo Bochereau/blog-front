@@ -1,72 +1,90 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-.home{
+.home {
     min-height: 100%;
-    &-header{
+
+    &-header {
         text-align: center;
         padding: vars.$gutter*4 0;
         position: relative;
         border-bottom: 2px solid vars.$background-primary;
+
         @media(max-width: 426px) {
             padding: vars.$gutter*5 vars.$gutter vars.$gutter*2;
         }
+
         @media(max-width: 321px) {
             border: none;
         }
-        &-title{
+
+        &-title {
             font-size: vars.$gutter*5;
+
             @media(max-width: 426px) {
                 font-size: vars.$gutter*3;
             }
         }
-        &-subtitle{
+
+        &-subtitle {
             margin-top: vars.$gutter*2;
             font-size: vars.$gutter*2;
+
             @media(max-width: 426px) {
                 font-size: vars.$gutter*1.3;
             }
         }
-        &-switch{
+
+        &-switch {
             position: absolute;
             top: vars.$gutter;
             right: vars.$gutter;
             width: 40px;
             height: 40px;
-            &-button{
+
+            &-button {
                 border: none;
                 background-color: transparent;
                 transition: transform 0.5s ease-in-out;
-                &:hover{
+
+                &:hover {
                     transform: rotate(-180deg);
                 }
-                &-dark, &-light{
+
+                &-dark,
+                &-light {
                     padding: vars.$gutter*0.3;
                     border: 2px solid vars.$background-primary;
                     border-radius: 50%;
                 }
+
                 &-dark {
-                    &:hover{
+                    &:hover {
                         border-color: rgb(3, 3, 3);
-                    } 
-                    & svg{
-                        fill: vars.$background-primary;
-                        width: 25px;
-                        height: 25px;
-                        &:hover{
-                            fill: rgb(3, 3, 3);
-                        }
                     }
-                    }
-                &-light {
-                    &:hover{
-                        border-color: rgb(217, 255, 2);
-                    }
+
                     & svg {
                         fill: vars.$background-primary;
                         width: 25px;
                         height: 25px;
-                        &:hover{
+
+                        &:hover {
+                            fill: rgb(3, 3, 3);
+                        }
+                    }
+                }
+
+                &-light {
+                    &:hover {
+                        border-color: rgb(217, 255, 2);
+                    }
+
+                    & svg {
+                        fill: vars.$background-primary;
+                        width: 25px;
+                        height: 25px;
+
+                        &:hover {
                             fill: rgb(217, 255, 2);
                         }
                     }
@@ -74,32 +92,85 @@
             }
         }
     }
-    &-posts{
+
+    &-posts {
         text-align: center;
         padding: vars.$gutter*2 vars.$gutter*8;
+
         @media(max-width: 426px) {
             padding: vars.$gutter;
         }
+
         @media(max-width: 321px) {
             padding: 0;
         }
     }
-    &-loading{
+
+    &-loading {
         height: 80vh;
-        &-text{
-            font-size: vars.$gutter*1.3;
-            padding: vars.$gutter*2;
-            animation: clignote 2s linear infinite;
-            @keyframes clignote {
-                50% { opacity: 0; }
+
+        &-box {
+            width: 100%;
+            height: 500px;
+            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: vars.$background-secondary;
+            display: flex;
+            justify-content: center;
+
+            span {
+                display: inline-block;
+                background: linear-gradient(to right,
+                        #dddddd 0%,
+                        #e7e7e7 20%,
+                        #dddddd 40%,
+                        #dddddd 100%);
+                background-size: 1000px 100%;
+                animation: shimmer 1.5s infinite linear;
+                border-radius: 4px;
             }
-            
+    
+            &-title {
+                position: absolute;
+                top: 30%;
+                left: 33%;
+                width: 33%;
+                height: vars.$gutter*3;
+            }
+    
+            &-subtitle {
+                position: absolute;
+                top: 50%;
+                left: 30%;
+                width: 40%;
+                height: vars.$gutter*2;
+            }
+    
+            &-button {
+                position: absolute;
+                top: 65%;
+                left: 40%;
+                width: 20%;
+                height: vars.$gutter*3;
+                border-radius: 8px;
+            }
         }
     }
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -500px 0;
+    }
 
-.dark:hover{
+    100% {
+        background-position: 500px 0;
+    }
+}
+
+.dark:hover {
     fill: "#000";
 }
 
@@ -111,17 +182,17 @@
     width: 60px;
     height: 34px;
 
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+}
+
+/* Hide default HTML checkbox */
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -131,9 +202,9 @@
     background-color: vars.$background-primary;
     -webkit-transition: 0.4s;
     transition: 0.4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
     height: 40px;
@@ -149,30 +220,30 @@
     background: white url('https://i.ibb.co/7JfqXxB/sunny.png');
     background-repeat: no-repeat;
     background-position: center;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
     background-color: vars.$grey;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus+.slider {
     box-shadow: 0 0 1px vars.$grey;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked+.slider:before {
     -webkit-transform: translateX(24px);
     -ms-transform: translateX(24px);
     transform: translateX(24px);
     background: vars.$background-primary url('https://i.ibb.co/FxzBYR9/night.png');
     background-repeat: no-repeat;
     background-position: center;
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
+}
+
+/* Rounded sliders */
+.slider.round {
     border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+.slider.round:before {
     border-radius: 50%;
-  }
+}

@@ -8,10 +8,26 @@ const AdminPosts = () => {
     const posts = useSelector((state) => state.posts);
     const light = useSelector((state) => state.lightTheme);
     const [search, setSearch] = useState("");
+    const [viewMode, setViewMode] = useState("all");
 
-    const filteredPosts = posts.filter((post) =>
-        post.title.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredPosts = posts.filter((post) => {
+        const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
+        
+        if (viewMode === "all") return matchesSearch;
+        if (viewMode === "published") return matchesSearch && post.posted;
+        if (viewMode === "drafts") return matchesSearch && !post.posted;
+        
+        return matchesSearch;
+    });
+
+    const togglePostStatus = async (postId, currentStatus) => {
+        dispatch(updatePostStatus(postId, currentStatus));
+    };
+
+    const handleDeletePost = async (postId) => {
+        if (!window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) return;
+        dispatch(deletePost(postId));
+    };
 
     return (
         <div className={classNames("admin-posts", { "bk-p--light": light, "bk-p--dark": !light })}>
@@ -47,9 +63,20 @@ const AdminPosts = () => {
                             <td>{new Date(post.createdAt).toLocaleDateString()}</td>
                             <td>
                                 <Link to={`/admin/posts/edit/${post._id}`}>
-                                    <button className="admin-posts-edit">✏️</button>
+                                    <button className="admin-posts-edit"  title="Modifier">✏️</button>
                                 </Link>
-                                <button className="admin-posts-delete">🗑️</button>
+                                <Link to={`/admin/posts/preview/${post._id}`} className="admin-posts-preview" title="Prévisualiser">
+                                    👁️
+                                </Link>
+                                
+                                <button
+                                    className={`admin-posts-status ${post.posted ? 'unpublish' : 'publish'}`}
+                                    onClick={() => togglePostStatus(post._id, post.posted)}
+                                    title={post.posted ? "Retirer de la publication" : "Publier"}
+                                >
+                                    {post.posted ? '🔽' : '🔼'}
+                                </button>
+                                <button onClick={() => handleDeletePost(post._id)} className="admin-posts-delete" title="Supprimer">🗑️</button>
                             </td>
                         </tr>
                     ))}

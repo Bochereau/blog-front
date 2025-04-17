@@ -18,7 +18,8 @@ const AdminCreatePost = () => {
         conclusion: "",
         readingTime: "",
         mainImage: "",
-        themes: [], // liste d'IDs
+        themes: [],
+        posted: false,
         body: [
             {
                 subtitle: "",

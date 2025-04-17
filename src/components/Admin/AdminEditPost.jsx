@@ -135,7 +135,6 @@ const AdminEditPost = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // Utiliser l'action updatePost via Redux
         dispatch(updatePost(form));
         alert("Article mis à jour !");
         navigate("/admin/posts");

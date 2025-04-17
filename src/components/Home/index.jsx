@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
-import { DualRing } from "react-css-spinners/dist/DualRing";
 import { changeColor } from "../../actions";
 
 import "./style.scss";
@@ -14,7 +13,7 @@ const Home = () => {
   const loading = useSelector((state) => state.loading);
   const light = useSelector((state) => state.lightTheme);
 
-  const handleChangeColor = () => dispatch(changeColor());
+  // const handleChangeColor = () => dispatch(changeColor());
 
   return (
     <div
@@ -26,8 +25,16 @@ const Home = () => {
       <ul className="home-posts-list">
         {loading && (
           <div className="home-loading">
-            <DualRing color={light ? "#000" : "#FFF"} />
-            <p className="home-loading-text">Veuillez patienter</p>
+            <div className="home-loading-box">
+              <span className="home-loading-box-title"></span>
+              <span className="home-loading-box-subtitle"></span>
+              <span className="home-loading-box-button"></span>
+            </div>
+            <div className="home-loading-box">
+              <span className="home-loading-box-title"></span>
+              <span className="home-loading-box-subtitle"></span>
+              <span className="home-loading-box-button"></span>
+            </div>
           </div>
         )}
         {!loading &&

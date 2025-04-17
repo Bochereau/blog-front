@@ -1,83 +1,94 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-.about{
+.about {
     text-align: center;
-    background: linear-gradient(vars.$background-secondary, vars.$background-secondary, #90e0ef);
-    color: vars.$background-primary;
-    min-height: 100%;
-    &-title{
-        font-size: vars.$gutter*2;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: vars.$gutter*2 0;
-        border-bottom: 2px solid vars.$background-primary;
+    background-color: vars.$background-primary;
+    color: vars.$background-secondary;
+    width: 75%;
+    margin: 0 auto;
+    text-align: left;
+    padding: vars.$gutter*2 0;
+    line-height: 1.3;
+    font-size: vars.$gutter*1.3;
+
+    @media(max-width: 769px) {
+        width: 85%;
+    }
+
+    @media(max-width: 426px) {
+        width: 100%;
+    }
+
+    &-description {
+        padding-bottom: vars.$gutter;
+        text-align: center;
+        font-size: vars.$gutter*1.4;
+
         @media(max-width: 426px) {
-            font-size: vars.$gutter*1.5;
+            font-size: vars.$gutter*1.2;
+            padding: vars.$gutter;
         }
     }
-    &-content{
-        width: 70%;
-        margin: 0 auto;
-        text-align: left;
-        padding: vars.$gutter*4 0;
-        line-height: 1.3;
-        font-size: vars.$gutter*1.3;
+
+    &-profil {
+        padding: vars.$gutter*2;
+        margin: vars.$gutter 0;
+        background-color: vars.$background-secondary;
+        color: vars.$background-primary;
+        transform: skewY(-2deg);
+
         @media(max-width: 426px) {
-            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: vars.$gutter;
         }
-        &-description{
-            padding-bottom: vars.$gutter;
-            text-align: center;
-            font-size: vars.$gutter*1.6;
+
+        &-img {
+            width: 300px;
+            border-radius: 50%;
+            float: left;
+            margin-right: vars.$gutter*2;
+            margin-bottom: vars.$gutter;
+            box-shadow: 2px 4px 2px vars.$alt-color;
+
+            @media(max-width: 769px) {
+                width: 200px;
+            }
+
             @media(max-width: 426px) {
-                font-size: vars.$gutter*1.4;
+                float: none;
+                margin-right: 0;
+                width: 60%;
             }
         }
-        &-link{
-            color: vars.$background-secondary;
-            text-decoration: underline;
-        }
-        &-profil{
-            padding: vars.$gutter*2;
-            margin: vars.$gutter 0;
-            border-radius: 15px;
-            background-color: vars.$background-primary;
-            color:black;
+
+        &-description {
+            font-size: vars.$gutter*1.2;
+            text-align: justify;
+            transform: skewY(2deg);
+
             @media(max-width: 426px) {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                font-size: vars.$gutter;
                 padding: vars.$gutter;
             }
-            &-img{
-                width: 30%;
-                border-radius: 50%;
-                float: left;
-                margin-right: vars.$gutter*2;
-                margin-bottom: vars.$gutter;
-                @media(max-width: 426px) {
-                    float: none;
-                    margin-right: 0;
-                    width: 60%;
-                }
+
+            & p {
+                padding: vars.$gutter*0.5;
             }
-            &-description{
-                font-size: vars.$gutter*1.2;
-                //text-align: justify;
-                & p {
-                    padding: vars.$gutter*0.5;
-                }
-                & ul {
-                    list-style-type: disc;
-                }
-                & ul>li {
-                    margin-left: vars.$gutter*2;
-                }
+
+            & ul {
+                list-style-type: disc;
+            }
+
+            & ul>li {
+                margin-left: vars.$gutter*2;
             }
         }
-        &-contact{
-            padding-top: vars.$gutter;
-        }
+    }
+
+    &-contact {
+        padding-top: vars.$gutter;
     }
 }

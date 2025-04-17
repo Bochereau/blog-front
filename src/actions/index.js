@@ -60,6 +60,13 @@ export const deletePost = (id) => ({
   type: DELETE_POST,
   payload: id,
 });
+// Publier/depublier un post
+export const UPDATE_POST_STATUS = 'UPDATE_POST_STATUS';
+export const updatePostStatus = (id, status) => ({
+  type: UPDATE_POST_STATUS,
+  id,
+  posted: !status
+});
 
 /* Comments management */
 // action to send comment 

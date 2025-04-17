@@ -6,13 +6,6 @@
     background-color: vars.$background-primary;
 }
 
-.page{
-    height: calc(100vh - 110px);
-    @media(max-width: 426px) {
-        height: calc(100vh - 50px);
-    }
-}
-
 .open{
     opacity: 0.2;
 }

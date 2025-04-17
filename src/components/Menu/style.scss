@@ -46,6 +46,7 @@
                 // font-style: italic;
                 transform: translateY(-3px);
                 transition: all 200ms ease-in-out;
+                // color: vars.$alt-color;
             }
             @media (max-width: 768px) {
                 font-size: vars.$gutter*1.5;
