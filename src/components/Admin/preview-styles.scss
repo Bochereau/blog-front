@@ -1,9 +1,6 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-// Importer les styles du Post
-@import '../Post/style.scss';
-
 .post-preview-container {
   position: fixed;
   top: 0;
@@ -97,7 +94,7 @@
   transition: background-color 0.2s ease;
   
   &:hover {
-    background-color: darken(vars.$background-secondary, 10%);
+    background-color: color.adjust(vars.$background-secondary,  $lightness: -10%);
   }
 }
 
