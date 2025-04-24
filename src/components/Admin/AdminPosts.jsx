@@ -14,8 +14,8 @@ const AdminPosts = () => {
         const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
         
         if (viewMode === "all") return matchesSearch;
-        if (viewMode === "published") return matchesSearch && post.posted;
-        if (viewMode === "drafts") return matchesSearch && !post.posted;
+        if (viewMode === "published") return matchesSearch && post.isPublished;
+        if (viewMode === "drafts") return matchesSearch && !post.isPublished;
         
         return matchesSearch;
     });
@@ -65,16 +65,13 @@ const AdminPosts = () => {
                                 <Link to={`/admin/posts/edit/${post._id}`}>
                                     <button className="admin-posts-edit"  title="Modifier">✏️</button>
                                 </Link>
-                                <Link to={`/admin/posts/preview/${post._id}`} className="admin-posts-preview" title="Prévisualiser">
-                                    👁️
-                                </Link>
                                 
                                 <button
-                                    className={`admin-posts-status ${post.posted ? 'unpublish' : 'publish'}`}
-                                    onClick={() => togglePostStatus(post._id, post.posted)}
-                                    title={post.posted ? "Retirer de la publication" : "Publier"}
+                                    className={`admin-posts-status ${post.isPublished ? 'unpublish' : 'publish'}`}
+                                    onClick={() => togglePostStatus(post._id, post.isPublished)}
+                                    title={post.isPublished ? "Retirer de la publication" : "Publier"}
                                 >
-                                    {post.posted ? '🔽' : '🔼'}
+                                    {post.isPublished ? '🔽' : '🔼'}
                                 </button>
                                 <button onClick={() => handleDeletePost(post._id)} className="admin-posts-delete" title="Supprimer">🗑️</button>
                             </td>

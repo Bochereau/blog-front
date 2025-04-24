@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       const { postId } = req.query;
 
       let query = {};
-      if (postId) {
+      if (postId && postId !== 'undefined') {
         query.postId = new ObjectId(postId);
       }
 

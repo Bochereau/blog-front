@@ -65,10 +65,10 @@ const ajaxPost = (store) => (next) => (action) => {
     }
 
     case 'UPDATE_POST_STATUS': {
-      const { id, posted } = action;
-      api.put(`posts?_id=${id}`, { posted })
+      const { id, isPublished } = action;
+      api.put(`posts?_id=${id}`, { isPublished })
         .then((response) => {
-          store.dispatch(dispatchMessage(posted ? "L'article a bien été publié" : "L'article n'est plus publié"));
+          store.dispatch(dispatchMessage(isPublished ? "L'article a bien été publié" : "L'article n'est plus publié"));
         })
         .catch((error) => {
           store.dispatch(handleApiError(error.message || 'Erreur lors de la mise à jour de l\'article'));
@@ -147,7 +147,8 @@ const ajaxPost = (store) => (next) => (action) => {
 
     case 'FETCH_COMMENTS': {
       const { postId } = action;
-      api.get(`comments?postId=${postId}`)
+      const url = postId ? `comments?postId=${postId}` : 'comments';
+      api.get(url)
         .then((response) => {
           console.log(response);
           store.dispatch(saveComments(response.data));

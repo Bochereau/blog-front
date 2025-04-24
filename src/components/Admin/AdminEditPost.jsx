@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updatePost, getPosts } from "../../actions";
+import { updatePost, getPosts, updatePostStatus } from "../../actions";
 import "./style.scss";
+import "./preview-styles.scss";
+
+import ArticlePreview from "./AdminPreview";
 
 const AdminEditPost = () => {
     const { id } = useParams(); // Récupère l'ID du post depuis l'URL
@@ -10,10 +13,14 @@ const AdminEditPost = () => {
     const dispatch = useDispatch();
     const themes = useSelector((state) => state.themes);
     const allPosts = useSelector((state) => state.posts);
-    
+
+    const [errors, setErrors] = useState({});
+    const [showPreview, setShowPreview] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
+
     // Trouver le post correspondant à l'ID
     const currentPost = allPosts.find(post => post._id === id);
-    
+
     // État local pour le formulaire
     const [form, setForm] = useState({
         title: "",
@@ -27,6 +34,7 @@ const AdminEditPost = () => {
         readingTime: "",
         mainImage: "",
         themes: [], // liste d'IDs
+        isPublished: false,
         body: [
             {
                 subtitle: "",
@@ -38,18 +46,24 @@ const AdminEditPost = () => {
 
     // Charger les données du post quand il est disponible
     useEffect(() => {
+        // Vérifier l'authentification
+        const isAuthenticated = localStorage.getItem("isAdminAuthenticated");
+        if (isAuthenticated !== "true") {
+            navigate("/admin");
+        }
+
         // S'assurer que les posts sont chargés
         if (allPosts.length === 0) {
             dispatch(getPosts());
         }
-        
+
         // Remplir le formulaire avec les données du post existant
         if (currentPost) {
             // Adapter la structure si nécessaire
-            const themeIds = currentPost.themes && Array.isArray(currentPost.themes) 
+            const themeIds = currentPost.themes && Array.isArray(currentPost.themes)
                 ? currentPost.themes.map(theme => typeof theme === 'object' ? theme._id : theme)
                 : [];
-                
+
             setForm({
                 _id: currentPost._id, // Important pour l'update
                 title: currentPost.title || "",
@@ -63,20 +77,59 @@ const AdminEditPost = () => {
                 readingTime: currentPost.readingTime || "",
                 mainImage: currentPost.mainImage || "",
                 themes: themeIds,
-                body: currentPost.body && currentPost.body.length > 0 
+                isPublished: currentPost.isPublished || false,
+                body: currentPost.body && currentPost.body.length > 0
                     ? currentPost.body.map(section => ({
                         subtitle: section.subtitle || "",
                         text: section.text || "",
                         images: section.images || []
                     }))
                     : [{ subtitle: "", text: "", images: [] }],
+                createdAt: currentPost.createdAt || new Date().toISOString(),
             });
         }
-    }, [currentPost, allPosts, dispatch, id]);
+    }, [currentPost, allPosts, dispatch, id, navigate]);
+
+    // Générer automatiquement le slug à partir du titre si le slug est vide
+    useEffect(() => {
+        if (form.title && !form.slug && !formSubmitted) {
+            const generatedSlug = form.title
+                .toLowerCase()
+                .replace(/[^\w\s]/gi, '')
+                .replace(/\s+/g, '-');
+            setForm(prev => ({ ...prev, slug: generatedSlug }));
+        }
+    }, [form.title, form.slug, formSubmitted]);
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!form.title.trim()) newErrors.title = "Le titre est requis";
+        if (!form.slug.trim()) newErrors.slug = "Le slug est requis";
+        if (!form.author.trim()) newErrors.author = "L'auteur est requis";
+        if (!form.subtitle.trim()) newErrors.subtitle = "Le sous-titre est requis";
+        if (!form.introduction.trim()) newErrors.introduction = "L'introduction est requise";
+        if (!form.readingTime.trim()) newErrors.readingTime = "Le temps de lecture est requis";
+
+        // Vérifier que chaque section du corps a au moins un sous-titre ou du texte
+        form.body.forEach((section, index) => {
+            if (!section.subtitle.trim() && !section.text.trim()) {
+                newErrors[`body_${index}`] = "La section doit contenir un sous-titre ou du texte";
+            }
+        });
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
+
+        // Effacer l'erreur pour ce champ si elle existe
+        if (errors[name]) {
+            setErrors({ ...errors, [name]: null });
+        }
     };
 
     const handleThemeToggle = (themeId) => {
@@ -90,6 +143,11 @@ const AdminEditPost = () => {
         const updatedBody = [...form.body];
         updatedBody[index][field] = value;
         setForm({ ...form, body: updatedBody });
+
+        // Effacer l'erreur pour cette section si elle existe
+        if (errors[`body_${index}`]) {
+            setErrors({ ...errors, [`body_${index}`]: null });
+        }
     };
 
     const handleImageChange = (sectionIndex, imageIndex, value) => {
@@ -129,15 +187,59 @@ const AdminEditPost = () => {
             const updatedBody = [...form.body];
             updatedBody.splice(index, 1);
             setForm({ ...form, body: updatedBody });
+
+            // Supprimer l'erreur associée à cette section
+            const newErrors = { ...errors };
+            delete newErrors[`body_${index}`];
+            setErrors(newErrors);
+        }
+    };
+
+    const saveAsDraft = async () => {
+        // Sauvegarder comme brouillon sans validation complète
+        const draftForm = { ...form, isPublished: false };
+
+        try {
+            setFormSubmitted(true);
+            dispatch(updatePost(draftForm));
+            alert("Brouillon sauvegardé !");
+        } catch (error) {
+            console.error("Erreur:", error);
+            alert("Erreur lors de la sauvegarde du brouillon.");
+        }
+    };
+
+    const togglePostStatus = async () => {
+        try {
+            dispatch(updatePostStatus(id, form.isPublished));
+            setForm({ ...form, isPublished: !form.isPublished });
+            alert(form.isPublished ? "Article dépublié !" : "Article publié !");
+        } catch (error) {
+            console.error("Erreur:", error);
+            alert("Erreur lors du changement de statut.");
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
+        if (!validateForm()) {
+            // Faire défiler jusqu'à la première erreur
+            const firstErrorField = document.querySelector(".error-message");
+            if (firstErrorField) {
+                firstErrorField.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            return;
+        }
+
+        setFormSubmitted(true);
         dispatch(updatePost(form));
         alert("Article mis à jour !");
         navigate("/admin/posts");
+    };
+
+    const togglePreview = () => {
+        setShowPreview(!showPreview);
     };
 
     // Si les données ne sont pas encore chargées
@@ -152,39 +254,141 @@ const AdminEditPost = () => {
     return (
         <div className="admin-edit">
             <Link to="/admin/posts" className="admin-return">&#8592; Retour</Link>
-            
+
             <h2>Modifier l'article</h2>
+
+            <div className="form-actions">
+                <button
+                    type="button"
+                    className="preview-btn"
+                    onClick={togglePreview}
+                >
+                    👁️ Prévisualiser
+                </button>
+
+                <button
+                    type="button"
+                    className={`status-btn ${form.isPublished ? 'unpublish-btn' : 'publish-btn'}`}
+                    onClick={togglePostStatus}
+                >
+                    {form.isPublished ? '🔒 Dépublier' : '🌐 Publier'}
+                </button>
+
+                <button
+                    type="button"
+                    className="draft-btn"
+                    onClick={saveAsDraft}
+                >
+                    💾 Enregistrer comme brouillon
+                </button>
+            </div>
+
+            {showPreview && <ArticlePreview form={form} togglePreview ={togglePreview} />}
+
             <form onSubmit={handleSubmit}>
                 <div className="admin-edit-short-fields">
-                    <input name="title" placeholder="Titre" value={form.title} onChange={handleChange} required />
-                    <input name="slug" placeholder="Slug" value={form.slug} onChange={handleChange} required />
-                    <input name="author" placeholder="Auteur" value={form.author} onChange={handleChange} required />
-                    <input name="readingTime" placeholder="Temps de lecture" value={form.readingTime} onChange={handleChange} />
-                    <input name="subtitle" placeholder="Sous-titre" value={form.subtitle} onChange={handleChange} />
+                    <div className="form-group">
+                        <input
+                            name="title"
+                            placeholder="Titre"
+                            value={form.title}
+                            onChange={handleChange}
+                            className={errors.title ? "error-input" : ""}
+                        />
+                        {errors.title && <div className="error-message">{errors.title}</div>}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            name="slug"
+                            placeholder="Slug"
+                            value={form.slug}
+                            onChange={handleChange}
+                            className={errors.slug ? "error-input" : ""}
+                        />
+                        {errors.slug && <div className="error-message">{errors.slug}</div>}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            name="author"
+                            placeholder="Auteur"
+                            value={form.author}
+                            onChange={handleChange}
+                            className={errors.author ? "error-input" : ""}
+                        />
+                        {errors.author && <div className="error-message">{errors.author}</div>}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            name="readingTime"
+                            placeholder="Temps de lecture"
+                            value={form.readingTime}
+                            onChange={handleChange}
+                            className={errors.readingTime ? "error-input" : ""}
+                        />
+                        {errors.readingTime && <div className="error-message">{errors.readingTime}</div>}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            name="subtitle"
+                            placeholder="Sous-titre"
+                            value={form.subtitle}
+                            onChange={handleChange}
+                            className={errors.subtitle ? "error-input" : ""}
+                        />
+                        {errors.subtitle && <div className="error-message">{errors.subtitle}</div>}
+                    </div>
                 </div>
 
-                <input name="mainImage" placeholder="Image principale (URL Cloudinary)" value={form.mainImage} onChange={handleChange} />
+                <div className="form-group">
+                    <input
+                        name="mainImage"
+                        placeholder="Image principale (URL Cloudinary)"
+                        value={form.mainImage}
+                        onChange={handleChange}
+                    />
+                </div>
 
-                <textarea name="introduction" placeholder="Introduction" value={form.introduction} onChange={handleChange} />
-                <textarea name="context" placeholder="Contexte" value={form.context} onChange={handleChange} />
+                <div className="form-group">
+                    <textarea
+                        name="introduction"
+                        placeholder="Introduction"
+                        value={form.introduction}
+                        onChange={handleChange}
+                        className={errors.introduction ? "error-input" : ""}
+                    />
+                    {errors.introduction && <div className="error-message">{errors.introduction}</div>}
+                </div>
+
+                <div className="form-group">
+                    <textarea
+                        name="context"
+                        placeholder="Contexte"
+                        value={form.context}
+                        onChange={handleChange}
+                    />
+                </div>
 
                 <div className="admin-edit-body">
                     <h3>Corps de l'article</h3>
                     {form.body.map((section, index) => (
-                        <div key={index} className="form-section">
-                            <div className="form-section-header">
-                                <span>Section {index + 1}</span>
+                        <div key={index} className={`form-section ${errors[`body_${index}`] ? "error-section" : ""}`}>
+                            <div className="section-header">
+                                <span className="section-number">Section {index + 1}</span>
                                 {form.body.length > 1 && (
-                                    <button 
-                                        type="button" 
-                                        className="remove-section-btn" 
+                                    <button
+                                        type="button"
+                                        className="remove-section-btn"
                                         onClick={() => removeBodySection(index)}
                                     >
-                                        🗑️ Supprimer
+                                        ❌ Supprimer
                                     </button>
                                 )}
                             </div>
-                            
+
                             <input
                                 placeholder="Sous-titre"
                                 value={section.subtitle}
@@ -196,8 +400,10 @@ const AdminEditPost = () => {
                                 value={section.text}
                                 onChange={(e) => handleBodyChange(index, "text", e.target.value)}
                             />
+                            {errors[`body_${index}`] && <div className="error-message">{errors[`body_${index}`]}</div>}
+
                             <div className="body-images">
-                                <h4>Images</h4>
+                                <h4>Images de la section</h4>
                                 {section.images && section.images.map((url, imgIndex) => (
                                     <div key={imgIndex} className="image-input-container">
                                         <input
@@ -213,7 +419,7 @@ const AdminEditPost = () => {
                                             className="remove-image-btn"
                                             onClick={() => removeImageField(index, imgIndex)}
                                         >
-                                            🗑️
+                                            ❌
                                         </button>
                                     </div>
                                 ))}
@@ -233,16 +439,21 @@ const AdminEditPost = () => {
                     </button>
                 </div>
 
-                <textarea name="firstContact" placeholder="Premier contact" value={form.firstContact} onChange={handleChange} />
-                <textarea name="conclusion" placeholder="Conclusion" value={form.conclusion} onChange={handleChange} />
+                <div className="form-group">
+                    <textarea name="firstContact" placeholder="Premier contact" value={form.firstContact} onChange={handleChange} />
+                </div>
+
+                <div className="form-group">
+                    <textarea name="conclusion" placeholder="Conclusion" value={form.conclusion} onChange={handleChange} />
+                </div>
 
                 <h4>Thèmes</h4>
                 <div className="theme-select">
                     {themes.map((theme) => (
-                        <label 
-                            key={theme._id} 
-                            className={`theme-select-item ${form.themes.includes(theme._id) ? 'selected' : ''}`} 
-                            style={{ 
+                        <label
+                            key={theme._id}
+                            className={`theme-select-item ${form.themes.includes(theme._id) ? 'selected' : ''}`}
+                            style={{
                                 backgroundColor: theme.color,
                                 borderColor: theme.color
                             }}
@@ -257,9 +468,18 @@ const AdminEditPost = () => {
                     ))}
                 </div>
 
-                <div className="admin-edit-actions">
-                    <button type="submit" className="submit-btn">Enregistrer les modifications</button>
-                    <Link to="/admin/posts" className="cancel-btn">Annuler</Link>
+                <div className="form-actions">
+                    <button
+                        type="button"
+                        className="draft-btn"
+                        onClick={saveAsDraft}
+                    >
+                        💾 Enregistrer comme brouillon
+                    </button>
+                    <button type="submit" className="publish-btn">&#x2714; Enregistrer les modifications</button>
+                    <Link to="/admin/posts">
+                        <button type="button" className="cancel-btn">Annuler</button>
+                    </Link>
                 </div>
             </form>
         </div>

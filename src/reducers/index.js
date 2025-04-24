@@ -32,6 +32,7 @@ const initialState = {
   menuOpen: false,
   posts: [],
   themes: [],
+  comments: [],
   pseudo: '',
   comment: '',
   email: '',

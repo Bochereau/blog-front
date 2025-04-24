@@ -65,7 +65,7 @@ export const UPDATE_POST_STATUS = 'UPDATE_POST_STATUS';
 export const updatePostStatus = (id, status) => ({
   type: UPDATE_POST_STATUS,
   id,
-  posted: !status
+  isPublished: !status
 });
 
 /* Comments management */
@@ -78,6 +78,10 @@ export const sendComment = () => ({
 export const EMPTY_FIELDS = 'EMPTY_FIELDS';
 export const emptyFields = () => ({
   type: EMPTY_FIELDS,
+});
+export const FETCH_ALL_COMMENTS = 'FETCH_ALL_COMMENTS';
+export const fetchAllComments = () => ({
+  type: FETCH_ALL_COMMENTS,
 });
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const fetchComments = (postId) => ({

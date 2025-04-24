@@ -1,122 +1,151 @@
-import React from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { updatePost, getPosts } from "../../actions";
-import "./style.scss";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import "./preview-styles.scss";
 
-const ArticlePreview = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+const ArticlePreview = ({form, togglePreview }) => {
+    const [viewMode, setViewMode] = useState('desktop');
+
     const themes = useSelector((state) => state.themes);
-    const allPosts = useSelector((state) => state.posts);
-    
-    // Trouver le post correspondant à l'ID
-    const post = allPosts.find(post => post._id === id);
 
-    // Si le post n'existe pas dans le store
-    if (!post) {
-        return <div className="preview-not-found">Article non trouvé</div>;
-    }
-
-    // Filtrer les thèmes du post
-    const postThemes = themes.filter(theme => 
-        post.themes?.includes(theme._id)
+    const postThemes = themes.filter(theme =>
+        form.themes?.includes(theme._id)
     );
 
+    // Fonction pour déterminer la classe CSS selon le mode d'affichage
+    const getViewModeClass = () => {
+        switch (viewMode) {
+            case 'tablet':
+                return 'preview-tablet-view';
+            case 'mobile':
+                return 'preview-mobile-view';
+            default:
+                return 'preview-desktop-view';
+        }
+    };
+
+    // Fonction pour formater la date comme dans le composant Post
+    const reverseDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    };
+
     return (
-        <div className="article-preview">
-            <div className="preview-admin-bar">
-                <Link to="/admin/posts" className="back-btn">&#8592; Retour à la liste</Link>
-                
+        <div className="post-preview-container">
+            <div className="preview-header">
+                <h2>Prévisualisation</h2>
+
+                <div className="preview-device-selector">
+                    <button
+                        className={`device-btn ${viewMode === 'desktop' ? 'active' : ''}`}
+                        onClick={() => setViewMode('desktop')}
+                        title="Vue ordinateur"
+                    >
+                        💻
+                    </button>
+                    <button
+                        className={`device-btn ${viewMode === 'tablet' ? 'active' : ''}`}
+                        onClick={() => setViewMode('tablet')}
+                        title="Vue tablette"
+                    >
+                        📱
+                    </button>
+                    <button
+                        className={`device-btn ${viewMode === 'mobile' ? 'active' : ''}`}
+                        onClick={() => setViewMode('mobile')}
+                        title="Vue smartphone"
+                    >
+                        📱
+                    </button>
+                </div>
+
                 <div className="preview-status">
-                    <span className={`status-indicator ${post.posted ? 'published' : 'draft'}`}>
-                        {post.posted ? 'Article publié' : 'Brouillon - Non publié'}
+                    <span className={`status-indicator ${form.isPublished ? 'published' : 'draft'}`}>
+                        {form.isPublished ? 'Article publié' : 'Brouillon - Non publié'}
                     </span>
                 </div>
-                
-                <div className="preview-actions">
-                    <Link to={`/admin/posts/edit/${id}`} className="edit-btn">
-                        ✏️ Modifier
-                    </Link>
-                </div>
+
+                <button type="button" onClick={togglePreview} className="close-preview-btn">
+                    Fermer la prévisualisation
+                </button>
             </div>
-            
-            <div className="preview-content">
-                <div className="preview-header">
-                    <h1>{post.title}</h1>
-                    <h2>{post.subtitle}</h2>
-                    
-                    <div className="meta-info">
-                        <div className="author">Par {post.author}</div>
-                        <div className="reading-time">{post.readingTime} de lecture</div>
-                        <div className="date">
-                            {new Date(post.createdAt).toLocaleDateString('fr-FR', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            })}
+
+            {/* Structure du composant Post pour la prévisualisation */}
+            <div className={`preview-content-wrapper ${getViewModeClass()}`}>
+                <article className="post">
+                    <div className="post-header">
+                        {form.mainImage && (
+                            <img className="post-header-img" src={form.mainImage} alt={form.title} />
+                        )}
+                        <h3 className={`post-header-title bk-s--${form.light ? 'light' : 'dark'}`}>
+                            {form.title || "Titre de l'article"}
+                        </h3>
+                    </div>
+
+                    <p className="post-info">
+                        Publié le <time className="post-info-date" dateTime={form.createdAt}>{reverseDate(form.createdAt)}</time> par <em className="post-info-author">{form.author || "Auteur"}</em>
+                    </p>
+
+                    {postThemes.length > 0 && (
+                        <div className="post-tags">
+                            {postThemes.map(theme => (
+                                <span key={theme._id} className="post-tags-item" style={{ backgroundColor: theme.color }}>
+                                    {theme.name}
+                                </span>
+                            ))}
                         </div>
-                    </div>
-                    
-                    <div className="themes">
-                        {postThemes.map(theme => (
-                            <span 
-                                key={theme._id} 
-                                className="theme-tag"
-                                style={{ backgroundColor: theme.color }}
-                            >
-                                {theme.name}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-                
-                {post.mainImage && (
-                    <div className="featured-image">
-                        <img src={post.mainImage} alt={post.title} />
-                    </div>
-                )}
-                
-                <div className="article-sections">
-                    <div className="introduction">
-                        <h3>Introduction</h3>
-                        <p>{post.introduction}</p>
-                    </div>
-                    
-                    <div className="context">
-                        <h3>Contexte</h3>
-                        <p>{post.context}</p>
-                    </div>
-                    
-                    {post.body.map((section, index) => (
-                        <div key={index} className="body-section">
-                            <h3>Section {index + 1}</h3>
-                            {section.subtitle && <h3>{section.subtitle}</h3>}
-                            <div className="section-content">
-                                <p>{section.text}</p>
-                                
-                                {section.images?.length > 0 && (
-                                    <div className="section-images">
-                                        {section.images.map((image, imgIndex) => (
-                                            <img key={imgIndex} src={image} alt={`Image ${imgIndex + 1}`} />
+                    )}
+
+                    <div className="post-content">
+                        <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{form.introduction || "Votre introduction apparaîtra ici."}</p>
+
+                        {form.context && (
+                            <div className="post-content-context">
+                                <div className="post-content-context-triangle-top"></div>
+                                <p className="post-content-context-title">
+                                    Un peu de contexte
+                                </p>
+                                <p className="post-content-context-text" style={{ whiteSpace: 'pre-line' }}>{form.context}</p>
+                                <div className="post-content-context-triangle-bottom"></div>
+                            </div>
+                        )}
+
+                        {form.body.map((section, index) => (
+                            <div key={index} className="post-content-section">
+                                {section.subtitle && <h4 className="post-content-subtitle"><span>{section.subtitle}</span></h4>}
+                                {section.text && <p className="post-content-text" style={{ whiteSpace: 'pre-line' }}>{section.text}</p>}
+                                {section.images?.filter(img => img).length > 0 && (
+                                    <div className={`post-content-images has-${section.images.filter(img => img).length}`}>
+                                        {section.images.filter(img => img).map((image, imgIndex) => (
+                                            <img
+                                                key={imgIndex}
+                                                src={image}
+                                                alt={`illustration-${imgIndex}`}
+                                                className="post-content-image"
+                                            />
                                         ))}
                                     </div>
                                 )}
                             </div>
-                        </div>
-                    ))}
-                    
-                    <div className="first-contact">
-                        <h3>Premier contact</h3>
-                        <p>{post.firstContact}</p>
+                        ))}
+
+                        {form.firstContact && (
+                            <div className="post-content-contact">
+                                <div className="post-content-contact-triangle-top"></div>
+                                <p className="post-content-contact-title">
+                                    Premier contact
+                                </p>
+                                <p className="post-content-contact-text" style={{ whiteSpace: 'pre-line' }}>{form.firstContact}</p>
+                                <div className="post-content-contact-triangle-bottom"></div>
+                            </div>
+                        )}
+
+                        <p className="post-content-outro" style={{ whiteSpace: 'pre-line' }}>{form.conclusion || "Votre conclusion apparaîtra ici."}</p>
                     </div>
-                    
-                    <div className="conclusion">
-                        <h3>Conclusion</h3>
-                        <p>{post.conclusion}</p>
-                    </div>
-                </div>
+                </article>
             </div>
         </div>
     );

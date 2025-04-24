@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
 const VALID_USERNAME = "BBLimit";
-const VALID_PASSWORD = "limit!break!2018!";
+const VALID_PASSWORD = import.meta.env.ADMIN_SECRET;
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");

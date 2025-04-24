@@ -26,6 +26,7 @@ import AdminCreatePost from '../Admin/AdminCreatePost';
 import AdminEditPost from "../Admin/AdminEditPost";
 import AdminThemes from "../Admin/AdminThemes";
 import AdminPreview from "../Admin/AdminPreview";
+import AdminComments from "../Admin/AdminComments";
 
 const Blog = () => {
     const dispatch = useDispatch();
@@ -80,6 +81,11 @@ const Blog = () => {
                         <Route path="/admin/themes" element={
                             <AdminRoute>
                                 <AdminThemes />
+                            </AdminRoute>
+                        } />
+                        <Route path="/admin/comments" element={
+                            <AdminRoute>
+                                <AdminComments />
                             </AdminRoute>
                         } />
                         <Route path="*" element={<NotFound />} />
