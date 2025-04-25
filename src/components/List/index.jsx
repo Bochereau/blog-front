@@ -91,13 +91,13 @@ const List = () => {
             <div className="list-post">
               <div className="list-post-link">
                 <img src={post.mainImage}></img>
-                <div>
-                  <span className="list-post-title">{post.title}</span>{post.subtitle && ", " + post.subtitle}
+                <div className="list-post-text">
+                  <p><span className="list-post-title">{post.title}</span>{post.subtitle && ", " + post.subtitle}</p>
+                  <p className="list-post-meta">
+                    Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.createdAt)}</time>
+                  </p>
                 </div>
               </div>
-              <p className="list-post-meta">
-                Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.createdAt)}</time>
-              </p>
               <div className="list-post-themes">
                 {post.themes.map((theme) => (
                   <p className="list-post-themes-item" key={theme.name}>
