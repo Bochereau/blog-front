@@ -12,7 +12,6 @@ const List = () => {
   const posts = useSelector((state) => state.posts);
   const themes = useSelector((state) => state.themes);
   const light = useSelector((state) => state.lightTheme);
-  console.log(themes)
 
   const [search, setSearch] = useState("");
   const [selectedThemes, setSelectedThemes] = useState([]);

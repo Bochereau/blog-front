@@ -1,44 +1,49 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import classNames from 'classnames';
+
+import { sendMessage } from "../../actions";
 
 import './style.scss';
 
-const Contact = ({ 
-    pseudo, 
-    email, 
-    message, 
-    changeValue,
-    sendMessage,
-    light,
-}) => {
+const Contact = () => {
+    const dispatch = useDispatch();
+    
+    const [formData, setFormData] = useState({
+        pseudo: '',
+        email: '',
+        message: ''
+    });
+
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        const { pseudo, email, message } = formData;
         if (pseudo !== '' && email !== '' && message !== '') {
-            sendMessage();
+            dispatch(sendMessage(pseudo, email, message));
+            setFormData({ pseudo: '', email: '', message: '' });
         }
-        else {
-        }
-    }
+    };
+
     const handleChange = (evt) => {
-        evt.preventDefault();
-        changeValue(evt.target.value, evt.target.name);
-    }
+        const { name, value } = evt.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
     return (
         <>
             <div className="contact">
-                <h2 className={classNames ("contact-title", {"bk-s--light" : light === true, "bk-s--dark" : light === false})}>
-                    Formulaire de contact
-                </h2>
                 <div className="contact-content">
-                    <form 
-                        className={ classNames("contact-form") }
+                    <p className="contact-content-description">Contactez-moi !</p>
+                    <form
+                        className={classNames("contact-form")}
                         onSubmit={handleSubmit}
                     >
-                        <p className="contact-content-description">Contactez-moi !</p>
                         <ul>
                             <li className="contact-form-item">
-                                <label 
+                                <label
                                     className="contact-form-item-label"
                                     htmlFor="field-name"
                                 >
@@ -49,15 +54,15 @@ const Contact = ({
                                     type="text"
                                     name="pseudo"
                                     maxLength="50"
-                                    className={ classNames ("contact-form-item-input", {
-                                        "ok" : pseudo !== ''
+                                    className={classNames("contact-form-item-input", {
+                                        "ok": formData.pseudo !== ''
                                     })}
-                                    value={pseudo}
+                                    value={formData.pseudo}
                                     onChange={handleChange}
                                 />
                             </li>
                             <li className="contact-form-item">
-                                <label 
+                                <label
                                     className="contact-form-item-label"
                                     htmlFor="field-email"
                                 >
@@ -68,38 +73,38 @@ const Contact = ({
                                     type="email"
                                     name="email"
                                     maxLength="50"
-                                    className={ classNames ("contact-form-item-input", {
-                                        "ok" : email !== ''
+                                    className={classNames("contact-form-item-input", {
+                                        "ok": formData.email !== ''
                                     })}
-                                    value={email}
+                                    value={formData.email}
                                     onChange={handleChange}
                                 />
                             </li>
                             <li className="contact-form-item">
-                                <label 
+                                <label
                                     className="contact-form-item-label"
                                     htmlFor="field-message"
                                 >
                                     Message
                                 </label>
-                                <textarea 
+                                <textarea
                                     id="field-message"
                                     name="message"
                                     rows="8"
-                                    className={ classNames ("contact-form-item-textarea", {
-                                        "ok" : message !== ''
+                                    className={classNames("contact-form-item-textarea", {
+                                        "ok": formData.message !== ''
                                     })}
-                                    value={message}
+                                    value={formData.message}
                                     onChange={handleChange}
                                 />
                             </li>
                         </ul>
                         <input
-                            type="submit" 
+                            type="submit"
                             value="Envoyer"
-                            className={ classNames ("contact-form-submit", {
-                                "off" : pseudo === '' || email === '' || message === '', 
-                                "on" : pseudo !== '' && email !== '' && message !== '',
+                            className={classNames("contact-form-submit", {
+                                "off": formData.pseudo === '' || formData.email === '' || formData.message === '',
+                                "on": formData.pseudo !== '' && formData.email !== '' && formData.message !== '',
                             })}
                         />
                     </form>
@@ -108,13 +113,5 @@ const Contact = ({
         </>
     )
 }
-
-// Contact.propTypes = {
-//     pseudo : PropTypes.string.isRequired,
-//     email : PropTypes.string.isRequired,
-//     message : PropTypes.string.isRequired,
-//     changeValue : PropTypes.func.isRequired,
-//     sendMessage : PropTypes.func.isRequired,
-// }
 
 export default Contact;

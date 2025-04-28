@@ -36,7 +36,6 @@ export const sortedByCreationArray = (array) => {
 
 // function to sort an array by name
 export const sortedByNameArray = (array) => {
-    console.log(array)
     let newArray = array.sort(function (a, b) {
         if (a.slug < b.slug) { return -1; }
         if (a.slug > b.slug) { return 1; }

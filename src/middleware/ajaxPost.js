@@ -1,10 +1,12 @@
 import axios from 'axios';
+import emailjs from '@emailjs/browser';
 import {
   savePosts,
   isLoading,
   saveThemes,
   dispatchMessage,
-  emptyFields,
+  emptyCommentFields,
+  clearReplyTo,
   handleApiError,
   saveComments,
   addComment
@@ -150,7 +152,6 @@ const ajaxPost = (store) => (next) => (action) => {
       const url = postId ? `comments?postId=${postId}` : 'comments';
       api.get(url)
         .then((response) => {
-          console.log(response);
           store.dispatch(saveComments(response.data));
         })
         .catch((error) => {
@@ -176,7 +177,7 @@ const ajaxPost = (store) => (next) => (action) => {
         .then((response) => {
           store.dispatch(addComment(response.data.comment));
           store.dispatch(dispatchMessage("Merci pour votre commentaire"));
-          store.dispatch(emptyFields());
+          store.dispatch(emptyCommentFields());
           store.dispatch(clearReplyTo());
         })
         .catch((error) => {
@@ -206,6 +207,7 @@ const ajaxPost = (store) => (next) => (action) => {
         .then((response) => {
           store.dispatch({ type: 'DELETE_COMMENT_SUCCESS', id });
           store.dispatch(dispatchMessage("Commentaire supprimé"));
+          store.dispatch({ type: 'FETCH_COMMENTS' });
         })
         .catch((error) => {
           store.dispatch(handleApiError(error.message || 'Erreur lors de la suppression du commentaire'));
@@ -215,19 +217,32 @@ const ajaxPost = (store) => (next) => (action) => {
     }
 
     case 'SEND_MESSAGE': {
-      const { pseudo, email, message } = store.getState();
-      api.post('messages', {
+      // Service ID : service_c5onigh
+      const { pseudo, email, message } = action;
+
+      const templateParams = {
         name: pseudo,
-        email,
-        message
-      })
-        .then(() => {
-          store.dispatch(dispatchMessage("Votre message a été envoyé avec succès"));
-          store.dispatch(emptyFields());
-        })
-        .catch((error) => {
-          store.dispatch(handleApiError(error));
-          console.error('Error sending message:', error);
+        email: email,
+        message,
+      };
+
+      const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      console.log(EMAILJS_PUBLIC_KEY);
+
+      console.log(templateParams);
+
+      emailjs.send(
+        "service_c5onigh",
+        "template_gcnfaxi",
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      ).then((response) => {
+          console.log('SUCCESS!', response.status, response.text);
+          store.dispatch(dispatchMessage("Votre message a bien été envoyé."));
+        }, (error) => {
+          console.log('FAILED...', error);
+          store.dispatch(dispatchMessage("Erreur lors de l'envoi du message."));
         });
       break;
     }

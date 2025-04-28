@@ -75,9 +75,9 @@ export const sendComment = () => ({
   type: SEND_COMMENT,
 });
 // action de vider les champs
-export const EMPTY_FIELDS = 'EMPTY_FIELDS';
-export const emptyFields = () => ({
-  type: EMPTY_FIELDS,
+export const EMPTY_COMMENT_FIELDS = 'EMPTY_COMMENT_FIELDS';
+export const emptyCommentFields = () => ({
+  type: EMPTY_COMMENT_FIELDS,
 });
 export const FETCH_ALL_COMMENTS = 'FETCH_ALL_COMMENTS';
 export const fetchAllComments = () => ({
@@ -133,9 +133,17 @@ export const clearReplyTo = () => ({
 /* Contact form management */
 // action to send comment 
 export const SEND_MESSAGE = 'SEND_MESSAGE';
-export const sendMessage = () => ({
+export const sendMessage = (pseudo, email, message) => ({
   type: SEND_MESSAGE,
-})
+  pseudo,
+  email,
+  message
+});
+// action de vider les champs
+export const EMPTY_MESSAGE_FIELDS = 'EMPTY_MESSAGE_FIELDS';
+export const emptyMessageFields = () => ({
+  type: EMPTY_MESSAGE_FIELDS,
+});
 
 /* Game List management */
 // action to fetch blog theme

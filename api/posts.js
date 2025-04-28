@@ -19,11 +19,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
-
-  console.log("Request method:", req.method);
-  console.log("Request URL:", req.url);
-  console.log("Request body:", req.body);
-
+  
   const db = await connectToDatabase();
 
   // GET - Récupérer tous les posts

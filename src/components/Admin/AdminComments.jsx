@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import { fetchComments, deleteComment, updateComment } from '../../actions';
 import './style.scss';
 
@@ -109,7 +110,9 @@ const AdminComments = () => {
 
   return (
     <div className="admin-comments">
-      <h1 className="admin-section-title">Gestion des commentaires</h1>
+      <Link to="/admin/dashboard" className="admin-return">&#8592; Retour</Link>
+    
+      <h2 className="admin-section-title">Gestion des commentaires</h2>
 
       <div className="admin-toolbar">
         <div className="filter-section">

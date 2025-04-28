@@ -12,12 +12,13 @@ import {
   DELETE_THEME,
   CHANGE_VALUE,
   DISPATCH_MESSAGE,
-  EMPTY_FIELDS,
+  EMPTY_MESSAGE_FIELDS,
   CHANGE_COLOR,
   HANDLE_API_ERROR,
   ADMIN_SAVE_ALL,
   ADMIN_SET_CURRENT,
   SAVE_COMMENTS,
+  EMPTY_COMMENT_FIELDS,
   ADD_COMMENT,
   UPDATE_COMMENT,
   DELETE_COMMENT,
@@ -40,6 +41,8 @@ const initialState = {
   postId: null,
   alert: '',
   lightTheme: true,
+  replyTo: null,
+  replyToPseudo: null
 };
 
 const reducer = (state = initialState, action = {}) => {
@@ -113,14 +116,13 @@ const reducer = (state = initialState, action = {}) => {
         ...state,
         alert: action.message,
       }
-    case EMPTY_FIELDS:
+    case EMPTY_MESSAGE_FIELDS:
       return {
         ...state,
         pseudo: '',
-        comment: '',
         email: '',
         message: '',
-      }
+      };
     case CHANGE_COLOR:
       return {
         ...state,
@@ -147,6 +149,12 @@ const reducer = (state = initialState, action = {}) => {
         ...state,
         comments: action.comments,
       };
+    case EMPTY_COMMENT_FIELDS:
+      return {
+        ...state,
+        pseudo: '',
+        comment: '',
+      }
     case ADD_COMMENT:
       return {
         ...state,
