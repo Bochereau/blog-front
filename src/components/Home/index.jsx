@@ -14,6 +14,7 @@ const Home = () => {
   const light = useSelector((state) => state.lightTheme);
 
   // const handleChangeColor = () => dispatch(changeColor());
+  const publishedPosts = posts.filter(post => post.isPublished === true);
 
   return (
     <div
@@ -38,7 +39,7 @@ const Home = () => {
           </div>
         )}
         {!loading &&
-          posts.map((post) => (
+          publishedPosts.map((post) => (
             <Card key={post._id || post.id} post={post} />
           ))}
       </ul>

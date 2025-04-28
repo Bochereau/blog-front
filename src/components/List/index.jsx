@@ -13,6 +13,9 @@ const List = () => {
   const themes = useSelector((state) => state.themes);
   const light = useSelector((state) => state.lightTheme);
 
+  const publishedPosts = posts.filter(post => post.isPublished === true);
+
+
   const [search, setSearch] = useState("");
   const [selectedThemes, setSelectedThemes] = useState([]);
 
@@ -29,14 +32,14 @@ const List = () => {
   };
 
   const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
+    return publishedPosts.filter((post) => {
       const matchTitle = post.title.toLowerCase().includes(search.toLowerCase());
       const matchThemes =
         selectedThemes.length === 0 ||
         (post.themes && post.themes.some((theme) => selectedThemes.includes(theme._id)));
       return matchTitle && matchThemes;
     });
-  }, [posts, search, selectedThemes]);
+  }, [publishedPosts, search, selectedThemes]);
 
   return (
     <div className={classNames("list", { "bk-p--light": light, "bk-p--dark": !light })}>
