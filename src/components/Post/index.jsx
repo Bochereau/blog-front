@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
 import classNames from "classnames";
 
@@ -11,7 +10,7 @@ const Post = ({
   title,
   slug,
   mainImage,
-  createdAt,
+  publishedAt,
   author,
   introduction,
   context,
@@ -59,7 +58,7 @@ const Post = ({
       </div>
 
       <p className="post-info">
-        Publié le <time className="post-info-date" dateTime={createdAt}>{reverseDate(createdAt)}</time> par <em className="post-info-author">{author}</em>
+        Publié le <time className="post-info-date" dateTime={publishedAt}>{publishedAt && reverseDate(publishedAt)}</time> par <em className="post-info-author">{author}</em>
       </p>
 
       {themes && (
@@ -134,24 +133,6 @@ const Post = ({
       )}
     </article>
   )
-};
-
-Post.propTypes = {
-  light: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  slug: PropTypes.string.isRequired,
-  mainImage: PropTypes.string,
-  createdAt: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  introduction: PropTypes.string.isRequired,
-  context: PropTypes.string,
-  body: PropTypes.arrayOf(PropTypes.shape({
-    subtitle: PropTypes.string,
-    text: PropTypes.string,
-    images: PropTypes.arrayOf(PropTypes.string)
-  })),
-  firstContact: PropTypes.string,
-  conclusion: PropTypes.string.isRequired,
 };
 
 export default Post;

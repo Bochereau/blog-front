@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
-import { fetchComments, deleteComment, updateComment } from '../../actions';
+import { fetchComments, deleteComment, updateComment } from '../../../actions';
 import './style.scss';
 
 const AdminComments = () => {

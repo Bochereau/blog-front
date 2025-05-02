@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Pencil, Trash2, EyeOff, Eye } from "lucide-react";
 import classNames from "classnames";
+import { deletePost, updatePostStatus, getPosts } from "../../../actions";
 import "./style.scss";
 
 const AdminPosts = () => {
+    const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const light = useSelector((state) => state.lightTheme);
     const [search, setSearch] = useState("");
@@ -12,11 +15,11 @@ const AdminPosts = () => {
 
     const filteredPosts = posts.filter((post) => {
         const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
-        
+
         if (viewMode === "all") return matchesSearch;
         if (viewMode === "published") return matchesSearch && post.isPublished;
         if (viewMode === "drafts") return matchesSearch && !post.isPublished;
-        
+
         return matchesSearch;
     });
 
@@ -51,7 +54,8 @@ const AdminPosts = () => {
                     <tr>
                         <th>Titre</th>
                         <th>Auteur</th>
-                        <th>Date</th>
+                        <th>Date de création</th>
+                        <th>Date de publication</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -61,19 +65,32 @@ const AdminPosts = () => {
                             <td>{post.title}</td>
                             <td>{post.author}</td>
                             <td>{new Date(post.createdAt).toLocaleDateString()}</td>
+                            <td>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}</td>
                             <td>
                                 <Link to={`/admin/posts/edit/${post._id}`}>
-                                    <button className="admin-posts-edit"  title="Modifier">✏️</button>
+                                    <button className="admin-posts-btn orange" title="Modifier">
+                                        <Pencil size={16} /> Modifier
+                                    </button>
                                 </Link>
-                                
+
                                 <button
-                                    className={`admin-posts-status ${post.isPublished ? 'unpublish' : 'publish'}`}
-                                    onClick={() => togglePostStatus(post._id, post.isPublished)}
+                                    className={classNames("admin-posts-btn", {
+                                        green: !post.isPublished,
+                                        gray: post.isPublished,
+                                    })} onClick={() => togglePostStatus(post._id, post.isPublished)}
                                     title={post.isPublished ? "Retirer de la publication" : "Publier"}
                                 >
-                                    {post.isPublished ? '🔽' : '🔼'}
+                                    {post.isPublished ? <EyeOff size={16} /> : <Eye size={16} />}
+                                    {post.isPublished ? "Dépublier" : "Publier"}
                                 </button>
-                                <button onClick={() => handleDeletePost(post._id)} className="admin-posts-delete" title="Supprimer">🗑️</button>
+
+                                <button
+                                    className="admin-posts-btn red"
+                                    onClick={() => handleDeletePost(post._id)}
+                                    title="Supprimer"
+                                >
+                                    <Trash2 size={16} /> Supprimer
+                                </button>
                             </td>
                         </tr>
                     ))}

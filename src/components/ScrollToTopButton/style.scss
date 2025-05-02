@@ -1,0 +1,21 @@
+@use '../../styles/vars';
+@use 'sass:color';
+
+.scroll-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: 5px;
+    background-color: vars.$background-secondary;
+    color: vars.$background-primary;
+    border: none;
+
+    &:hover{
+        border-bottom: 2px solid white;
+    }
+    
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
+}

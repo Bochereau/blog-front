@@ -4,8 +4,8 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-import { changeColor } from '../../actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { changeColor, getPosts, getTheme } from '../../actions';
 
 import './style.scss';
 
@@ -18,15 +18,16 @@ import Article from "../Article";
 import About from "../About";
 import Contact from '../Contact';
 import NotFound from "../NotFound";
-import AdminLogin from '../Admin/AdminLogin';
+import AdminLogin from '../Admin/AdminThemes';
 import AdminDashboard from '../Admin/AdminDashboard';
 import AdminRoute from '../Admin/AdminRoute';
 import AdminPosts from '../Admin/AdminPosts';
-import AdminCreatePost from '../Admin/AdminCreatePost';
-import AdminEditPost from "../Admin/AdminEditPost";
+import AdminCreatePost from '../Admin/AdminPosts/AdminCreatePost';
+import AdminEditPost from "../Admin/AdminPosts/AdminEditPost";
 import AdminThemes from "../Admin/AdminThemes";
 import AdminPreview from "../Admin/AdminPreview";
 import AdminComments from "../Admin/AdminComments";
+import ScrollToTopButton from "../ScrollToTopButton";
 
 const Blog = () => {
     const dispatch = useDispatch();
@@ -34,8 +35,8 @@ const Blog = () => {
     const lightTheme = useSelector((state) => state.lightTheme);
 
     useEffect(() => {
-        dispatch({ type: 'GET_POSTS' });
-        dispatch({ type: 'GET_THEME' });
+        dispatch(getPosts());
+        dispatch(getTheme());
     }, [dispatch]);
 
     // const handleChangeColor = (bool) => dispatch(changeColor(bool));
@@ -91,6 +92,7 @@ const Blog = () => {
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
+                <ScrollToTopButton />
             </ScrollToTop>
         </main>
     )

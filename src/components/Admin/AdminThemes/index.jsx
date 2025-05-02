@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import { getTheme, addTheme, updateTheme, deleteTheme } from '../../actions';
+import { getTheme, addTheme, updateTheme, deleteTheme } from '../../../actions';
+import "./style.scss";
 
 const AdminThemes = () => {
     const dispatch = useDispatch();

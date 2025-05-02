@@ -58,7 +58,7 @@ export const updatePost = (post) => ({
 export const DELETE_POST = 'DELETE_POST';
 export const deletePost = (id) => ({
   type: DELETE_POST,
-  payload: id,
+  id,
 });
 // Publier/depublier un post
 export const UPDATE_POST_STATUS = 'UPDATE_POST_STATUS';

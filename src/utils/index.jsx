@@ -30,7 +30,7 @@ export const themedArray = (array, theme) => {
 
 // function to sort and reverse an array by date
 export const sortedByCreationArray = (array) => {
-    let newArray = array.sort((a, b) => a.createdAt - b.createdAt).reverse();
+    let newArray = array.sort((a, b) => a.publishedAt - b.publishedAt).reverse();
     return newArray;
 }
 

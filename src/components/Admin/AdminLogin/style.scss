@@ -1,0 +1,47 @@
+@use '../../../styles/vars';
+@use 'sass:color';
+
+.admin-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: vars.$background-primary;
+  color: vars.$background-secondary;
+  margin-top: vars.$gutter*3;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: vars.$gutter * 2;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: vars.$gutter;
+
+    input {
+      padding: vars.$gutter;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: vars.$gutter*0.5 vars.$gutter;
+      background-color: vars.$background-secondary;
+      color: vars.$background-primary;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: color.adjust(vars.$background-secondary, $lightness: -10%);
+      }
+    }
+  }
+}

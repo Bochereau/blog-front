@@ -1,8 +1,10 @@
 import axios from 'axios';
 import emailjs from '@emailjs/browser';
 import {
+  getPosts,
   savePosts,
   isLoading,
+  getTheme,
   saveThemes,
   dispatchMessage,
   emptyCommentFields,
@@ -68,9 +70,16 @@ const ajaxPost = (store) => (next) => (action) => {
 
     case 'UPDATE_POST_STATUS': {
       const { id, isPublished } = action;
-      api.put(`posts?_id=${id}`, { isPublished })
+      const payload = {
+        isPublished,
+        publishedAt: isPublished ? new Date().toISOString() : null,
+      };
+    
+      api.put(`posts?_id=${id}`, payload)
         .then((response) => {
-          store.dispatch(dispatchMessage(isPublished ? "L'article a bien été publié" : "L'article n'est plus publié"));
+          store.dispatch(dispatchMessage(
+            isPublished ? "L'article a bien été publié" : "L'article n'est plus publié"
+          ));
         })
         .catch((error) => {
           store.dispatch(handleApiError(error.message || 'Erreur lors de la mise à jour de l\'article'));
@@ -80,7 +89,7 @@ const ajaxPost = (store) => (next) => (action) => {
     }
 
     case 'DELETE_POST': {
-      api.delete(`posts?_id=${action.payload}`)
+      api.delete(`posts?_id=${action.id}`)
         .then(() => {
           store.dispatch(getPosts());
         })
@@ -113,7 +122,7 @@ const ajaxPost = (store) => (next) => (action) => {
     case 'ADD_THEME': {
       api.post('themes', action.payload)
         .then(() => {
-          store.dispatch({ type: 'GET_THEME' });
+          store.dispatch(getTheme());
         })
         .catch((error) => {
           store.dispatch(handleApiError(error));
@@ -126,7 +135,7 @@ const ajaxPost = (store) => (next) => (action) => {
       const { _id, name, color } = action.payload;
       api.put(`themes?_id=${_id}`, { name, color })
         .then(() => {
-          store.dispatch({ type: 'GET_THEME' });
+          store.dispatch(getTheme());
         })
         .catch((error) => {
           store.dispatch(handleApiError(error));
@@ -138,7 +147,7 @@ const ajaxPost = (store) => (next) => (action) => {
     case 'DELETE_THEME': {
       api.delete(`themes?_id=${action.payload}`)
         .then(() => {
-          store.dispatch({ type: 'GET_THEME' });
+          store.dispatch(getTheme());
         })
         .catch((error) => {
           store.dispatch(handleApiError(error));

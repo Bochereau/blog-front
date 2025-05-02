@@ -15,7 +15,6 @@ const List = () => {
 
   const publishedPosts = posts.filter(post => post.isPublished === true);
 
-
   const [search, setSearch] = useState("");
   const [selectedThemes, setSelectedThemes] = useState([]);
 
@@ -96,7 +95,7 @@ const List = () => {
                 <div className="list-post-text">
                   <p><span className="list-post-title">{post.title}</span>{post.subtitle && ", " + post.subtitle}</p>
                   <p className="list-post-meta">
-                    Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.createdAt)}</time>
+                    Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.publishedAt)}</time>
                   </p>
                 </div>
               </div>

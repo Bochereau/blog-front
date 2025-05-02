@@ -34,8 +34,6 @@ const CommentItem = ({ comment, light, level = 0 }) => {
         </div>
         <div className="comment-list-item-actions">
           <button onClick={handleReply} className="comment-list-item-action reply">Répondre</button>
-          {/* <button onClick={handleEdit} className="comment-list-item-action edit">Modifier</button> */}
-          {/* <button onClick={handleDelete} className="comment-list-item-action delete">Supprimer</button> */}
         </div>
       </div>
       {comment.replies?.map((reply) => (
