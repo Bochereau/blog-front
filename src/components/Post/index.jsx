@@ -8,7 +8,7 @@ import './style.scss';
 const Post = ({
   light,
   title,
-  slug,
+  subtitle,
   mainImage,
   publishedAt,
   author,
@@ -56,6 +56,8 @@ const Post = ({
           {title}
         </h3>
       </div>
+
+      <h4 className="post-subtitle">{subtitle}</h4>
 
       <p className="post-info">
         Publié le <time className="post-info-date" dateTime={publishedAt}>{publishedAt && reverseDate(publishedAt)}</time> par <em className="post-info-author">{author}</em>
