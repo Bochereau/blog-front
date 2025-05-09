@@ -17,12 +17,7 @@ const Home = () => {
   const publishedPosts = posts.filter(post => post.isPublished === true);
 
   return (
-    <div
-      className={classNames("home-posts", {
-        "bk-p--light": light === true,
-        "bk-p--dark": light === false,
-      })}
-    >
+    <div className="home-posts">
       <ul className="home-posts-list">
         {loading && (
           <div className="home-loading">
