@@ -136,6 +136,11 @@
                 overflow: hidden;
                 margin: vars.$gutter 0 vars.$gutter*2;
                 border-bottom: 3px solid black;
+                @media (max-width: 426px) {
+                    background-color: vars.$background-primary;
+                    border: none;
+                    padding: vars.$gutter;
+                }
               }
             
               &-text {
@@ -146,7 +151,6 @@
             
                 @media (max-width: 426px) {
                   padding: 0 vars.$gutter;
-                  border-left: none;
                 }
               }
         }
