@@ -44,12 +44,12 @@ const Article = () => {
     <div className="article">
       <Post light={light} {...currentPost} />
       <hr />
-      <Comment
+      {/* <Comment
         postId={currentPost._id}
         title={currentPost.title}
         light={light}
       />
-      <hr />
+      <hr /> */}
       <Related posts={posts} light={light} {...currentPost} />
       <Footer light={light} />
     </div>

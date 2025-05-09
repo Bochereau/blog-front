@@ -20,7 +20,6 @@
             object-fit: cover;
             border-bottom: 5px solid vars.$background-secondary;
 
-            //object-position: top;
             @media(max-width: 426px) {
                 height: 300px;
             }
@@ -55,8 +54,6 @@
         color: transparent;
         text-shadow: rgba(255,255,255,0.7) 0px 3px 3px;
 
-        // text-shadow: 0 1px 0 #CCCCCC, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25);
-      
         @media(max-width: 426px) {
             font-size: vars.$gutter*1.4;
         }
@@ -84,7 +81,6 @@
         gap: 10px;
 
         &-item {
-            // background-color: vars.$background-secondary;
             color: vars.$background-primary;
             padding: vars.$gutter*0.5 vars.$gutter;
             border-radius: 8px;
@@ -98,10 +94,13 @@
         margin: 0 auto;
         font-size: vars.$gutter*1.2;
         line-height: 1.5;
-        // text-align: justify;
+
+        @media(max-width: 1025px) {
+            width: 85%;
+        }
 
         @media(max-width: 769px) {
-            width: 85%;
+            width: 95%;
         }
 
         @media(max-width: 426px) {
@@ -124,14 +123,32 @@
         }
 
         &-intro {
-            margin: vars.$gutter*2 0;
+            margin: vars.$gutter*3 0;
         }
 
         &-section {
             margin-bottom: vars.$gutter * 3;
-            // @media(max-width: 426px) {
-            //     padding: 0 vars.$gutter;
-            // }
+            transform: skewY(-1deg);
+
+            &-body {
+                background-color: white;
+                padding: vars.$gutter*3 vars.$gutter;
+                overflow: hidden;
+                margin: vars.$gutter 0 vars.$gutter*2;
+                border-bottom: 3px solid black;
+              }
+            
+              &-text {
+                transform: skewY(1deg);
+                transform-origin: top left;
+                text-align: justify;
+                font-family: 'Inter', sans-serif;
+            
+                @media (max-width: 426px) {
+                  padding: 0 vars.$gutter;
+                  border-left: none;
+                }
+              }
         }
 
         &-subtitle {
@@ -143,8 +160,7 @@
             font-size: 1.25rem;
             text-align: center;
             padding: 1rem;
-            transform: skewY(-1deg);
-            margin: 2rem 0 1rem;
+            margin: 2rem 0 -1rem;
             font-family: 'Orbitron', sans-serif;
 
             span {
@@ -154,20 +170,6 @@
 
             @media(max-width: 426px) {
                 font-size: 1.1rem;
-            }
-        }
-
-        &-text {
-            margin: vars.$gutter*2 0 vars.$gutter;
-            text-align: justify;
-            position: relative;
-            padding-left: 1rem;
-            border-left: 4px solid vars.$background-secondary;
-            font-family: 'Inter', sans-serif;
-
-            @media(max-width: 426px) {
-                padding: 0 vars.$gutter;
-                border-left: none;
             }
         }
 
@@ -217,7 +219,7 @@
         }
 
         &-outro {
-            margin-top: vars.$gutter*2;
+            margin-top: vars.$gutter*3;
         }
 
         &-context,

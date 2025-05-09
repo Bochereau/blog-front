@@ -95,14 +95,15 @@
 
     &-posts {
         text-align: center;
-        padding: vars.$gutter*2 vars.$gutter*8;
-
+        width: 90%;
+        margin: 0 auto;
+        
         @media(max-width: 426px) {
-            padding: vars.$gutter;
+            width: 95%;
         }
 
         @media(max-width: 321px) {
-            padding: 0;
+            width: 100%;
         }
     }
 

@@ -42,7 +42,7 @@ const Blog = () => {
     // const handleChangeColor = (bool) => dispatch(changeColor(bool));
 
     return (
-        <main className={classNames("wrapper", { "bk-p--light": lightTheme, "bk-p--dark": !lightTheme })}>
+        <main className={"wrapper"}>
             <ScrollToTop>
                 <Menu />
                 <Alert />

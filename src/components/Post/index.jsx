@@ -90,7 +90,11 @@ const Post = ({
         {body && body.map((section, index) => (
           <div key={index} className="post-content-section">
             {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
-            {section.text && <p className="post-content-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>}
+            {section.text && (
+              <div className="post-content-section-body">
+                <p className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>
+              </div>    
+            )}
             {section.images && section.images.length > 0 && (
               <div className={`post-content-images has-${section.images.length}`}>
                 {section.images.map((img, idx) => (
