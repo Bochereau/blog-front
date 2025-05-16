@@ -40,13 +40,11 @@
             text-transform: uppercase;
             font-weight: bold;
             text-align: center;
-            color: vars.$background-primary;
+            color: white;
             font-size: vars.$gutter*1.8;
             &:hover{
-                // font-style: italic;
                 transform: translateY(-3px);
                 transition: all 200ms ease-in-out;
-                // color: vars.$alt-color;
             }
             @media (max-width: 768px) {
                 font-size: vars.$gutter*1.5;
@@ -78,8 +76,6 @@
         text-transform: uppercase;
         font-weight: bold;
         font-size: vars.$gutter*1.1;
-        // background-color: vars.$background-secondary;
-        // color: vars.$background-primary;
         border : 3px solid vars.$background-primary;
         margin-left: vars.$gutter;
         margin-top: vars.$gutter*1.2;
@@ -112,5 +108,5 @@
 }
 
 .active{
-    border-bottom: 5px solid vars.$background-primary;
+    border-bottom: 5px solid white;
 }

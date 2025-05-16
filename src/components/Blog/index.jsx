@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import classNames from "classnames";
 import {
     Routes,
     Route
 } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { changeColor, getPosts, getTheme } from '../../actions';
+import { useDispatch } from 'react-redux';
+import { getPosts, getTheme } from '../../actions';
 
 import './style.scss';
 
@@ -28,11 +27,10 @@ import AdminThemes from "../Admin/AdminThemes";
 import AdminPreview from "../Admin/AdminPreview";
 import AdminComments from "../Admin/AdminComments";
 import ScrollToTopButton from "../ScrollToTopButton";
+import Footer from "../Footer";
 
 const Blog = () => {
     const dispatch = useDispatch();
-
-    const lightTheme = useSelector((state) => state.lightTheme);
 
     useEffect(() => {
         dispatch(getPosts());
@@ -42,11 +40,11 @@ const Blog = () => {
     // const handleChangeColor = (bool) => dispatch(changeColor(bool));
 
     return (
-        <main className={"wrapper"}>
+        <main className="wrapper">
             <ScrollToTop>
                 <Menu />
                 <Alert />
-                <div className={"page"}>
+                <div className="page">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/list" element={<List />} />
@@ -92,6 +90,7 @@ const Blog = () => {
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
+                <Footer />
                 <ScrollToTopButton />
             </ScrollToTop>
         </main>

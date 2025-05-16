@@ -35,7 +35,7 @@
         padding: vars.$gutter*2;
         margin: vars.$gutter 0;
         background-color: vars.$background-secondary;
-        color: vars.$background-primary;
+        color: white;
         transform: skewY(-2deg);
 
         @media(max-width: 426px) {

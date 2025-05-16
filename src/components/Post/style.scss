@@ -27,12 +27,14 @@
 
         &-title {
             display: inline-block;
+            background-color: vars.$background-secondary;
             padding: vars.$gutter vars.$gutter*2;
             margin-top: - (vars.$gutter*3.5);
             font-size: vars.$gutter*3;
             font-weight: bold;
             text-transform: uppercase;
             font-family: 'Orbitron', sans-serif;
+            color: white;
 
             @media(max-width: 426px) {
                 font-size: vars.$gutter*2;
@@ -81,7 +83,7 @@
         gap: 10px;
 
         &-item {
-            color: vars.$background-primary;
+            color: white;
             padding: vars.$gutter*0.5 vars.$gutter;
             border-radius: 8px;
             cursor: pointer;
@@ -159,7 +161,7 @@
             position: relative;
             width: 100%;
             background: vars.$background-secondary;
-            color: vars.$background-primary;
+            color: white;
             font-weight: 700;
             font-size: 1.25rem;
             text-align: center;
@@ -232,20 +234,20 @@
             text-align: justify;
             transform: skewY(-1deg);
             background-color: vars.$background-secondary;
+            color: white;
+            padding: vars.$gutter*2 0 vars.$gutter*3;
 
             &-title {
                 padding: vars.$gutter vars.$gutter*2;
                 text-transform: uppercase;
                 font-weight: bold;
                 display: block;
-                color: vars.$background-primary;
                 font-family: 'Orbitron', sans-serif;
                 transform: skewY(1deg);
             }
 
             &-text {
                 padding: vars.$gutter vars.$gutter*2;
-                color: vars.$background-primary;
                 transform: skewY(1deg);
             }
         }

@@ -6,7 +6,6 @@ import { reverseDate } from "../../utils";
 import './style.scss';
 
 const Post = ({
-  light,
   title,
   subtitle,
   mainImage,
@@ -49,10 +48,7 @@ const Post = ({
         {mainImage && (
           <img className="post-header-img" src={mainImage} alt={title} />
         )}
-        <h3 className={classNames("post-header-title", {
-          "bk-s--light": light === true,
-          "bk-s--dark": light === false
-        })}>
+        <h3 className="post-header-title">
           {title}
         </h3>
       </div>
@@ -78,12 +74,10 @@ const Post = ({
 
         {context && (
           <div className="post-content-context">
-            <div className="post-content-context-triangle-top"></div>
             <p className="post-content-context-title">
               Un peu de contexte
             </p>
             <p className="post-content-context-text" style={{ whiteSpace: 'pre-line' }}>{parse(context)}</p>
-            <div className="post-content-context-triangle-bottom"></div>
           </div>
         )}
 
@@ -113,12 +107,10 @@ const Post = ({
 
         {firstContact && (
           <div className="post-content-contact">
-            <div className="post-content-contact-triangle-top"></div>
             <p className="post-content-contact-title">
               Premier contact
             </p>
             <p className="post-content-contact-text" style={{ whiteSpace: 'pre-line' }}>{parse(firstContact)}</p>
-            <div className="post-content-contact-triangle-bottom"></div>
           </div>
         )}
 

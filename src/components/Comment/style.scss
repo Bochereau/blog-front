@@ -112,16 +112,3 @@
         }
     }
 }
-
-.off {
-    border: 2px solid vars.$grey;
-    background-color: vars.$grey;
-    color: vars.$background-primary;
-    cursor: not-allowed;
-
-    &:hover {
-        border: 2px solid vars.$grey;
-        background-color: vars.$grey;
-        color: vars.$background-primary;
-    }
-}

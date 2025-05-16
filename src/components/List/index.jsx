@@ -2,7 +2,6 @@ import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { X, Search, Check } from "lucide-react";
-import classNames from "classnames";
 
 import { reverseDate } from "../../utils";
 
@@ -11,7 +10,6 @@ import "./style.scss";
 const List = () => {
   const posts = useSelector((state) => state.posts);
   const themes = useSelector((state) => state.themes);
-  const light = useSelector((state) => state.lightTheme);
 
   const publishedPosts = posts.filter(post => post.isPublished === true);
 
@@ -41,7 +39,7 @@ const List = () => {
   }, [publishedPosts, search, selectedThemes]);
 
   return (
-    <div className={classNames("list", { "bk-p--light": light, "bk-p--dark": !light })}>
+    <div className="list">
       <div className="list-filters">
         <div className="list-search">
           <Search className="list-search-icon" />

@@ -2,11 +2,15 @@
 @use 'sass:color';
 
 .footer{
+    flex-shrink: 0;
     border-top: 2px solid vars.$background-primary;
+    background-color: vars.$background-secondary;
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     min-height: 100px;
+    font-family: 'Orbitron', sans-serif;
     &-info{
         margin-left: vars.$gutter*2;
     }

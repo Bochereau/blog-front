@@ -1,19 +1,13 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import classNames from "classnames";
-import { changeColor } from "../../actions";
+import { useSelector } from "react-redux";
 
 import "./style.scss";
 import Card from "../Card";
 
 const Home = () => {
-  const dispatch = useDispatch();
-
   const posts = useSelector((state) => state.posts);
   const loading = useSelector((state) => state.loading);
-  const light = useSelector((state) => state.lightTheme);
 
-  // const handleChangeColor = () => dispatch(changeColor());
   const publishedPosts = posts.filter(post => post.isPublished === true);
 
   return (

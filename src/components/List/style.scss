@@ -4,7 +4,6 @@
 .list {
   text-align: center;
   background-color: vars.$background-primary;
-  min-height: 100%;
   color: vars.$background-secondary;
 
   &-title {
@@ -193,7 +192,7 @@
       display: flex;
       gap: 10px;
       &-item{
-        color: vars.$background-primary;
+        color: white;
         padding: vars.$gutter*0.5 vars.$gutter;
         border-radius: 8px;
         background-color: vars.$background-secondary;

@@ -3,7 +3,13 @@
 
 .wrapper{
     min-height:100vh;
+    display: flex;
+    flex-direction: column;
     background-color: vars.$background-primary;
+}
+
+.page{
+    flex: 1 0 auto;
 }
 
 .open{
@@ -11,12 +17,13 @@
 }
 
 .on{
-    border: 2px solid vars.$link-color;
-    background-color: vars.$link-color;
-    color: vars.$background-primary;
+    border: 2px solid vars.$alt-color;
+    background-color: vars.$background-secondary;
+    color: vars.$alt-color;
+    
     &:hover{
-        background-color: vars.$background-primary;
-        color: vars.$link-color;
+        background-color: vars.$alt-color;
+        color: vars.$background-secondary;
     }
 }
 
@@ -25,6 +32,12 @@
     background-color: vars.$grey;
     color: vars.$background-primary;
     cursor: not-allowed;
+
+    &:hover {
+        border: 2px solid vars.$grey;
+        background-color: vars.$grey;
+        color: vars.$background-primary;
+    }
 }
 
 .ok{

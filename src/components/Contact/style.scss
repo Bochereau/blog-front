@@ -6,7 +6,7 @@
     padding: vars.$gutter*5 0;
     &-content{
         background-color: vars.$background-secondary;
-        color: vars.$background-primary;
+        color: white;
         transform: skewY(-2deg);
         width: 50%;
         margin: 0 auto;
@@ -60,9 +60,9 @@
             &-input, &-textarea{
                 padding: vars.$gutter;
                 border-radius: 5px;
-                border: 2px solid vars.$background-primary;
+                border: 2px solid white;
                 background-color: vars.$background-secondary;
-                color: vars.$background-primary;
+                color: white;
                 @media(max-width: 426px) {
                     width: 100%;
                 }

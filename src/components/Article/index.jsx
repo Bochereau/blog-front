@@ -6,7 +6,6 @@ import { getPostId } from "../../actions";
 import Post from "../Post";
 import Comment from "../Comment";
 import Related from "../Related";
-import Footer from "../Footer";
 
 import { DualRing } from "react-css-spinners/dist/DualRing";
 import "./style.scss";
@@ -16,7 +15,6 @@ const Article = () => {
   const dispatch = useDispatch();
 
   const posts = useSelector((state) => state.posts);
-  const light = useSelector((state) => state.lightTheme);
   const loading = useSelector((state) => state.loading);
 
   const currentPost = posts.find((post) => post.slug === slug);
@@ -30,7 +28,7 @@ const Article = () => {
   if (loading) {
     return (
       <div className="article-loading">
-        <DualRing color={light ? "#000" : "#FFF"} />
+        <DualRing color={"#000"} />
         <p className="article-loading-text">Chargement de l'article...</p>
       </div>
     );
@@ -42,16 +40,14 @@ const Article = () => {
 
   return (
     <div className="article">
-      <Post light={light} {...currentPost} />
+      <Post {...currentPost} />
       <hr />
       {/* <Comment
         postId={currentPost._id}
         title={currentPost.title}
-        light={light}
       />
       <hr /> */}
-      <Related posts={posts} light={light} {...currentPost} />
-      <Footer light={light} />
+      <Related posts={posts} {...currentPost} />
     </div>
   );
 };
