@@ -42,7 +42,7 @@
         }
     }
 
-    &-subtitle{
+    &-subtitle {
         text-align: center;
         font-size: vars.$gutter*1.8;
         font-family: 'Orbitron', sans-serif;
@@ -54,7 +54,7 @@
         -moz-background-clip: text;
         background-clip: text;
         color: transparent;
-        text-shadow: rgba(255,255,255,0.7) 0px 3px 3px;
+        text-shadow: rgba(255, 255, 255, 0.7) 0px 3px 3px;
 
         @media(max-width: 426px) {
             font-size: vars.$gutter*1.4;
@@ -138,23 +138,24 @@
                 overflow: hidden;
                 margin: vars.$gutter 0 vars.$gutter*2;
                 border-bottom: 3px solid black;
+
                 @media (max-width: 426px) {
                     background-color: vars.$background-primary;
                     border: none;
                     padding: vars.$gutter;
                 }
-              }
-            
-              &-text {
+            }
+
+            &-text {
                 transform: skewY(1deg);
                 transform-origin: top left;
                 text-align: justify;
                 font-family: 'Inter', sans-serif;
-            
+
                 @media (max-width: 426px) {
-                  padding: 0 vars.$gutter;
+                    padding: 0 vars.$gutter;
                 }
-              }
+            }
         }
 
         &-subtitle {
@@ -193,7 +194,7 @@
                     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 }
 
-                
+
             }
 
             @media (min-width: 769px) {
@@ -394,4 +395,21 @@
     .next-btn {
         right: 30px;
     }
+}
+
+.reading-progress-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  background-color: vars.$background-secondary;
+  z-index: 999;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: vars.$alt-color;
+  transition: width 0.2s ease-in-out;
 }

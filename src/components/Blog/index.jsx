@@ -37,8 +37,6 @@ const Blog = () => {
         dispatch(getTheme());
     }, [dispatch]);
 
-    // const handleChangeColor = (bool) => dispatch(changeColor(bool));
-
     return (
         <main className="wrapper">
             <ScrollToTop>

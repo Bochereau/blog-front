@@ -2,6 +2,7 @@
 @use 'sass:color';
 
 .menu{
+    position: sticky;
     &-small {
         width: 100%;
         background-color: vars.$background-secondary;

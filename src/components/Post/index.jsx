@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import parse from 'html-react-parser';
 import classNames from "classnames";
 
@@ -42,8 +42,35 @@ const Post = ({
     setCurrentIndex((prev) => (prev + 1) % modalImages.length);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const article = document.querySelector(".post");
+      if (!article) return;
+
+      const articleHeight = article.offsetHeight;
+      const windowHeight = window.innerHeight;
+
+      const scrollTop = window.scrollY;
+      const scrollPosition = scrollTop - article.offsetTop;
+      const totalScrollable = articleHeight - windowHeight;
+
+      const progress = Math.min(100, Math.max(0, (scrollPosition / totalScrollable) * 100));
+
+      const progressBar = document.getElementById("reading-progress");
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <article className="post">
+      <div className="reading-progress-container">
+        <div className="reading-progress-bar" id="reading-progress" />
+      </div>      
       <div className="post-header">
         {mainImage && (
           <img className="post-header-img" src={mainImage} alt={title} />
@@ -52,6 +79,7 @@ const Post = ({
           {title}
         </h3>
       </div>
+
 
       <h4 className="post-subtitle">{subtitle}</h4>
 
@@ -87,7 +115,7 @@ const Post = ({
             {section.text && (
               <div className="post-content-section-body">
                 <p className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>
-              </div>    
+              </div>
             )}
             {section.images && section.images.length > 0 && (
               <div className={`post-content-images has-${section.images.length}`}>
@@ -116,7 +144,7 @@ const Post = ({
 
         <p className="post-content-outro" style={{ whiteSpace: 'pre-line' }}>{parse(conclusion)}</p>
       </div>
-      
+
       {isModalOpen && (
         <div className="image-modal">
           <button className="close-btn" onClick={closeModal}>×</button>
