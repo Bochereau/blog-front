@@ -15,7 +15,7 @@ const Card = ({ post }) => {
             <h4 className="card-subtitle">{subtitle}</h4>
             <Link to={`/posts/${slug}`} className="card-link">
                 <p className="card-link-text">Lire l'article</p>
-                <MoveRight size={20} />
+                <MoveRight className="card-link-icon" size={20} />
             </Link>
         </li>
     )
