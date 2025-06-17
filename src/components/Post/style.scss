@@ -362,35 +362,39 @@
     align-items: center;
     z-index: 999;
 
-        .modal-image-container {
+    .modal-image-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         max-width: 90%;
         max-height: 90%;
+        position: relative;
         
         img {
             max-width: 100%;
-            max-height: 80vh;
+            max-height: 90vh;
             border-radius: 8px;
-            margin-bottom: vars.$gutter;
         }
     }
     
     .modal-image-caption {
-        background-color: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        bottom: 0;
+        font-size: vars.$gutter * 1.4;
+        color: vars.$background-secondary;
+        text-align: center;
+        background-color: rgba(0,0,0,0.6);
         color: white;
         padding: vars.$gutter;
-        border-radius: 6px;
-        font-size: vars.$gutter * 1.1;
-        text-align: center;
-        max-width: 80%;
-        line-height: 1.4;
+        width: 100%;
+        font-family: "VT323", 'Comic Sans MS', cursive, sans-serif;
+        box-shadow: 2px 2px 5px vars.$background-secondary;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
         
         @media (max-width: 426px) {
             font-size: vars.$gutter;
             padding: vars.$gutter * 0.8;
-            max-width: 90%;
         }
     }
 
@@ -440,8 +444,6 @@
   transition: width 0.2s ease-in-out;
 }
 
-// Styles à ajouter à votre fichier style.scss existant
-
 // Conteneur pour chaque image avec sa légende
 .post-content-image-container {
     display: flex;
@@ -479,10 +481,12 @@
     font-family: "Indie Flower", 'Comic Sans MS', cursive, sans-serif;
     box-shadow: 2px 2px 5px vars.$background-secondary;
     transform: rotate(-2deg);
-    
+
     @media (max-width: 426px) {
-        font-size: vars.$gutter * 0.8;
-        padding: vars.$gutter * 0.3;
+        font-size: vars.$gutter*0.9;
+        padding: vars.$gutter * 0.5;
+        right: 0;
+        top: -16px;
     }
 }
 
@@ -501,9 +505,11 @@
     box-shadow: 2px 2px 5px vars.$background-secondary;
     
     @media (max-width: 426px) {
-        font-size: vars.$gutter;
-        padding: vars.$gutter * 0.8;
-        margin: vars.$gutter * 0.5 vars.$gutter 0;
+        width: fit-content;
+        font-size: vars.$gutter*1.1;
+        padding: vars.$gutter*0.8;
+        margin: vars.$gutter*0.5 vars.$gutter 0;
+        transform: skewY(1deg);
     }
 }
 
