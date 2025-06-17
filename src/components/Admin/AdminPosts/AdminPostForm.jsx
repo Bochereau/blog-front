@@ -51,7 +51,12 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                 body: initialData.body?.length
                     ? initialData.body.map((s) => ({
                         ...s,
-                        images: s.images || [],
+                        images: (s.images || []).map(img =>
+                            typeof img === "string" ? { url: img, caption: "" } : {
+                                url: img.url || "",
+                                caption: img.caption || ""
+                            }
+                        ),
                         generalCaption: s.generalCaption || ""
                     }))
                     : defaultForm.body,
@@ -147,12 +152,8 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     const handleImageChange = (sectionIndex, imageIndex, field, value) => {
         const updated = [...form.body];
 
-        // S'assurer que l'image est un objet
-        if (typeof updated[sectionIndex].images[imageIndex] === 'string') {
-            updated[sectionIndex].images[imageIndex] = {
-                url: updated[sectionIndex].images[imageIndex],
-                caption: ""
-            };
+        if (!updated[sectionIndex].images[imageIndex] || typeof updated[sectionIndex].images[imageIndex] === 'string') {
+            updated[sectionIndex].images[imageIndex] = { url: "", caption: "" };
         }
 
         if (field === 'url') {
@@ -389,21 +390,21 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
                                         {/* Prévisualisation de l'image si URL valide */}
                                         {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
-                                                <img
-                                                    src={getImageUrl(img)}
-                                                    alt="Aperçu"
-                                                    style={{
-                                                        maxWidth: '200px',
-                                                        maxHeight: '150px',
-                                                        objectFit: 'cover',
-                                                        borderRadius: '4px',
-                                                        marginTop: '0.3rem',
-                                                        border: '1px solid #ddd'
-                                                    }}
-                                                    onError={(e) => {
-                                                        e.target.style.display = 'none';
-                                                    }}
-                                                />
+                                            <img
+                                                src={getImageUrl(img)}
+                                                alt="Aperçu"
+                                                style={{
+                                                    maxWidth: '200px',
+                                                    maxHeight: '150px',
+                                                    objectFit: 'cover',
+                                                    borderRadius: '4px',
+                                                    marginTop: '0.3rem',
+                                                    border: '1px solid #ddd'
+                                                }}
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                }}
+                                            />
                                         )}
 
                                         <button
