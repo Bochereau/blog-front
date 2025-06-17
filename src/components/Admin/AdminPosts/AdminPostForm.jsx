@@ -18,7 +18,12 @@ const defaultForm = {
     mainImage: "",
     themes: [],
     isPublished: false,
-    body: [{ subtitle: "", text: "", images: [] }],
+    body: [{
+        subtitle: "",
+        text: "",
+        images: [],
+        generalCaption: ""
+    }],
 };
 
 const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
@@ -44,7 +49,11 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                 ...initialData,
                 themes: themeIds,
                 body: initialData.body?.length
-                    ? initialData.body.map((s) => ({ ...s, images: s.images || [] }))
+                    ? initialData.body.map((s) => ({
+                        ...s,
+                        images: s.images || [],
+                        generalCaption: s.generalCaption || ""
+                    }))
                     : defaultForm.body,
             });
         }
@@ -97,7 +106,6 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
         setErrors((prevErrors) => {
             const updatedErrors = { ...prevErrors };
 
-            // Champs requis à surveiller
             const requiredFields = [
                 "title",
                 "slug",
@@ -136,15 +144,29 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
         }
     };
 
-    const handleImageChange = (sectionIndex, imageIndex, value) => {
+    const handleImageChange = (sectionIndex, imageIndex, field, value) => {
         const updated = [...form.body];
-        updated[sectionIndex].images[imageIndex] = value;
+
+        // S'assurer que l'image est un objet
+        if (typeof updated[sectionIndex].images[imageIndex] === 'string') {
+            updated[sectionIndex].images[imageIndex] = {
+                url: updated[sectionIndex].images[imageIndex],
+                caption: ""
+            };
+        }
+
+        if (field === 'url') {
+            updated[sectionIndex].images[imageIndex].url = value;
+        } else if (field === 'caption') {
+            updated[sectionIndex].images[imageIndex].caption = value;
+        }
+
         setForm({ ...form, body: updated });
     };
 
     const addImageField = (sectionIndex) => {
         const updated = [...form.body];
-        updated[sectionIndex].images.push("");
+        updated[sectionIndex].images.push({ url: "", caption: "" });
         setForm({ ...form, body: updated });
     };
 
@@ -155,7 +177,15 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     };
 
     const addBodySection = () => {
-        setForm((prev) => ({ ...prev, body: [...prev.body, { subtitle: "", text: "", images: [] }] }));
+        setForm((prev) => ({
+            ...prev,
+            body: [...prev.body, {
+                subtitle: "",
+                text: "",
+                images: [],
+                generalCaption: ""
+            }]
+        }));
     };
 
     const removeBodySection = (index) => {
@@ -172,6 +202,16 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     const handleSave = () => {
         setFormSubmitted(true);
         onSubmit({ ...form });
+    };
+
+    // Fonction pour obtenir l'URL d'une image (compatibilité ancien/nouveau format)
+    const getImageUrl = (img) => {
+        return typeof img === 'string' ? img : img.url || '';
+    };
+
+    // Fonction pour obtenir la légende d'une image
+    const getImageCaption = (img) => {
+        return typeof img === 'string' ? '' : img.caption || '';
     };
 
     return (
@@ -307,21 +347,72 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                             />
 
                             <div className="body-images">
-                                <h4>Images de la section</h4>
-                                {section.images.map((url, imgIndex) => (
+                                <h4>🖼️ Images de la section</h4>
+
+                                {/* Légende générale pour toutes les images de la section */}
+                                <div className="general-caption-container">
+                                    <label>📝 Légende générale (optionnelle) :</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Cette légende s'appliquera à toutes les images de cette section. Laissez vide si vous préférez des légendes individuelles."
+                                        value={section.generalCaption || ""}
+                                        onChange={(e) => handleBodyChange(index, "generalCaption", e.target.value)}
+                                        className="general-caption-input"
+                                    />
+                                </div>
+
+                                {/* Images individuelles */}
+                                {section.images.map((img, imgIndex) => (
                                     <div key={imgIndex} className="image-input-container">
-                                        <input
-                                            type="text"
-                                            placeholder={`Image URL #${imgIndex + 1}`}
-                                            value={url}
-                                            onChange={(e) => handleImageChange(index, imgIndex, e.target.value)}
-                                        />
+                                        <div className="image-body-container">
+                                            <div className="image-url-container">
+                                                <label>🔗 URL de l'image #{imgIndex + 1} :</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder={`https://res.cloudinary.com/votre-image-${imgIndex + 1}.jpg`}
+                                                    value={getImageUrl(img)}
+                                                    onChange={(e) => handleImageChange(index, imgIndex, 'url', e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className="image-caption-container">
+                                                <label>🏷️ Légende individuelle (optionnelle) :</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder={`Légende spécifique pour cette image...`}
+                                                    value={getImageCaption(img)}
+                                                    onChange={(e) => handleImageChange(index, imgIndex, 'caption', e.target.value)}
+                                                    className="image-caption-input"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Prévisualisation de l'image si URL valide */}
+                                        {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
+                                                <img
+                                                    src={getImageUrl(img)}
+                                                    alt="Aperçu"
+                                                    style={{
+                                                        maxWidth: '200px',
+                                                        maxHeight: '150px',
+                                                        objectFit: 'cover',
+                                                        borderRadius: '4px',
+                                                        marginTop: '0.3rem',
+                                                        border: '1px solid #ddd'
+                                                    }}
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                    }}
+                                                />
+                                        )}
+
                                         <button
                                             type="button"
                                             className="remove-image-btn"
                                             onClick={() => removeImageField(index, imgIndex)}
+                                            title={`Supprimer l'image #${imgIndex + 1}`}
                                         >
-                                            ❌
+                                            ❌ Supprimer l'image
                                         </button>
                                     </div>
                                 ))}
@@ -333,6 +424,20 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                                 >
                                     ➕ Ajouter une image
                                 </button>
+
+                                {/* Indicateur du nombre d'images */}
+                                {section.images.length > 0 && (
+                                    <div style={{
+                                        marginTop: '1rem',
+                                        padding: '0.5rem',
+                                        backgroundColor: '#e8f5e8',
+                                        borderRadius: '4px',
+                                        fontSize: '0.9rem',
+                                        color: '#2e7d32'
+                                    }}>
+                                        📊 {section.images.length} image{section.images.length > 1 ? 's' : ''} dans cette section
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}

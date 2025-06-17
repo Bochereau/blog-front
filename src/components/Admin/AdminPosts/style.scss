@@ -201,7 +201,7 @@
     align-items: center;
     gap: 15px;
   }
-  
+
   .error-input {
     border-color: #f44336;
     background-color: #ffebee;
@@ -219,13 +219,13 @@
     justify-content: center;
     gap: vars.$gutter*0.5;
   }
-  
+
   .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    
+
     button {
       padding: 0.6rem 1rem;
       border-radius: 6px;
@@ -234,39 +234,39 @@
       border: none;
       color: white;
     }
-    
+
     .preview-btn {
       background-color: #2196f3;
       color: white;
     }
-    
+
     .draft-btn {
       background-color: #4caf50;
       color: white;
     }
   }
-  
+
   .error-section {
     border-color: #f44336;
     background-color: #ffebee;
   }
-  
+
   .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.8rem;
   }
-  
+
   .image-input-group {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-    
+
     input {
       flex: 1;
     }
-    
+
     button {
       background-color: #f44336;
       color: white;
@@ -299,7 +299,7 @@
   margin-bottom: 5px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .remove-image-btn {
@@ -318,7 +318,9 @@
 }
 
 
-.preview-loading, .preview-error, .preview-not-found {
+.preview-loading,
+.preview-error,
+.preview-not-found {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -334,12 +336,13 @@
   color: #d32f2f;
 }
 
-.form-group{
+.form-group {
   padding: vars.$gutter;
   border: 1px dashed #bbb;
   border-radius: vars.$gutter*0.5;
   background: linear-gradient(45deg, #eee, #fff, #eee, #fff, #eee, #fff, #eee, #fff, #eee, #fff, #eee);
-  &-title{
+
+  &-title {
     padding: vars.$gutter 0;
   }
 }
@@ -391,5 +394,148 @@
     &:hover {
       background-color: color.adjust(vars.$error-color, $lightness: -10%);
     }
+  }
+}
+
+/* Ajouts/améliorations pour les légendes d'images */
+
+/* Conteneur des images d'une section */
+.body-images {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+
+  h4 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 1.1rem;
+  }
+}
+
+/* Conteneur de la légende générale */
+.general-caption-container {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #e3f2fd;
+  border-radius: 6px;
+  border-left: 4px solid #2196f3;
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1976d2;
+    font-size: 0.9rem;
+  }
+
+}
+
+/* Conteneur de chaque image individuelle */
+.image-input-container {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-body-container {
+  width: 100%;
+}
+
+/* Conteneur URL de l'image */
+.image-url-container {
+  margin-bottom: 1rem;
+  width: 100%;
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 0.9rem;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid #ccc;
+
+    &:focus {
+      border-color: #4caf50;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+    }
+  }
+}
+
+/* Conteneur légende individuelle */
+.image-caption-container {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+  }
+}
+
+/* Bouton supprimer image */
+.remove-image-btn {
+  background-color: #fff;
+  color: #f44336;
+  border: 2px solid #f44336;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-block;
+  flex: 1;
+
+  &:hover {
+    background-color: #f44336;
+    color: white;
+    transform: translateY(-1px);
+  }
+}
+
+/* Bouton ajouter image */
+.add-image-btn {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+
+  &:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  }
+}
+
+/* Style responsive */
+@media (max-width: 768px) {
+  .image-input-container {
+    padding: 0.8rem;
+  }
+
+  .general-caption-container {
+    padding: 0.8rem;
+  }
+
+  .body-images {
+    padding: 0.8rem;
   }
 }

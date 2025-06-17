@@ -20,10 +20,12 @@ const Post = ({
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalImages, setModalImages] = useState([]);
+  const [modalCaptions, setModalCaptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const openModal = (images, index) => {
+  const openModal = (images, captions, index) => {
     setModalImages(images);
+    setModalCaptions(captions || []);
     setCurrentIndex(index);
     setModalOpen(true);
   };
@@ -31,6 +33,7 @@ const Post = ({
   const closeModal = () => {
     setModalOpen(false);
     setModalImages([]);
+    setModalCaptions([]);
     setCurrentIndex(0);
   };
 
@@ -41,6 +44,31 @@ const Post = ({
   const nextImage = () => {
     setCurrentIndex((prev) => (prev + 1) % modalImages.length);
   };
+
+  // Gestionnaire pour fermer la modal en cliquant en dehors de l'image
+  const handleModalClick = (e) => {
+    // Fermer seulement si on clique sur le conteneur de la modal (pas sur l'image)
+    if (e.target.classList.contains('image-modal')) {
+      closeModal();
+    }
+  };
+
+  // Gestionnaire pour fermer avec la touche Escape
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isModalOpen) {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isModalOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,6 +94,34 @@ const Post = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fonction pour traiter les images et légendes d'une section
+  const processImagesData = (section) => {
+    // Si section.images est un tableau d'objets avec url et caption
+    if (section.images && section.images.length > 0) {
+      const firstImage = section.images[0];
+      
+      // Nouveau format : tableau d'objets {url, caption}
+      if (typeof firstImage === 'object' && firstImage.url) {
+        return {
+          urls: section.images.map(img => img.url),
+          captions: section.images.map(img => img.caption || ''),
+          hasIndividualCaptions: section.images.some(img => img.caption)
+        };
+      }
+      
+      // Ancien format : tableau d'URLs
+      if (typeof firstImage === 'string') {
+        return {
+          urls: section.images,
+          captions: section.imageCaptions || [],
+          hasIndividualCaptions: section.imageCaptions && section.imageCaptions.length > 0
+        };
+      }
+    }
+    
+    return { urls: [], captions: [], hasIndividualCaptions: false };
+  };
+
   return (
     <article className="post">
       <div className="reading-progress-container">
@@ -79,7 +135,6 @@ const Post = ({
           {title}
         </h3>
       </div>
-
 
       <h4 className="post-subtitle">{subtitle}</h4>
 
@@ -109,29 +164,41 @@ const Post = ({
           </div>
         )}
 
-        {body && body.map((section, index) => (
-          <div key={index} className="post-content-section">
-            {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
-            {section.text && (
-              <div className="post-content-section-body">
-                <p className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>
-              </div>
-            )}
-            {section.images && section.images.length > 0 && (
-              <div className={`post-content-images has-${section.images.length}`}>
-                {section.images.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img}
-                    alt={`illustration-${idx}`}
-                    className="post-content-image"
-                    onClick={() => openModal(section.images, idx)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+        {body && body.map((section, index) => {
+          const { urls, captions, hasIndividualCaptions } = processImagesData(section);
+          
+          return (
+            <div key={index} className="post-content-section">
+              {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
+              {section.text && (
+                <div className="post-content-section-body">
+                  <p className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>
+                </div>
+              )}
+              {urls.length > 0 && (
+                <div className={`post-content-images has-${urls.length}`}>
+                  {urls.map((url, idx) => (
+                    <div key={idx} className="post-content-image-container">
+                      <img
+                        src={url}
+                        alt={captions[idx] || `illustration-${idx}`}
+                        className="post-content-image"
+                        onClick={() => openModal(urls, captions, idx)}
+                      />
+                      {captions[idx] && (
+                        <p className="post-content-image-caption">{parse(captions[idx])}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Légende générale si pas de légendes individuelles mais qu'il y a une légende générale */}
+              {urls.length > 0 && !hasIndividualCaptions && section.generalCaption && (
+                <p className="post-content-images-general-caption">{parse(section.generalCaption)}</p>
+              )}
+            </div>
+          );
+        })}
 
         {firstContact && (
           <div className="post-content-contact">
@@ -146,12 +213,17 @@ const Post = ({
       </div>
 
       {isModalOpen && (
-        <div className="image-modal">
+        <div className="image-modal" onClick={handleModalClick}>
           <button className="close-btn" onClick={closeModal}>×</button>
           {modalImages.length > 1 && (
             <button className="prev-btn" onClick={prevImage}>‹</button>
           )}
-          <img src={modalImages[currentIndex]} alt="image large" />
+          <div className="modal-image-container">
+            <img src={modalImages[currentIndex]} alt="image large" />
+            {modalCaptions[currentIndex] && (
+              <p className="modal-image-caption">{parse(modalCaptions[currentIndex])}</p>
+            )}
+          </div>
           {modalImages.length > 1 && (
             <button className="next-btn" onClick={nextImage}>›</button>
           )}
