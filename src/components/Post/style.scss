@@ -362,10 +362,36 @@
     align-items: center;
     z-index: 999;
 
-    img {
+        .modal-image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         max-width: 90%;
         max-height: 90%;
-        border-radius: 8px;
+        
+        img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            margin-bottom: vars.$gutter;
+        }
+    }
+    
+    .modal-image-caption {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: vars.$gutter;
+        border-radius: 6px;
+        font-size: vars.$gutter * 1.1;
+        text-align: center;
+        max-width: 80%;
+        line-height: 1.4;
+        
+        @media (max-width: 426px) {
+            font-size: vars.$gutter;
+            padding: vars.$gutter * 0.8;
+            max-width: 90%;
+        }
     }
 
     .close-btn,
@@ -420,6 +446,7 @@
 .post-content-image-container {
     display: flex;
     flex-direction: column;
+    position: relative;
     
     .post-content-image {
         width: 100%;
@@ -437,22 +464,21 @@
         @media (max-width: 426px) {
             height: 200px;
         }
-
-        &:hover {
-            transform: scale(1.02);
-        }
     }
 }
 
 // Légende individuelle pour chaque image
 .post-content-image-caption {
-    font-size: vars.$gutter * 0.9;
-    color: #666;
-    font-style: italic;
-    text-align: center;
-    margin: 0;
-    padding: vars.$gutter * 0.5;
-    line-height: 1.4;
+    font-size: vars.$gutter;
+    position: absolute;
+    right: vars.$gutter * 0.5;
+    background: white;
+    padding: 10px;
+    width: 120px;
+    font-weight: bold;
+    font-family: "Indie Flower", 'Comic Sans MS', cursive, sans-serif;
+    box-shadow: 2px 2px 5px vars.$background-secondary;
+    transform: rotate(-2deg);
     
     @media (max-width: 426px) {
         font-size: vars.$gutter * 0.8;
@@ -462,55 +488,22 @@
 
 // Légende générale pour un groupe d'images
 .post-content-images-general-caption {
-    font-size: vars.$gutter * 1.1;
-    color: #555;
-    font-style: italic;
+    font-size: vars.$gutter * 1.4;
+    color: vars.$background-secondary;
     text-align: center;
-    margin: vars.$gutter 0 0 0;
+    margin: -32px auto 0;
+    background-color: white;
     padding: vars.$gutter;
-    background-color: #f9f9f9;
-    border-left: 4px solid vars.$background-secondary;
-    border-radius: 4px;
+    position: relative;
+    z-index: 2;
+    width: 80%;
+    font-family: "VT323", 'Comic Sans MS', cursive, sans-serif;
+    box-shadow: 2px 2px 5px vars.$background-secondary;
     
     @media (max-width: 426px) {
         font-size: vars.$gutter;
         padding: vars.$gutter * 0.8;
         margin: vars.$gutter * 0.5 vars.$gutter 0;
-    }
-}
-
-// Styles pour la modal
-.image-modal {
-    .modal-image-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 90%;
-        max-height: 90%;
-        
-        img {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 8px;
-            margin-bottom: vars.$gutter;
-        }
-    }
-    
-    .modal-image-caption {
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: vars.$gutter;
-        border-radius: 6px;
-        font-size: vars.$gutter * 1.1;
-        text-align: center;
-        max-width: 80%;
-        line-height: 1.4;
-        
-        @media (max-width: 426px) {
-            font-size: vars.$gutter;
-            padding: vars.$gutter * 0.8;
-            max-width: 90%;
-        }
     }
 }
 
