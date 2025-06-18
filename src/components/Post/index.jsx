@@ -48,7 +48,7 @@ const Post = ({
   // Gestionnaire pour fermer la modal en cliquant en dehors de l'image
   const handleModalClick = (e) => {
     // Fermer seulement si on clique sur le conteneur de la modal (pas sur l'image)
-    if (e.target.classList.contains('image-modal')) {
+    if (e.target.classList.contains('modal-image')) {
       closeModal();
     }
   };
@@ -213,7 +213,7 @@ const Post = ({
       </div>
 
       {isModalOpen && (
-        <div className="image-modal" onClick={handleModalClick}>
+        <div className="modal-image" onClick={handleModalClick}>
           <button className="close-btn" onClick={closeModal}>×</button>
           {modalImages.length > 1 && (
             <button className="prev-btn" onClick={prevImage}>‹</button>

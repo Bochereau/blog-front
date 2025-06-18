@@ -350,7 +350,7 @@
     margin: vars.$gutter*4 0 vars.$gutter;
 }
 
-.image-modal {
+.modal-image {
     position: fixed;
     top: 0;
     left: 0;
@@ -362,7 +362,7 @@
     align-items: center;
     z-index: 999;
 
-    &-container {
+    .modal-image-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -377,7 +377,7 @@
         }
     }
     
-    &-caption {
+    .modal-image-caption {
         position: absolute;
         bottom: 0;
         font-size: vars.$gutter * 1.4;
