@@ -362,7 +362,7 @@
     align-items: center;
     z-index: 999;
 
-    .modal-image-container {
+    &-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -377,7 +377,7 @@
         }
     }
     
-    .modal-image-caption {
+    &-caption {
         position: absolute;
         bottom: 0;
         font-size: vars.$gutter * 1.4;
@@ -473,10 +473,11 @@
 .post-content-image-caption {
     font-size: vars.$gutter;
     position: absolute;
-    right: vars.$gutter * 0.5;
+    right: 0;
+    bottom: -16px;
     background: white;
-    padding: 10px;
-    width: 120px;
+    padding: vars.$gutter;
+    width: 150px;
     font-weight: bold;
     font-family: "Indie Flower", 'Comic Sans MS', cursive, sans-serif;
     box-shadow: 2px 2px 5px vars.$background-secondary;
