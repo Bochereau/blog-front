@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Post from "../Post";
 import "./preview-styles.scss";
 
 const ArticlePreview = ({form, togglePreview }) => {
@@ -22,6 +23,37 @@ const ArticlePreview = ({form, togglePreview }) => {
                 return 'preview-desktop-view';
         }
     };
+
+    // Fonction utilitaire pour adapter le body du formulaire au format attendu par Post
+    const adaptBodyForPost = (formBody) => {
+        if (!Array.isArray(formBody)) return [];
+        return formBody.map(section => {
+            let images = [];
+            let imageCaptions = [];
+            // Si images est un tableau d'objets {url, caption}, on garde tel quel
+            if (Array.isArray(section.images) && section.images.length > 0) {
+                if (typeof section.images[0] === 'object' && section.images[0].url) {
+                    images = section.images;
+                } else {
+                    // Sinon, on suppose que c'est un tableau de strings (URLs)
+                    images = section.images.filter(Boolean);
+                }
+            }
+            // Si captions sont présents dans le formulaire (optionnel)
+            if (Array.isArray(section.imageCaptions)) {
+                imageCaptions = section.imageCaptions;
+            }
+            return {
+                subtitle: section.subtitle,
+                text: section.text,
+                images,
+                imageCaptions,
+                generalCaption: section.generalCaption || '',
+            };
+        });
+    };
+
+    const adaptedBody = adaptBodyForPost(form.body);
 
     // Fonction pour formater la date comme dans le composant Post
     const reverseDate = (dateString) => {
@@ -73,79 +105,21 @@ const ArticlePreview = ({form, togglePreview }) => {
                 </button>
             </div>
 
-            {/* Structure du composant Post pour la prévisualisation */}
+            {/* Utilisation du composant Post pour la prévisualisation */}
             <div className={`preview-content-wrapper ${getViewModeClass()}`}>
-                <article className="post">
-                    <div className="post-header">
-                        {form.mainImage && (
-                            <img className="post-header-img" src={form.mainImage} alt={form.title} />
-                        )}
-                        <h3 className={`post-header-title bk-s--${form.light ? 'light' : 'dark'}`}>
-                            {form.title || "Titre de l'article"}
-                        </h3>
-                    </div>
-
-                    <p className="post-info">
-                        Publié le <time className="post-info-date" dateTime={form.createdAt}>{reverseDate(form.createdAt)}</time> par <em className="post-info-author">{form.author || "Auteur"}</em>
-                    </p>
-
-                    {postThemes.length > 0 && (
-                        <div className="post-tags">
-                            {postThemes.map(theme => (
-                                <span key={theme._id} className="post-tags-item" style={{ backgroundColor: theme.color }}>
-                                    {theme.name}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-
-                    <div className="post-content">
-                        <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{form.introduction || "Votre introduction apparaîtra ici."}</p>
-
-                        {form.context && (
-                            <div className="post-content-context">
-                                <div className="post-content-context-triangle-top"></div>
-                                <p className="post-content-context-title">
-                                    Un peu de contexte
-                                </p>
-                                <p className="post-content-context-text" style={{ whiteSpace: 'pre-line' }}>{form.context}</p>
-                                <div className="post-content-context-triangle-bottom"></div>
-                            </div>
-                        )}
-
-                        {form.body.map((section, index) => (
-                            <div key={index} className="post-content-section">
-                                {section.subtitle && <h4 className="post-content-subtitle"><span>{section.subtitle}</span></h4>}
-                                {section.text && <p className="post-content-text" style={{ whiteSpace: 'pre-line' }}>{section.text}</p>}
-                                {section.images?.filter(img => img).length > 0 && (
-                                    <div className={`post-content-images has-${section.images.filter(img => img).length}`}>
-                                        {section.images.filter(img => img).map((image, imgIndex) => (
-                                            <img
-                                                key={imgIndex}
-                                                src={image}
-                                                alt={`illustration-${imgIndex}`}
-                                                className="post-content-image"
-                                            />
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-
-                        {form.firstContact && (
-                            <div className="post-content-contact">
-                                <div className="post-content-contact-triangle-top"></div>
-                                <p className="post-content-contact-title">
-                                    Premier contact
-                                </p>
-                                <p className="post-content-contact-text" style={{ whiteSpace: 'pre-line' }}>{form.firstContact}</p>
-                                <div className="post-content-contact-triangle-bottom"></div>
-                            </div>
-                        )}
-
-                        <p className="post-content-outro" style={{ whiteSpace: 'pre-line' }}>{form.conclusion || "Votre conclusion apparaîtra ici."}</p>
-                    </div>
-                </article>
+                <Post
+                    title={form.title || "Titre de l'article"}
+                    subtitle={form.subtitle || ''}
+                    mainImage={form.mainImage}
+                    publishedAt={form.createdAt}
+                    author={form.author || "Auteur"}
+                    introduction={form.introduction || "Votre introduction apparaîtra ici."}
+                    context={form.context}
+                    body={adaptedBody}
+                    firstContact={form.firstContact}
+                    conclusion={form.conclusion || "Votre conclusion apparaîtra ici."}
+                    themes={postThemes}
+                />
             </div>
         </div>
     );
