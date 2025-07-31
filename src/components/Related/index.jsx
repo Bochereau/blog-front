@@ -10,25 +10,34 @@ const shuffleArray = (array) => [...array].sort(() => Math.random() - 0.5);
 
 // Fonction pour récupérer les articles similaires
 const createRelatedPosts = (posts, currentId, currentThemeIds, limit = 5) => {
-  let related = posts.filter((post) => {
+  const related = posts.filter((post) => {
     if (post._id === currentId || !post.themes) return false;
     const themeIds = post.themes.map((t) => t._id);
     return themeIds.some((id) => currentThemeIds.includes(id));
   });
 
-  if (related.length < limit) {
-    const others = posts.filter(
-      (p) => p._id !== currentId && !related.some((r) => r._id === p._id)
-    );
-    related = [...related, ...shuffleArray(others).slice(0, limit - related.length)];
+  const shuffledRelated = shuffleArray(related).slice(0, limit);
+
+  if (shuffledRelated.length >= limit) {
+    return shuffledRelated;
   }
 
-  return shuffleArray(related).slice(0, limit);
+  const others = posts.filter(
+    (p) => p._id !== currentId && !related.some((r) => r._id === p._id)
+  );
+
+  const shuffledOthers = shuffleArray(others).slice(0, limit - shuffledRelated.length);
+
+  return [...shuffledRelated, ...shuffledOthers];
 };
+
 
 const Related = ({ posts, _id, themes, light }) => {
   const currentThemeIds = themes.map((t) => t._id);
-  const relatedPosts = createRelatedPosts(posts, _id, currentThemeIds);
+
+  const publishedPosts = posts.filter(post => post.isPublished === true);
+
+  const relatedPosts = createRelatedPosts(publishedPosts, _id, currentThemeIds);
 
   return (
     <div className="related">
