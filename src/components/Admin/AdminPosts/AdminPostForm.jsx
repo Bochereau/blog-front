@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TriangleAlert } from "lucide-react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import ArticlePreview from "../AdminPreview";
 import "./style.scss";
 
@@ -33,6 +35,27 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     const [errors, setErrors] = useState({});
     const [showPreview, setShowPreview] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    // Mode split automatique activé pour tous les champs ReactQuill
+
+    // Configuration de ReactQuill
+    const quillModules = {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['link'],
+            ['clean']
+        ]
+    };
+
+    const quillFormats = [
+        'bold', 'italic', 'underline',
+        'blockquote', 'code-block',
+        'list', 'bullet',
+        'link'
+    ];
+
+    // Plus besoin de fonctions de toggle, mode split automatique
 
     useEffect(() => {
         const isAuthenticated = localStorage.getItem("isAdminAuthenticated");
@@ -340,12 +363,21 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                                 value={section.subtitle}
                                 onChange={(e) => handleBodyChange(index, "subtitle", e.target.value)}
                             />
-                            <textarea
-                                rows="3"
-                                placeholder="Texte"
-                                value={section.text}
-                                onChange={(e) => handleBodyChange(index, "text", e.target.value)}
-                            />
+                            <div className="field-container split-mode">
+                                <ReactQuill
+                                    value={section.text}
+                                    onChange={(value) => handleBodyChange(index, "text", value)}
+                                    modules={quillModules}
+                                    formats={quillFormats}
+                                    placeholder="Texte"
+                                />
+                                <div className="live-preview">
+                                    <h4>👁️ Aperçu en direct</h4>
+                                    <div className="field-preview">
+                                        <div dangerouslySetInnerHTML={{ __html: section.text || "Aucun contenu" }} />
+                                    </div>
+                                </div>
+                            </div>
 
                             <div className="body-images">
                                 <h4>🖼️ Images de la section</h4>
