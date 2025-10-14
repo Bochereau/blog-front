@@ -17,7 +17,7 @@ import Article from "../Article";
 import About from "../About";
 import Contact from '../Contact';
 import NotFound from "../NotFound";
-import AdminLogin from '../Admin/AdminThemes';
+import AdminLogin from '../Admin/AdminLogin';
 import AdminDashboard from '../Admin/AdminDashboard';
 import AdminRoute from '../Admin/AdminRoute';
 import AdminPosts from '../Admin/AdminPosts';
