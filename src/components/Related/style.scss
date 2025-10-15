@@ -4,38 +4,27 @@
 .related {
     padding: vars.$gutter 0;
     text-align: center;
-    width: 75%;
     margin: 0 auto;
 
-    @media(max-width: 769px) {
-        width: 85%;
-    }
-
-    @media(max-width: 426px) {
-        width: 95%;
-    }
-
     &-title {
-        background-color: vars.$background-secondary;
-        color: white;
+        background-color: vars.$light;
+        color: vars.$background-secondary;
         font-size: vars.$gutter*1.5;
         font-weight: bold;
         text-align: center;
-        padding: 1.5rem 0;
-        margin-bottom: 2rem;
+        padding: vars.$gutter*2 0;
+        margin-bottom: 1.5rem;
         font-family: "Orbitron", sans-serif;
-        letter-spacing: 1px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        transform: skewY(-1deg);
+        letter-spacing: 0.5px;
         text-transform: uppercase;
+        position: relative;
+        border-top: 2px solid vars.$background-secondary;
+        border-bottom: 2px solid vars.$background-secondary;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
         @media(max-width: 426px) {
             font-size: vars.$gutter*1.3;
             width: 100%;
-        }
-
-        &-text{
-            transform: skewY(1deg);
         }
     }
 

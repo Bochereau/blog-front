@@ -1,61 +1,443 @@
 @use '../../styles/vars';
 @use 'sass:color';
 
-.comment{
-    &-add{
-        background-color: vars.$light;
-        width: 90%;
-        margin: vars.$gutter*3 auto;
-        border: 3px solid vars.$background-secondary;
-        &-title{
-            font-size: vars.$gutter*1.5;
-            padding: vars.$gutter;
-            font-weight: bold;
-            // border: 2px solid vars.$background-primary;
+.comment-add {
+    background: vars.$light;
+    width: 100%;
+    margin: vars.$gutter*3 auto;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 5px 10px 2px vars.$background-secondary;
+    transform: skewY(-1deg);
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    width: 75%;
+
+    @media(max-width: 769px) {
+        width: 85%;
+    }  
+
+    @media(max-width: 426px) {
+        width: 95%;
+    }
+
+    &--focused {
+        transform: skewY(-1deg) translateY(-3px);
+        box-shadow:
+            0 12px 35px rgba(0, 0, 0, 0.2),
+            5px 10px 2px vars.$background-secondary;
+    }
+
+    &-header {
+        background-color: vars.$background-secondary;
+        margin-bottom: vars.$gutter*2;
+    }
+
+    &-title {
+        font-size: vars.$gutter*1.4;
+        font-weight: bold;
+        text-align: center;
+        padding: vars.$gutter*1.2;
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: vars.$light;
+        transform: skewY(1deg);
+        width: 100%;
+
+        @media(max-width: 768px) {
+            font-size: vars.$gutter*1.3;
+            letter-spacing: 0.5px;
+            padding: vars.$gutter*1;
+        }
+
+        @media(max-width: 426px) {
+            font-size: vars.$gutter*1.1;
+            letter-spacing: 0.3px;
+            padding: vars.$gutter*0.8;
+            margin-bottom: vars.$gutter*0.8;
+        }
+    }
+
+    &-reply {
+        background: vars.$success-green;
+        color: vars.$background-secondary;
+        padding: vars.$gutter*0.8 vars.$gutter;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: vars.$gutter;
+        transform: skewY(1deg);
+        margin: vars.$gutter*2;
+
+        &::before {
+            content: '💬';
+            margin-right: vars.$gutter*0.5;
+            font-size: vars.$gutter*1.2;
+
             @media(max-width: 426px) {
-                font-size: vars.$gutter*1.2;
+                display: none;
             }
         }
-        &-form{
-            margin: vars.$gutter vars.$gutter*2;
-            @media(max-width: 426px) {
-                margin: vars.$gutter;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: vars.$gutter;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid vars.$success-green;
+        }
+
+        &-text {
+            display: flex;
+            align-items: center;
+            gap: vars.$gutter*0.3;
+            font-size: vars.$gutter*0.9;
+            letter-spacing: 0.5px;
+        }
+
+        @media(max-width: 768px) {
+            padding: vars.$gutter*0.6 vars.$gutter*0.8;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: vars.$gutter*0.5;
+
+            &-text {
+                font-size: vars.$gutter*0.8;
+                letter-spacing: 0.3px;
             }
-            &-item{
-                display: flex;
-                justify-content: flex-end;
-                align-items: baseline;
-                @media(max-width: 426px) {
-                    flex-direction: column;
+        }
+
+        @media(max-width: 426px) {
+            padding: vars.$gutter*0.5 vars.$gutter*0.6;
+            margin-bottom: vars.$gutter*0.8;
+
+            &::before {
+                font-size: vars.$gutter;
+                margin-right: vars.$gutter*0.3;
+            }
+
+            &-text {
+                font-size: vars.$gutter*0.75;
+                letter-spacing: 0.2px;
+                line-height: 1.3;
+            }
+        }
+
+        &-cancel {
+            background: rgba(0, 0, 0, 0.1);
+            color: vars.$background-secondary;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            padding: vars.$gutter*0.4 vars.$gutter*0.8;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            text-transform: uppercase;
+            font-size: vars.$gutter*0.8;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+
+            &:hover {
+                background: linear-gradient(135deg, vars.$background-secondary, #1a1a1a);
+                color: vars.$success-green;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+
+                &::before {
+                    left: 100%;
                 }
-                &-label{
-                    flex: 2;
-                    padding: vars.$gutter*1.5 0 vars.$gutter*0.4;
-                    font-size: vars.$gutter*1.1;
-                    text-align: right;
-                    margin-right: vars.$gutter;
-                    cursor: text;
+            }
+
+            @media(max-width: 768px) {
+                padding: vars.$gutter*0.3 vars.$gutter*0.6;
+                font-size: vars.$gutter*0.75;
+                letter-spacing: 0.3px;
+            }
+
+            @media(max-width: 426px) {
+                padding: vars.$gutter*0.25 vars.$gutter*0.5;
+                font-size: vars.$gutter*0.7;
+                letter-spacing: 0.2px;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+
+    &-form {
+        margin: vars.$gutter vars.$gutter*2;
+        transform: skewY(1deg);
+
+        @media(max-width: 426px) {
+            margin: vars.$gutter;
+        }
+
+        &-group {
+            display: flex;
+            flex-direction: column;
+            gap: vars.$gutter*1.5;
+        }
+
+        &-field {
+            display: flex;
+            flex-direction: column;
+            gap: vars.$gutter*0.5;
+        }
+
+        &-label {
+            font-size: vars.$gutter*1.1;
+            font-weight: bold;
+            color: vars.$background-secondary;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: "Orbitron", sans-serif;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+            @media(max-width: 768px) {
+                font-size: vars.$gutter*1.05;
+                letter-spacing: 0.3px;
+            }
+
+            @media(max-width: 426px) {
+                font-size: vars.$gutter;
+                letter-spacing: 0.2px;
+            }
+        }
+
+        &-input-wrapper {
+            position: relative;
+        }
+
+        &-input {
+            width: 100%;
+            padding: vars.$gutter*0.8 vars.$gutter;
+            border: 2px solid vars.$background-primary;
+            background: linear-gradient(135deg, vars.$light, #f8f9fa);
+            font-size: vars.$gutter;
+            border-radius: 8px;
+
+            &::placeholder {
+                color: #adb5bd;
+                font-style: italic;
+            }
+
+            &:focus {
+                border: 2px solid vars.$background-secondary;
+            }
+
+            &--valid {
+                border-color: vars.$link-color;
+                background: linear-gradient(135deg, rgba(17, 218, 141, 0.05), vars.$light);
+            }
+
+            &--error {
+                border-color: vars.$error-color;
+                background: linear-gradient(135deg, rgba(235, 55, 55, 0.05), vars.$light);
+            }
+
+            @media(max-width: 768px) {
+                padding: vars.$gutter*0.7 vars.$gutter*0.8;
+                font-size: vars.$gutter*0.95;
+            }
+
+            @media(max-width: 426px) {
+                padding: vars.$gutter*0.6 vars.$gutter*0.7;
+                font-size: vars.$gutter*0.9;
+                border-radius: 6px;
+            }
+        }
+
+        &-counter {
+            position: absolute;
+            right: vars.$gutter*0.8;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: vars.$gutter*0.8;
+            color: vars.$grey;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border: 1px solid #e1e5e9;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+            @media(max-width: 768px) {
+                font-size: vars.$gutter*0.75;
+                padding: 3px 6px;
+                right: vars.$gutter*0.6;
+            }
+
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*0.7;
+                padding: 2px 5px;
+                right: vars.$gutter*0.5;
+            }
+        }
+
+        &-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: vars.$gutter*0.8 vars.$gutter;
+            border: 2px solid #e1e5e9;
+            background: linear-gradient(135deg, vars.$light, #f8f9fa);
+            font-size: vars.$gutter;
+            font-family: inherit;
+            resize: none;
+            border-radius: 8px;
+            line-height: 1.6;
+
+            &::placeholder {
+                color: #adb5bd;
+                font-style: italic;
+            }
+
+            &:focus {
+                border: 2px solid vars.$background-secondary;
+            }
+
+            &--valid {
+                border-color: vars.$link-color;
+                background: linear-gradient(135deg, rgba(17, 218, 141, 0.05), vars.$light);
+            }
+
+            @media(max-width: 768px) {
+                min-height: 100px;
+                padding: vars.$gutter*0.7 vars.$gutter*0.8;
+                font-size: vars.$gutter*0.95;
+                line-height: 1.5;
+
+                &--focused {
+                    min-height: 120px;
                 }
-                &-input, &-textarea{
-                    flex: 5;
-                    padding: vars.$gutter*0.5;
-                    @media(max-width: 426px) {
-                        width: 100%;
+            }
+
+            @media(max-width: 426px) {
+                min-height: 80px;
+                padding: vars.$gutter*0.6 vars.$gutter*0.7;
+                font-size: vars.$gutter*0.9;
+                line-height: 1.4;
+                border-radius: 6px;
+
+                &--focused {
+                    min-height: 100px;
+                }
+            }
+        }
+
+        &-actions {
+            margin-top: vars.$gutter*1.5;
+            display: flex;
+            justify-content: flex-end;
+
+            @media(max-width: 426px) {
+                margin-top: vars.$gutter*1.2;
+                justify-content: center;
+            }
+        }
+
+        &-submit {
+            padding: vars.$gutter*0.8 vars.$gutter*2;
+            font-size: vars.$gutter*1.1;
+            font-weight: bold;
+            cursor: pointer;
+            border: 3px solid vars.$background-secondary;
+            background: linear-gradient(135deg, vars.$light, #f8f9fa);
+            color: vars.$background-secondary;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 200px;
+            text-transform: uppercase;
+            font-family: "Orbitron", sans-serif;
+            letter-spacing: 0.5px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.5s;
+            }
+
+            @media(max-width: 768px) {
+                font-size: vars.$gutter*1.05;
+                padding: vars.$gutter*0.75 vars.$gutter*1.8;
+                letter-spacing: 0.3px;
+            }
+
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*0.95;
+                padding: vars.$gutter*0.7 vars.$gutter*1.5;
+                width: 100%;
+                min-width: auto;
+                letter-spacing: 0.2px;
+            }
+
+            &--enabled {
+                border-color: vars.$success-green;
+                background: vars.$success-green;
+                color: vars.$background-secondary;
+                box-shadow: 0 4px 15px rgba(239, 204, 0, 0.3);
+
+                &:hover {
+                    background: linear-gradient(135deg, vars.$background-secondary, #1a1a1a);
+                    color: vars.$success-green;
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+
+                    &::before {
+                        left: 100%;
                     }
                 }
             }
-            &-submit{
-                margin: vars.$gutter*2 0;
-                padding: vars.$gutter*0.5 vars.$gutter*2;
-                font-size: vars.$gutter*1.1;
-                font-weight: bold;
-                cursor: pointer;
-                border-radius: 5px;
-                @media(max-width: 426px) {
-                    font-size: vars.$gutter;
-                    padding: vars.$gutter*0.5 vars.$gutter;
+
+            &--disabled {
+                border-color: vars.$grey;
+                background: linear-gradient(135deg, vars.$grey, #b0b0b0);
+                color: vars.$background-primary;
+                cursor: not-allowed;
+                box-shadow: none;
+
+                &:hover {
+                    border-color: vars.$grey;
+                    background: linear-gradient(135deg, vars.$grey, #b0b0b0);
+                    color: vars.$background-primary;
+                    transform: none;
+                    box-shadow: none;
                 }
             }
+
+            &-spinner {
+                width: 16px;
+                height: 16px;
+                border: 2px solid transparent;
+                border-top: 2px solid currentColor;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                display: inline-block;
+                margin-right: vars.$gutter*0.5;
+            }
         }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

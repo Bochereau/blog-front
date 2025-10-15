@@ -11,7 +11,7 @@ import {
   setReplyTo
 } from "../../actions";
 
-const CommentItem = ({ comment, light, level = 0 }) => {
+const CommentItem = ({ comment, light, level = 0, parentPseudo = null }) => {
   const dispatch = useDispatch();
 
   const handleReply = () => {
@@ -19,25 +19,65 @@ const CommentItem = ({ comment, light, level = 0 }) => {
     document.querySelector('.comment-add').scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Générer les initiales pour l'avatar
+  const getInitials = (pseudo) => {
+    return pseudo
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+
   return (
-    <div className={classNames({"comment--reply": level > 0})} style={{ marginLeft: `${level * 8}px` }}>
+    <div 
+      className={classNames("comment-item-wrapper", {
+        "comment--reply": level > 0,
+        "comment--level-1": level === 1,
+        "comment--level-2": level === 2,
+        "comment--level-3": level === 3
+      })} 
+      data-level={level}
+    >
       <div className="comment-list-item">
         <div className="comment-list-item-box">
-          <p className="comment-list-item-info">
-            {level > 0 && (
-              <p>&#x21aa;</p>
-            )}
-            Par <em className="comment-list-item-info-pseudo">{comment.pseudo}</em> le{" "}
-            <time className="comment-list-item-info-date">{reverseDate(comment.createdAt)}</time> :
-          </p>
-          <p className="comment-list-item-content">{comment.content}</p>
+          {/* Avatar */}
+          <div className="comment-list-item-avatar">
+            {getInitials(comment.pseudo)}
+          </div>
+          
+          {/* Contenu du commentaire */}
+          <div className="comment-list-item-content-wrapper">
+            {/* Informations de l'auteur */}
+            <div className="comment-list-item-info">
+              <div className="comment-list-item-info-header">
+                <span className="comment-list-item-info-pseudo">{comment.pseudo}</span>
+                <span className="comment-list-item-info-date">{reverseDate(comment.createdAt)}</span>
+                {level > 0 && (
+                  <span className="comment-list-item-info-badge">
+                    {parentPseudo ? `Réponse à ${parentPseudo.toUpperCase()}` : 'Réponse'}
+                  </span>
+                )}
+              </div>
+            </div>
+            
+            {/* Contenu du commentaire */}
+            <div className="comment-list-item-content">{comment.content}</div>
+          </div>
         </div>
+        
+        {/* Actions */}
         <div className="comment-list-item-actions">
-          <button onClick={handleReply} className="comment-list-item-action reply">Répondre</button>
+          <button onClick={handleReply} className="comment-list-item-action reply">
+            💬 Répondre
+          </button>
         </div>
       </div>
+      
+      {/* Réponses récursives */}
       {comment.replies?.map((reply) => (
-        <CommentItem key={reply._id} comment={reply} light={light} level={level + 1} />
+        <CommentItem key={reply._id} comment={reply} light={light} level={level + 1} parentPseudo={comment.pseudo} />
       ))}
     </div>
   );
@@ -66,13 +106,13 @@ const Comment = ({ postId, title, light }) => {
       >
         <h4 className="comment-title-text">Commentaires</h4>
       </div>
+      <AddComment postId={postId} />
       <div className="comment-list">
         {structuredComments?.map(comment => (
           <CommentItem key={comment._id} comment={comment} light={light} />
         ))}
       </div>
 
-      <AddComment postId={postId} />
     </div>
   );
 };

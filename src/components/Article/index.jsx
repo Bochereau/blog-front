@@ -41,12 +41,10 @@ const Article = () => {
   return (
     <div className="article">
       <Post {...currentPost} />
-      <hr />
-      {/* <Comment
+      <Comment
         postId={currentPost._id}
         title={currentPost.title}
       />
-      <hr /> */}
       <Related posts={posts} {...currentPost} />
     </div>
   );

@@ -47,7 +47,7 @@ const Related = ({ posts, _id, themes, light }) => {
           "bk-s--dark": light === false,
         })}
       >
-        <h4 className="related-title-text">Articles Similaires</h4>
+        <h4 className="related-title-text">Articles similaires</h4>
       </div>
       <div className="related-posts">
         {relatedPosts.map((post) => (

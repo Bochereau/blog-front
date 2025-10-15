@@ -2,113 +2,321 @@
 @use 'sass:color';
 
 .comment {
-    margin: 0 auto;
-    padding: vars.$gutter 0 0;
+    padding: vars.$gutter 0;
     text-align: center;
-    width: 75%;
-
-    @media(max-width: 769px) {
-        width: 85%;
-    }
-
-    @media(max-width: 426px) {
-        width: 95%;
-    }
+    margin: 0 auto;
 
     &-title {
-        background-color: vars.$background-secondary;
-        color: vars.$background-primary;
+        background-color: vars.$light;
+        color: vars.$background-secondary;
         font-size: vars.$gutter*1.5;
         font-weight: bold;
         text-align: center;
-        padding: 1.5rem 0;
-        margin-bottom: 2rem;
+        padding: vars.$gutter*2 0;
+        margin-bottom: 1.5rem;
         font-family: "Orbitron", sans-serif;
-        letter-spacing: 1px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        transform: skewY(-1deg);
+        letter-spacing: 0.5px;
         text-transform: uppercase;
+        position: relative;
+        border-top: 2px solid vars.$background-secondary;
+        border-bottom: 2px solid vars.$background-secondary;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
         @media(max-width: 426px) {
             font-size: vars.$gutter*1.3;
             width: 100%;
         }
+    }
 
-        &-text {
-            transform: skewY(1deg);
+    &-list {
+        width: 75%;
+        margin: 0 auto;
+        position: relative;
+
+        @media(max-width: 769px) {
+            width: 85%;
+        }  
+
+        @media(max-width: 426px) {
+            width: 95%;
+        }
+    }
+
+    // Wrapper pour chaque commentaire
+    &-item-wrapper {
+        position: relative;
+        margin-bottom: vars.$gutter*1.5;
+
+        // Styles pour les différents niveaux de réponse
+        &.comment--level-1 {
+            margin-left: 32px;
+            position: relative;
+            
+            .comment-list-item {
+                border-left: 4px solid vars.$accent-blue;
+                
+                .comment-list-item-info-badge {
+                    background: linear-gradient(135deg, vars.$accent-blue, rgba(59, 130, 246, 0.8));
+                    color: vars.$light;
+                }
+            }
+
+            @media(max-width: 426px) {
+                margin-left: 16px;
+                
+                &::before,
+                &::after {
+                    display: none;
+                }
+            }
+        }
+
+        &.comment--level-2 {
+            margin-left: 64px;
+            position: relative;
+            
+            .comment-list-item {
+                border-left: 4px solid vars.$accent-purple;
+                
+                .comment-list-item-info-badge {
+                    background: linear-gradient(135deg, vars.$accent-purple, rgba(139, 92, 246, 0.8));
+                    color: vars.$light;
+                }
+            }
+
+            @media(max-width: 426px) {
+                margin-left: 16px;
+                
+                &::before,
+                &::after {
+                    display: none;
+                }
+            }
+        }
+
+        &.comment--level-3 {
+            margin-left: 96px;
+            position: relative;
+                   
+            .comment-list-item {
+                border-left: 4px solid vars.$success-green;
+                
+                .comment-list-item-info-badge {
+                    background: linear-gradient(135deg, vars.$success-green, rgba(16, 185, 129, 0.8));
+                    color: vars.$light;
+                }
+            }
+
+            @media(max-width: 426px) {
+                margin-left: 16px;
+                
+                &::before,
+                &::after {
+                    display: none;
+                }
+            }
         }
     }
 
     &-list {
-        &-title {
-            font-size: vars.$gutter*1.8;
-            font-weight: bold;
-            padding: vars.$gutter*2;
-            margin: vars.$gutter 0;
-            border: 2px solid vars.$background-primary;
+        &-item {
+            padding: vars.$gutter*0.5;
+            text-align: left;
+            margin: vars.$gutter auto;
+            background-color: vars.$light;
+            box-shadow:
+                0 6px 14px rgba(0, 0, 0, 0.08),
+                4px 8px 0 vars.$background-secondary;
+            flex: 1;
+            position: relative;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+
+            &:hover {
+                transform: translateY(-1px);
+                box-shadow:
+                    0 10px 22px rgba(0, 0, 0, 0.12),
+                    4px 8px 0 vars.$background-secondary;
+            }
 
             @media(max-width: 426px) {
-                font-size: vars.$gutter*1.3;
-            }
-        }
+                &[data-level="1"],
+                &[data-level="2"],
+                &[data-level="3"] {
+                    margin-left: vars.$gutter*0.5;
+                }
 
-        &-item {
-            padding: vars.$gutter;
-            text-align: left;
-            margin: vars.$gutter vars.$gutter*0.5;
-            background-color: vars.$light;
-            border: 1px solid vars.$background-secondary;
-            box-shadow: 5px 10px 2px vars.$background-secondary;
-            flex: 1;
+                // Améliorer l'affichage mobile
+                padding: vars.$gutter*0.6;
+                margin: vars.$gutter auto;
+            }
+
 
             &-box {
                 display: flex;
                 align-items: flex-start;
-                gap: vars.$gutter;
+                gap: calc(vars.$gutter * 0.8);
 
                 @media(max-width: 426px) {
                     flex-direction: column;
+                    gap: calc(vars.$gutter * 0.5);
+                }
+            }
+
+            &-content-wrapper {
+                flex: 1;
+                min-width: 0; // Pour éviter les débordements
+            }
+
+            &-avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: vars.$light;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: vars.$gutter*1.0;
+                color: vars.$background-secondary;
+                text-transform: uppercase;
+                flex-shrink: 0;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+                border: 3px solid vars.$background-secondary;
+                position: relative;
+
+                @media(max-width: 426px) {
+                    width: 40px;
+                    height: 40px;
+                    font-size: vars.$gutter;
                 }
             }
 
             &-info {
-                padding-bottom: 8px;
+                padding-bottom: calc(vars.$gutter * 0.6);
                 display: flex;
-                gap: 8px;
-                border-bottom: 3px solid vars.$background-secondary;
+                flex-direction: column;
+                gap: calc(vars.$gutter * 0.3);
+                border-bottom: 2px solid vars.$background-secondary;
+                position: relative;
 
-                &-date,
-                &-pseudo {
-                    font-weight: bold;
+                &-header {
+                    display: flex;
+                    align-items: center;
+                    gap: calc(vars.$gutter * 0.5);
+                    flex-wrap: wrap;
                 }
 
                 &-pseudo {
+                    font-weight: bold;
                     text-transform: uppercase;
+                    color: vars.$background-secondary;
+                    font-size: vars.$gutter*1.1;
+                    letter-spacing: 0.5px;
+                    font-family: "Orbitron", sans-serif;
+
+                    @media(max-width: 426px) {
+                        font-size: vars.$gutter;
+                    }
+                }
+
+                &-date {
+                    font-weight: 500;
+                    color: vars.$grey;
+                    font-size: vars.$gutter*0.9;
+                    background: rgba(153, 153, 153, 0.1);
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    border: 1px solid rgba(153, 153, 153, 0.2);
+
+                    @media(max-width: 426px) {
+                        font-size: vars.$gutter*0.8;
+                    }
+                }
+
+                &-badge {
+                    color: vars.$background-secondary;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-size: vars.$gutter*0.8;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+                    @media(max-width: 426px) {
+                        font-size: vars.$gutter*0.7;
+                        padding: 1px 6px;
+                    }
                 }
             }
 
             &-content {
-                line-height: 1.1;
-                margin-bottom: vars.$gutter;
+                line-height: 1.6;
+                margin: calc(vars.$gutter * 0.6) 0;
+                color: vars.$background-secondary;
+                font-size: vars.$gutter*1.05;
+                position: relative;
+                padding-left: calc(vars.$gutter * 0.5);
+
+                @media(max-width: 426px) {
+                    font-size: vars.$gutter;
+                    padding-left: calc(vars.$gutter * 0.3);
+                }
             }
 
             &-actions {
                 text-align: right;
+                margin-top: calc(vars.$gutter * 0.4);
 
                 button {
-                    padding: vars.$gutter*0.5 vars.$gutter;
-                    border: 3px solid vars.$background-secondary;
-                    background-color: vars.$light;
+                    padding: calc(vars.$gutter * 0.35) calc(vars.$gutter * 0.9);
+                    border: 2px solid vars.$background-secondary;
+                    background: linear-gradient(135deg, vars.$light, #f8f9fa);
                     color: vars.$background-secondary;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    font-size: vars.$gutter*0.85;
+                    letter-spacing: 0.5px;
+                    border-radius: 6px;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    position: relative;
+                    overflow: hidden;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: -100%;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                        transition: left 0.5s;
+                    }
 
                     &:hover {
-                        background-color: vars.$background-secondary;
-                        color: vars.$background-primary;
-                        transform: skewY(-2deg);
-                        transition: all ease-in-out 250ms;
+                        background: linear-gradient(135deg, vars.$background-secondary, #1a1a1a);
+                        color: vars.$alt-color;
+                        transform: skewY(-1deg) translateY(-1px);
+                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+                        &::before {
+                            left: 100%;
+                        }
+                    }
+
+                    &:active {
+                        transform: skewY(-1deg) translateY(0);
+                    }
+
+                    @media(max-width: 426px) {
+                        padding: calc(vars.$gutter * 0.3) calc(vars.$gutter * 0.8);
+                        font-size: vars.$gutter*0.8;
+                        width: 100%;
                     }
                 }
             }
         }
     }
+
 }

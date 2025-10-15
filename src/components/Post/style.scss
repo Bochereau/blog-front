@@ -440,7 +440,7 @@
 .reading-progress-bar {
   height: 100%;
   width: 0%;
-  background-color: vars.$alt-color;
+  background-color: vars.$success-green;
   transition: width 0.2s ease-in-out;
 }
 

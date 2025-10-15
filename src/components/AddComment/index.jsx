@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import classNames from "classnames";
 
@@ -8,6 +8,9 @@ import "./style.scss";
 
 const AddComment = ({ postId }) => {
   const dispatch = useDispatch();
+  const textareaRef = useRef(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const pseudo = useSelector((state) => state.pseudo);
   const comment = useSelector((state) => state.comment);
@@ -15,10 +18,25 @@ const AddComment = ({ postId }) => {
   const replyTo = useSelector((state) => state.replyTo);
   const replyToPseudo = useSelector((state) => state.replyToPseudo);
 
-  const handleSubmit = (evt) => {
+  // Auto-resize du textarea
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    }
+  }, [comment]);
+
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    if (pseudo !== "" && comment !== "") {
-      dispatch(sendComment());
+    if (pseudo !== "" && comment !== "" && !isSubmitting) {
+      setIsSubmitting(true);
+      try {
+        await dispatch(sendComment());
+        // Reset après envoi réussi
+        setIsSubmitting(false);
+      } catch (error) {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -30,72 +48,103 @@ const AddComment = ({ postId }) => {
     dispatch(clearReplyTo());
   };
 
+  const isFormValid = pseudo.trim() !== "" && comment.trim() !== "";
+  const pseudoLength = pseudo.length;
+  const maxPseudoLength = 50;
+
   return (
-    <div className="comment-add">
-      <h5
-        className={classNames("comment-add-title", {
-          "bk-s--light": light,
-          "bk-s--dark": !light,
-        })}
-      >
-        Laisser un commentaire
-      </h5>
+    <div className={classNames("comment-add", {
+      "comment-add--focused": isFocused
+    })}>
+      <div className="comment-add-header">
+        <h5 className="comment-add-title">
+          💬 Laisser un commentaire
+        </h5>
+      </div>
 
       {replyTo && (
-        <div className="comment-add-reply-info">
-          <p>En réponse à <strong>{replyToPseudo}</strong></p>
-          <button onClick={handleCancelReply} className="comment-add-reply-cancel">
-            Annuler la réponse
+        <div className="comment-add-reply">
+          <span className="comment-add-reply-text">
+            En réponse à <strong>{replyToPseudo}</strong>
+          </span>
+          <button 
+            onClick={handleCancelReply} 
+            className="comment-add-reply-cancel"
+            type="button"
+          >
+            ✕ Annuler
           </button>
         </div>
       )}
 
       <form className="comment-add-form" onSubmit={handleSubmit}>
-        <ul>
-          <li className="comment-add-form-item">
-            <label className="comment-add-form-item-label" htmlFor="field-pseudo">
-              Pseudo :
+        <div className="comment-add-form-group">
+          <div className="comment-add-form-field">
+            <label className="comment-add-form-label" htmlFor="field-pseudo">
+              Pseudo
             </label>
-            <input
-              id="field-pseudo"
-              type="text"
-              name="pseudo"
-              placeholder="Ici votre pseudo"
-              maxLength="50"
-              className={classNames("comment-add-form-item-input", {
-                ok: pseudo !== "",
-              })}
-              value={pseudo}
-              onChange={handleChange}
-            />
-          </li>
+            <div className="comment-add-form-input-wrapper">
+              <input
+                id="field-pseudo"
+                type="text"
+                name="pseudo"
+                placeholder="Un pseudo ?"
+                maxLength={maxPseudoLength}
+                className={classNames("comment-add-form-input", {
+                  "comment-add-form-input--valid": pseudo.trim() !== "",
+                  "comment-add-form-input--error": pseudoLength > maxPseudoLength * 0.9
+                })}
+                value={pseudo}
+                onChange={handleChange}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+              />
+              <div className="comment-add-form-counter">
+                {pseudoLength}/{maxPseudoLength}
+              </div>
+            </div>
+          </div>
 
-          <li className="comment-add-form-item">
-            <label className="comment-add-form-item-label" htmlFor="field-comment">
-              Commentaire :
+          <div className="comment-add-form-field">
+            <label className="comment-add-form-label" htmlFor="field-comment">
+              Commentaire
             </label>
             <textarea
+              ref={textareaRef}
               id="field-comment"
               name="comment"
-              placeholder="Ici votre commentaire"
-              rows="8"
-              className={classNames("comment-add-form-item-textarea", {
-                ok: comment !== "",
+              placeholder="Partagez ce que vous voulez à propos de cet article..."
+              className={classNames("comment-add-form-textarea", {
+                "comment-add-form-textarea--valid": comment.trim() !== "",
+                "comment-add-form-textarea--focused": isFocused
               })}
               value={comment}
               onChange={handleChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
             />
-          </li>
-        </ul>
+          </div>
+        </div>
 
-        <input
-          type="submit"
-          value="Soumettre votre commentaire"
-          className={classNames("comment-add-form-submit", {
-            off: pseudo === "" || comment === "",
-            on: pseudo !== "" && comment !== "",
-          })}
-        />
+        <div className="comment-add-form-actions">
+          <button
+            type="submit"
+            disabled={!isFormValid || isSubmitting}
+            className={classNames("comment-add-form-submit", {
+              "comment-add-form-submit--enabled": isFormValid && !isSubmitting,
+              "comment-add-form-submit--disabled": !isFormValid || isSubmitting
+            })}
+          >
+            {isSubmitting ? (
+              <>
+                <span className="comment-add-form-submit-spinner"></span>
+                Envoi en cours...
+              </>
+            ) : (
+              "Publier le commentaire"
+            )}
+          </button>
+        </div>
       </form>
     </div>
   );
