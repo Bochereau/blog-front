@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getTheme, addTheme, updateTheme, deleteTheme } from '../../../actions';
 import "./style.scss";
+import EditIcon from '../../../assets/icons/edit.svg';
+import DeleteIcon from '../../../assets/icons/delete.svg';
 
 const AdminThemes = () => {
     const dispatch = useDispatch();
@@ -40,26 +42,45 @@ const AdminThemes = () => {
         dispatch(deleteTheme(id));
     };
 
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      handleAdd();
+  };
+
     return (
         <div className="admin-themes">
             <Link to="/admin/dashboard" className="admin-return">&#8592; Retour</Link>
 
             <h2 className="admin-themes-title">Gestion des Thèmes</h2>
 
-            <div className="admin-themes-form">
-                <input
-                    type="text"
-                    placeholder="Nom"
-                    value={newTheme.name}
-                    onChange={(e) => setNewTheme({ ...newTheme, name: e.target.value })}
-                />
-                <input
-                    type="color"
-                    value={newTheme.color}
-                    onChange={(e) => setNewTheme({ ...newTheme, color: e.target.value })}
-                />
-                <button onClick={handleAdd} className="admin-themes-add">Ajouter</button>
-            </div>
+            <form className="admin-themes-form" onSubmit={handleSubmit}>
+                <fieldset className="admin-themes-form-fieldset">
+                    <div className="form-row">
+                        <div className="form-field">
+                            <label htmlFor="theme-name">Nom</label>
+                            <input
+                                id="theme-name"
+                                type="text"
+                                placeholder="Nom du thème"
+                                value={newTheme.name}
+                                onChange={(e) => setNewTheme({ ...newTheme, name: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-field">
+                            <label htmlFor="theme-color">Couleur</label>
+                            <input
+                                id="theme-color"
+                                type="color"
+                                value={newTheme.color}
+                                onChange={(e) => setNewTheme({ ...newTheme, color: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-actions">
+                            <button type="submit" className="admin-themes-add">Ajouter</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
 
             <div className="admin-themes-list">
                 {themes.map((theme) => (
@@ -83,11 +104,17 @@ const AdminThemes = () => {
                             </>
                         ) : (
                             <>
-                                <span className="theme-item-name">{theme.name}</span>
-                                <span className="theme-item-color" style={{ backgroundColor: theme.color }}></span>
+                                <div className="theme-item-header">
+                                    <span className="theme-item-name">{theme.name}</span>
+                                    <span className="theme-item-color" style={{ backgroundColor: theme.color }}></span>
+                                </div>
                                 <div className="theme-item-actions">
-                                    <button onClick={() => handleEdit(theme)}>Modifier</button>
-                                    <button onClick={() => handleDelete(theme._id)}>Supprimer</button>
+                                    <button onClick={() => handleEdit(theme)} className="icon-btn edit" aria-label="Modifier">
+                                        <img src={EditIcon} alt="" />
+                                    </button>
+                                    <button onClick={() => handleDelete(theme._id)} className="icon-btn delete" aria-label="Supprimer">
+                                        <img src={DeleteIcon} alt="" />
+                                    </button>
                                 </div>
                             </>
                         )}
