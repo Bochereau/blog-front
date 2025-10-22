@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import { fetchComments, deleteComment, updateComment } from '../../../actions';
+import '../style.scss';
 import './style.scss';
+import EditIcon from '../../../assets/icons/edit.svg';
+import DeleteIcon from '../../../assets/icons/delete.svg';
+import CheckIcon from '../../../assets/icons/check.svg';
+import CloseIcon from '../../../assets/icons/close.svg';
 
 const AdminComments = () => {
   const dispatch = useDispatch();
@@ -112,7 +117,7 @@ const AdminComments = () => {
     <div className="admin-comments">
       <Link to="/admin/dashboard" className="admin-return">&#8592; Retour</Link>
     
-      <h2 className="admin-section-title">Gestion des commentaires</h2>
+      <h2 className="admin-page-title">Gestion des commentaires</h2>
 
       <div className="admin-toolbar">
         <div className="filter-section">
@@ -188,15 +193,17 @@ const AdminComments = () => {
                   <div className="comment-edit-actions">
                     <button
                       onClick={handleSaveEdit}
-                      className="save-btn"
+                      className="icon-btn validate"
+                      aria-label="Enregistrer"
                     >
-                      Enregistrer
+                      <img src={CheckIcon} alt="" />
                     </button>
                     <button
                       onClick={handleCancelEdit}
-                      className="cancel-btn"
+                      className="icon-btn close"
+                      aria-label="Annuler"
                     >
-                      Annuler
+                      <img src={CloseIcon} alt="" />
                     </button>
                   </div>
                 </div>
@@ -217,15 +224,17 @@ const AdminComments = () => {
                   <>
                     <button
                       onClick={() => handleEditComment(comment)}
-                      className="edit-btn"
+                      className="icon-btn edit"
+                      aria-label="Modifier"
                     >
-                      Modifier
+                      <img src={EditIcon} alt="" />
                     </button>
                     <button
                       onClick={() => handleDeleteComment(comment._id)}
-                      className="delete-btn"
+                      className="icon-btn delete"
+                      aria-label="Supprimer"
                     >
-                      Supprimer
+                      <img src={DeleteIcon} alt="" />
                     </button>
                   </>
                 )}

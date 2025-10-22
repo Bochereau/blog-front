@@ -5,6 +5,7 @@ import { TriangleAlert } from "lucide-react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ArticlePreview from "../AdminPreview";
+import "../style.scss";
 import "./style.scss";
 
 const defaultForm = {

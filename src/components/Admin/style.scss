@@ -3,6 +3,7 @@
 
 .admin-return {
   position: absolute;
+  top: 2rem;
   left: 2rem;
   display: inline-block;
   padding: 0.8rem 1rem;
@@ -11,9 +12,72 @@
   text-decoration: none;
   border-radius: 6px;
   font-weight: bold;
+  z-index: 10;
 
   &:hover {
     background: #333;
+  }
+
+  @media (max-width: 768px) {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+.admin-page-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 426px) {
+    margin-top: 4rem;
+  }
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$gutter*0.5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+
+  img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+  }
+
+  &.close {
+    background-color: vars.$error-color;
+    color: white;
+  }
+
+  &.validate {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  &.edit {
+    background-color: vars.$warning-orange;
+    color: white;
+  }
+
+  &.delete {
+    background-color: vars.$error-color;
+    color: white;
   }
 }
 

@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getTheme, addTheme, updateTheme, deleteTheme } from '../../../actions';
+import "../style.scss";
 import "./style.scss";
 import EditIcon from '../../../assets/icons/edit.svg';
 import DeleteIcon from '../../../assets/icons/delete.svg';
+import CloseIcon from '../../../assets/icons/close.svg';
+import CheckIcon from '../../../assets/icons/check.svg';
 
 const AdminThemes = () => {
     const dispatch = useDispatch();
@@ -51,30 +54,25 @@ const AdminThemes = () => {
         <div className="admin-themes">
             <Link to="/admin/dashboard" className="admin-return">&#8592; Retour</Link>
 
-            <h2 className="admin-themes-title">Gestion des Thèmes</h2>
+            <h2 className="admin-page-title">Gestion des Thèmes</h2>
 
             <form className="admin-themes-form" onSubmit={handleSubmit}>
                 <fieldset className="admin-themes-form-fieldset">
                     <div className="form-row">
-                        <div className="form-field">
-                            <label htmlFor="theme-name">Nom</label>
-                            <input
-                                id="theme-name"
-                                type="text"
-                                placeholder="Nom du thème"
-                                value={newTheme.name}
-                                onChange={(e) => setNewTheme({ ...newTheme, name: e.target.value })}
-                            />
-                        </div>
-                        <div className="form-field">
-                            <label htmlFor="theme-color">Couleur</label>
-                            <input
-                                id="theme-color"
-                                type="color"
-                                value={newTheme.color}
-                                onChange={(e) => setNewTheme({ ...newTheme, color: e.target.value })}
-                            />
-                        </div>
+                        <input
+                            id="theme-name"
+                            type="text"
+                            placeholder="Nom du thème"
+                            value={newTheme.name}
+                            onChange={(e) => setNewTheme({ ...newTheme, name: e.target.value })}
+                        />
+
+                        <input
+                            id="theme-color"
+                            type="color"
+                            value={newTheme.color}
+                            onChange={(e) => setNewTheme({ ...newTheme, color: e.target.value })}
+                        />
                         <div className="form-actions">
                             <button type="submit" className="admin-themes-add">Ajouter</button>
                         </div>
@@ -98,8 +96,12 @@ const AdminThemes = () => {
                                     onChange={(e) => setEditedTheme({ ...editedTheme, color: e.target.value })}
                                 />
                                 <div className="theme-item-actions">
-                                    <button onClick={() => handleValidate(theme)}>Valider</button>
-                                    <button onClick={handleCancel}>Annuler</button>
+                                    <button onClick={() => handleValidate(theme)} className="icon-btn validate" aria-label="Valider">
+                                        <img src={CheckIcon} alt="" />
+                                    </button>
+                                    <button onClick={handleCancel} className="icon-btn close" aria-label="Annuler">
+                                        <img src={CloseIcon} alt="" />
+                                    </button>
                                 </div>
                             </>
                         ) : (
