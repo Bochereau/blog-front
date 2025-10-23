@@ -24,7 +24,8 @@
     &-subtitle {
         position: absolute;
         max-width: 95%;
-        text-shadow: 0 0 10px black;
+        text-shadow: 0 0 10px black, 0 0 20px rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(1px);
     }
 
     &-title {
@@ -61,7 +62,18 @@
         background-color: rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(4px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, fill 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        text-decoration: none;
+        
+        &:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.8);
+            outline-offset: 2px;
+        }
+        
+        @media(max-width: 426px) {
+            padding: vars.$gutter*0.4 vars.$gutter*2;
+        }
 
         &-icon {
             transition: transform 0.3s ease-in-out;
@@ -72,6 +84,11 @@
             font-weight: bold;
             padding-right: vars.$gutter*0.5;
             text-transform: uppercase;
+            
+            @media(max-width: 426px) {
+                font-size: vars.$gutter*0.9;
+                padding-right: vars.$gutter*0.3;
+            }
         }
 
         &:hover {
@@ -80,10 +97,16 @@
             fill: black;
             text-shadow: none;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+            transform: translateY(-2px);
 
             .card-link-icon {
                 transform: translateX(10px);
             }
+        }
+        
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
     }
 }
