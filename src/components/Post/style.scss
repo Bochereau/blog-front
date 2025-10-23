@@ -392,9 +392,20 @@
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
         
+        @media (max-width: 768px) {
+            position: static;
+            margin-top: vars.$gutter;
+            background-color: rgba(0,0,0,0.8);
+            border-radius: 8px;
+            width: auto;
+            max-width: 100%;
+        }
+        
         @media (max-width: 426px) {
-            font-size: vars.$gutter;
+            font-size: vars.$gutter * 1.2;
             padding: vars.$gutter * 0.8;
+            font-weight: 500;
+            line-height: 1.4;
         }
     }
 
