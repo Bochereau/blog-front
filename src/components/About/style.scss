@@ -30,65 +30,152 @@
             padding: vars.$gutter;
         }
     }
+}
 
-    &-profil {
-        padding: vars.$gutter*2;
-        margin: vars.$gutter 0;
-        background-color: vars.$background-secondary;
-        color: white;
-        transform: skewY(-2deg);
+// Nouvelle structure pour les membres
+.member-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    color: vars.$background-secondary;
+    margin: vars.$gutter*2 0;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 2px solid vars.$background-secondary;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
 
-        @media(max-width: 426px) {
-            display: flex;
+    .member-content {
+        display: flex;
+        min-height: 400px;
+
+        @media(max-width: 768px) {
             flex-direction: column;
+        }
+    }
+
+    .member-presentation {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        padding: vars.$gutter*2;
+        background: vars.$background-secondary;
+        border-right: 3px solid vars.$light;
+
+        @media(max-width: 768px) {
+            border-right: none;
+            border-bottom: 3px solid vars.$light;
+        }
+
+        .member-header {
+            display: flex;
             align-items: center;
-            padding: vars.$gutter;
+            margin-bottom: vars.$gutter*2;
+
+            @media(max-width: 768px) {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .member-avatar {
+                margin-right: vars.$gutter*2;
+                flex-shrink: 0;
+
+                @media(max-width: 768px) {
+                    margin-right: 0;
+                    margin-bottom: vars.$gutter;
+                }
+
+                img {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 4px solid vars.$light;
+
+                    @media(max-width: 426px) {
+                        width: 100px;
+                        height: 100px;
+                    }
+                }
+            }
+
+            .member-name {
+                font-size: vars.$gutter*2.5;
+                font-weight: bold;
+                margin: 0;
+                color: vars.$light;
+
+                @media(max-width: 426px) {
+                    font-size: vars.$gutter*2;
+                }
+            }
         }
 
-        &-img {
-            width: 300px;
-            border-radius: 50%;
-            float: left;
-            margin-right: vars.$gutter*2;
-            margin-bottom: vars.$gutter;
-            box-shadow: 2px 4px 2px vars.$alt-color;
+        .member-info {
+            flex: 1;
 
-            @media(max-width: 769px) {
-                width: 200px;
-            }
+            .member-journey {
+                font-size: vars.$gutter*1.1;
+                line-height: 1.6;
+                color: white;
+                font-weight: 500;
 
-            @media(max-width: 426px) {
-                float: none;
-                margin-right: 0;
-                width: 60%;
-            }
-        }
+                p {
+                    margin: 0;
+                    text-align: justify;
+                }
 
-        &-description {
-            font-size: vars.$gutter*1.2;
-            text-align: justify;
-            transform: skewY(2deg);
-
-            @media(max-width: 426px) {
-                font-size: vars.$gutter;
-                padding: vars.$gutter;
-            }
-
-            & p {
-                padding: vars.$gutter*0.5;
-            }
-
-            & ul {
-                list-style-type: disc;
-            }
-
-            & ul>li {
-                margin-left: vars.$gutter*2;
+                strong {
+                    color: vars.$accent-blue;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+                }
             }
         }
     }
 
-    &-contact {
-        padding-top: vars.$gutter;
+    .member-details {
+        flex: 1;
+        padding: 0;
+        background: vars.$background-secondary;
+        display: flex;
+
+        .games-section {
+            width: 100%;
+
+            h3 {
+                font-size: vars.$gutter;
+                color: vars.$light;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                text-align: center;
+                font-weight: bold;
+                padding: vars.$gutter*3 0;
+            }
+
+            .games-list {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                .game-item {
+                    position: relative;
+                    background: rgba(255, 255, 255, 0.03);
+                    padding: vars.$gutter*0.9 vars.$gutter*1.5;
+                    color: vars.$light;
+                    font-size: vars.$gutter*1.1;
+                    font-weight: 300;
+                    letter-spacing: 0.5px;
+                    border-left: 2px solid rgba(255, 255, 255, 0.15);
+                    border-right: 1px solid rgba(255, 255, 255, 0.05);
+
+                    &:nth-child(1) { font-weight: 500; font-size: vars.$gutter*1.2; }
+                    &:nth-child(2) { font-weight: 450; font-size: vars.$gutter*1.15; }
+                    &:nth-child(3) { font-weight: 400; font-size: vars.$gutter*1.1; }
+                    &:nth-child(n+4) { font-weight: 350; opacity: 0.9; }
+                }
+            }
+        }
     }
 }
