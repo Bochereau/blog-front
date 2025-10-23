@@ -66,7 +66,6 @@ const AdminThemes = () => {
                             value={newTheme.name}
                             onChange={(e) => setNewTheme({ ...newTheme, name: e.target.value })}
                         />
-
                         <input
                             id="theme-color"
                             type="color"
