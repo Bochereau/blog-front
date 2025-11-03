@@ -2,7 +2,14 @@
 @use 'sass:color';
 
 .menu{
-    position: sticky;
+    // position: sticky;
+    // top: 0;
+    // z-index: 1000;
+    @media (max-width: 426px) {
+        position: sticky !important;
+        top: 0;
+        z-index: 1000;
+    }
     &-small {
         width: 100%;
         background-color: vars.$background-secondary;

@@ -34,78 +34,92 @@ const Contact = () => {
     return (
         <div className="contact">
             <div className="contact-content">
-                <p className="contact-content-description">Contactez-moi !</p>
-                <form
-                    className={classNames("contact-form")}
-                    onSubmit={handleSubmit}
-                >
-                    <ul>
-                        <li className="contact-form-item">
-                            <label
-                                className="contact-form-item-label"
-                                htmlFor="field-name"
-                            >
-                                Nom
-                            </label>
+                <div className="contact-tv">
+                    <div className="contact-tv-screen">
+                        <p className="contact-content-description">Contactez-moi !</p>
+                        <form
+                            className={classNames("contact-form")}
+                            onSubmit={handleSubmit}
+                        >
+                            <ul>
+                                <li className="contact-form-item">
+                                    <label
+                                        className="contact-form-item-label"
+                                        htmlFor="field-name"
+                                    >
+                                        Nom
+                                    </label>
+                                    <input
+                                        id="field-name"
+                                        type="text"
+                                        name="pseudo"
+                                        maxLength="50"
+                                        className={classNames("contact-form-item-input", {
+                                            "ok": formData.pseudo !== ''
+                                        })}
+                                        value={formData.pseudo}
+                                        onChange={handleChange}
+                                    />
+                                </li>
+                                <li className="contact-form-item">
+                                    <label
+                                        className="contact-form-item-label"
+                                        htmlFor="field-email"
+                                    >
+                                        Email
+                                    </label>
+                                    <input
+                                        id="field-email"
+                                        type="email"
+                                        name="email"
+                                        maxLength="50"
+                                        className={classNames("contact-form-item-input", {
+                                            "ok": formData.email !== ''
+                                        })}
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                    />
+                                </li>
+                                <li className="contact-form-item">
+                                    <label
+                                        className="contact-form-item-label"
+                                        htmlFor="field-message"
+                                    >
+                                        Message
+                                    </label>
+                                    <textarea
+                                        id="field-message"
+                                        name="message"
+                                        rows="8"
+                                        className={classNames("contact-form-item-textarea", {
+                                            "ok": formData.message !== ''
+                                        })}
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                    />
+                                </li>
+                            </ul>
                             <input
-                                id="field-name"
-                                type="text"
-                                name="pseudo"
-                                maxLength="50"
-                                className={classNames("contact-form-item-input", {
-                                    "ok": formData.pseudo !== ''
+                                type="submit"
+                                value="Envoyer"
+                                className={classNames("contact-form-submit", {
+                                    "off": formData.pseudo === '' || formData.email === '' || formData.message === '',
+                                    "on": formData.pseudo !== '' && formData.email !== '' && formData.message !== '',
                                 })}
-                                value={formData.pseudo}
-                                onChange={handleChange}
                             />
-                        </li>
-                        <li className="contact-form-item">
-                            <label
-                                className="contact-form-item-label"
-                                htmlFor="field-email"
-                            >
-                                Email
-                            </label>
-                            <input
-                                id="field-email"
-                                type="email"
-                                name="email"
-                                maxLength="50"
-                                className={classNames("contact-form-item-input", {
-                                    "ok": formData.email !== ''
-                                })}
-                                value={formData.email}
-                                onChange={handleChange}
-                            />
-                        </li>
-                        <li className="contact-form-item">
-                            <label
-                                className="contact-form-item-label"
-                                htmlFor="field-message"
-                            >
-                                Message
-                            </label>
-                            <textarea
-                                id="field-message"
-                                name="message"
-                                rows="8"
-                                className={classNames("contact-form-item-textarea", {
-                                    "ok": formData.message !== ''
-                                })}
-                                value={formData.message}
-                                onChange={handleChange}
-                            />
-                        </li>
-                    </ul>
-                    <input
-                        type="submit"
-                        value="Envoyer"
-                        className={classNames("contact-form-submit", {
-                            "off": formData.pseudo === '' || formData.email === '' || formData.message === '',
-                            "on": formData.pseudo !== '' && formData.email !== '' && formData.message !== '',
-                        })}
-                    />
-                </form>
+                        </form>
+                    </div>
+                    <aside className="contact-tv-controls" aria-hidden="true">
+                        <div className="control power" />
+                        <div className="control knob large" />
+                        <div className="control knob" />
+                        <div className="control composite">
+                            <span className="rca yellow" />
+                            <span className="rca white" />
+                            <span className="rca red" />
+                        </div>
+                    </aside>
+                </div>
             </div>
         </div>
     )
