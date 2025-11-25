@@ -372,38 +372,31 @@
         
         img {
             max-width: 100%;
-            max-height: 90vh;
-            border-radius: 8px;
+            max-height: 80vh;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
     }
     
     .modal-image-caption {
-        position: absolute;
+        position: static;
         bottom: 0;
-        font-size: vars.$gutter * 1.4;
+        font-size: vars.$gutter * 1.1;
         color: vars.$background-secondary;
         text-align: center;
         background-color: rgba(0,0,0,0.6);
         color: white;
-        padding: vars.$gutter;
+        padding: vars.$gutter*1.5 vars.$gutter;
         width: 100%;
-        font-family: "VT323", 'Comic Sans MS', cursive, sans-serif;
-        box-shadow: 2px 2px 5px vars.$background-secondary;
+        font-family: "Orbitron", 'Comic Sans MS', cursive, sans-serif;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
-        
-        @media (max-width: 768px) {
-            position: static;
-            margin-top: vars.$gutter;
-            background-color: rgba(0,0,0,0.8);
-            border-radius: 8px;
-            width: auto;
-            max-width: 100%;
-        }
+        letter-spacing: 1px;
+        max-width: 100%;
         
         @media (max-width: 426px) {
-            font-size: vars.$gutter * 1.2;
-            padding: vars.$gutter * 0.8;
+            font-size: vars.$gutter*0.9;
+            padding: vars.$gutter*0.5 vars.$gutter;
             font-weight: 500;
             line-height: 1.4;
         }
