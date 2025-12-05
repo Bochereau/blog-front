@@ -2,7 +2,6 @@
 @use 'sass:color';
 
 .article{
-  background-color: vars.$background-primary;
   &-loading,
   &-notfound {
     padding: 4rem;

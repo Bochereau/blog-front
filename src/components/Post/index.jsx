@@ -3,6 +3,7 @@ import parse from 'html-react-parser';
 import classNames from "classnames";
 
 import { reverseDate } from "../../utils";
+import enluminureCorner from "../../assets/image/enluminure_corner.png";
 import './style.scss';
 
 const Post = ({
@@ -153,7 +154,29 @@ const Post = ({
       )}
 
       <div className="post-content">
-        <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{parse(introduction)}</p>
+        <div className="post-content-intro-wrapper">
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-intro-decoration post-content-intro-decoration--top-left"
+          />
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-intro-decoration post-content-intro-decoration--top-right"
+          />
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-intro-decoration post-content-intro-decoration--bottom-left"
+          />
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-intro-decoration post-content-intro-decoration--bottom-right"
+          />
+          <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{parse(introduction)}</p>
+        </div>
 
         {context && (
           <div className="post-content-context">
@@ -209,7 +232,29 @@ const Post = ({
           </div>
         )}
 
-        <p className="post-content-outro" style={{ whiteSpace: 'pre-line' }}>{parse(conclusion)}</p>
+        <div className="post-content-outro-wrapper">
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-intro-decoration post-content-intro-decoration--top-left"
+          />
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-intro-decoration post-content-intro-decoration--top-right"
+          />
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-outro-decoration post-content-outro-decoration--bottom-left"
+          />
+          <img 
+            src={enluminureCorner} 
+            alt="" 
+            className="post-content-outro-decoration post-content-outro-decoration--bottom-right"
+          />
+          <p className="post-content-outro" style={{ whiteSpace: 'pre-line' }}>{parse(conclusion)}</p>
+        </div>
       </div>
 
       {isModalOpen && (
