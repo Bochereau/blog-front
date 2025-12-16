@@ -101,10 +101,11 @@
 // Conteneur du contenu avec les différents modes d'affichage
 .preview-content-wrapper {
   margin: 0 auto;
-  background-color: #e5e5e5;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s ease, height 0.3s ease;
+  background-color: vars.$background-primary;
+  background-image: url('../../assets/image/background_image.png');
+  background-repeat: repeat;
+  background-position: top left;
+  background-attachment: fixed;
   
   &.preview-desktop-view {
     width: 100%;

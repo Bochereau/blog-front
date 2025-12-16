@@ -223,7 +223,6 @@
 
 .admin-edit,
 .admin-create {
-  background-color: vars.$background-primary;
   padding: vars.$gutter * 2;
   position: relative;
 
@@ -434,6 +433,84 @@
     margin-bottom: 0.8rem;
   }
 
+  .section-paragraphs {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .paragraph-container {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+    border-left: 4px solid #90caf9;
+
+    &:hover {
+      box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    }
+  }
+
+  .paragraph-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed #eee;
+    
+    .paragraph-number {
+      font-weight: 700;
+      color: #1976d2;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .add-paragraph-btn {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: 2px dashed #90caf9;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    
+    &:hover {
+      background-color: #bbdefb;
+      border-color: #42a5f5;
+      transform: translateY(-1px);
+    }
+  }
+
+  .remove-paragraph-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: all 0.2s;
+    padding: 5px;
+    border-radius: 4px;
+    
+    &:hover {
+      opacity: 1;
+      background-color: #ffebee;
+      color: #d32f2f;
+    }
+  }
+
   .image-input-group {
     display: flex;
     gap: 0.5rem;
@@ -558,10 +635,6 @@
     gap: vars.$gutter * 1.5;
     align-items: start;
     margin: vars.$gutter 0;
-    padding: vars.$gutter;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
   }
 }
 
@@ -667,10 +740,10 @@
 /* Conteneur des images d'une section */
 .body-images {
   margin-top: vars.$gutter * 2;
-  padding: vars.$gutter * 1.5;
+  padding: vars.$gutter;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   border-radius: 10px;
-  border: 2px solid #e9ecef;
+  border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   h4 {

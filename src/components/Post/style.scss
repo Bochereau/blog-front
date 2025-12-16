@@ -20,9 +20,9 @@
 
         &-img {
             width: 100%;
-            height: 450px;
+            height: calc(100vh - 110px);
             object-fit: cover;
-            border-bottom: 5px solid vars.$background-secondary;
+            // border-bottom: 5px solid vars.$background-secondary;
 
             @media(max-width: 426px) {
                 height: 300px;
@@ -30,7 +30,9 @@
         }
 
         &-title {
-            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
             background-color: vars.$background-secondary;
             padding: vars.$gutter vars.$gutter*2;
             margin-top: - (vars.$gutter*3.5);
@@ -97,6 +99,7 @@
 
     &-content {
         width: 75%;
+        max-width: 1200px;
         margin: 0 auto;
         font-size: vars.$gutter*1.2;
         line-height: 1.5;
@@ -166,7 +169,7 @@
                 position: absolute;
                 width: 80px;
                 height: 80px;
-                z-index: 10;
+                z-index: 2;
                 pointer-events: none;
                 object-fit: contain;
                 
@@ -199,16 +202,86 @@
             }
         }
 
+        // Style pour les paragraphes
+        &-paragraph {
+            padding: vars.$gutter*3 vars.$gutter;
+            display: flex;
+            flex-direction: column;
+            gap: vars.$gutter;
+            transform: skewY(1deg);
+
+            // Gestion des positions d'images
+            &.layout-top {
+                flex-direction: column-reverse;
+            }
+
+            &.layout-left {
+                flex-direction: row-reverse;
+                align-items: flex-start;
+
+                .post-content-section-body {
+                    flex: 1;
+                    padding: 0;
+                    border: none;
+                    background: none;
+                }
+
+                .post-content-images {
+                    flex: 0 0 30%; // 40% largeur pour les images
+                    margin-top: 0;
+                    margin-left: 0;
+                    margin-right: vars.$gutter;
+                    padding: 0;
+                }
+                
+                @media (max-width: 768px) {
+                    flex-direction: column-reverse; // Repasse en haut sur mobile
+                    .post-content-images {
+                        flex: auto;
+                        width: 100%;
+                        margin-right: 0;
+                    }
+                }
+            }
+
+            &.layout-right {
+                flex-direction: row;
+                align-items: flex-start;
+
+                .post-content-section-body {
+                    flex: 1;
+                    padding: 0;
+                    border: none;
+                    background: none;
+                }
+
+                .post-content-images {
+                    flex: 0 0 30%; // 40% largeur pour les images
+                    margin-top: 0;
+                    margin-right: 0;
+                    margin-left: vars.$gutter;
+                    padding: 0;
+                }
+
+                @media (max-width: 768px) {
+                    flex-direction: column; // Repasse en bas sur mobile (texte avant images)
+                    .post-content-images {
+                        flex: auto;
+                        width: 100%;
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+
         &-section {
             margin-bottom: vars.$gutter * 3;
             transform: skewY(-1deg);
+            border-bottom: 3px solid black;
+            background-color: vars.$light;
 
             &-body {
-                background-color: vars.$light;
-                padding: vars.$gutter*3 vars.$gutter;
                 overflow: hidden;
-                margin: vars.$gutter 0 vars.$gutter*2;
-                border-bottom: 3px solid black;
 
                 @media (max-width: 426px) {
                     border: none;
@@ -217,8 +290,6 @@
             }
 
             &-text {
-                transform: skewY(1deg);
-                transform-origin: top left;
                 text-align: justify;
                 font-family: 'Inter', sans-serif;
 
@@ -590,8 +661,7 @@
     display: grid;
     gap: vars.$gutter;
     margin-top: vars.$gutter;
-
-    // Par défaut : 1 image = 1 colonne (pour mobile)
+    padding: vars.$gutter;
     grid-template-columns: 1fr;
 
     @media (min-width: 426px) {

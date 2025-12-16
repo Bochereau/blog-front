@@ -73,7 +73,7 @@ const Post = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      const article = document.querySelector(".post");
+      const article = document.querySelector(".post-content");
       if (!article) return;
 
       const articleHeight = article.offsetHeight;
@@ -121,6 +121,34 @@ const Post = ({
     }
     
     return { urls: [], captions: [], hasIndividualCaptions: false };
+  };
+
+  // Options pour le parser HTML afin de gérer les images inline
+  const parseOptions = {
+    replace: (domNode) => {
+      // Si c'est une image, on la remplace pour ajouter le comportement de la modale
+      if (domNode.name === 'img' && domNode.attribs) {
+        const { src, alt, width, height } = domNode.attribs;
+        return (
+          <img
+            src={src}
+            alt={alt || ''}
+            className="post-content-image inline-image"
+            onClick={() => openModal([src], [alt || ''], 0)}
+            style={{ 
+              cursor: 'pointer', 
+              maxWidth: '100%', 
+              height: height || 'auto',
+              width: width || 'auto',
+              display: 'block',
+              margin: '1rem auto'
+            }}
+            width={width}
+            height={height}
+          />
+        );
+      }
+    }
   };
 
   return (
@@ -188,37 +216,55 @@ const Post = ({
         )}
 
         {body && body.map((section, index) => {
-          const { urls, captions, hasIndividualCaptions } = processImagesData(section);
+          // Normalisation pour supporter l'ancienne (1 section = texte + images) et la nouvelle structure (1 section = N paragraphes)
+          const paragraphs = (section.paragraphs && section.paragraphs.length > 0) ? section.paragraphs : [{ 
+            text: section.text, 
+            images: section.images, 
+            generalCaption: section.generalCaption,
+            imagePosition: "bottom"
+          }];
           
           return (
             <div key={index} className="post-content-section">
               {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
-              {section.text && (
-                <div className="post-content-section-body">
-                  <p className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{parse(section.text)}</p>
-                </div>
-              )}
-              {urls.length > 0 && (
-                <div className={`post-content-images has-${urls.length}`}>
-                  {urls.map((url, idx) => (
-                    <div key={idx} className="post-content-image-container">
-                      <img
-                        src={url}
-                        alt={captions[idx] || `illustration-${idx}`}
-                        className="post-content-image"
-                        onClick={() => openModal(urls, captions, idx)}
-                      />
-                      {captions[idx] && (
-                        <p className="post-content-image-caption">{parse(captions[idx])}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {/* Légende générale si pas de légendes individuelles mais qu'il y a une légende générale */}
-              {urls.length > 0 && !hasIndividualCaptions && section.generalCaption && (
-                <p className="post-content-images-general-caption">{parse(section.generalCaption)}</p>
-              )}
+              
+              {paragraphs.map((paragraph, pIndex) => {
+                const { urls, captions, hasIndividualCaptions } = processImagesData(paragraph);
+                const imagePosition = paragraph.imagePosition || "bottom";
+                
+                return (
+                  <div key={pIndex} className={`post-content-paragraph layout-${imagePosition}`}>
+                    {paragraph.text && (
+                      <div className="post-content-section-body">
+                        <div className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{paragraph.text ? parse(paragraph.text, parseOptions) : ''}</div>
+                      </div>
+                    )}
+                    
+                    {urls.length > 0 && (
+                      <div className={`post-content-images has-${urls.length}`}>
+                        {urls.map((url, idx) => (
+                          <div key={idx} className="post-content-image-container">
+                            <img
+                              src={url}
+                              alt={captions[idx] || `illustration-${idx}`}
+                              className="post-content-image"
+                              onClick={() => openModal(urls, captions, idx)}
+                            />
+                            {captions[idx] && (
+                              <p className="post-content-image-caption">{parse(captions[idx])}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Légende générale du paragraphe */}
+                    {urls.length > 0 && !hasIndividualCaptions && paragraph.generalCaption && (
+                      <p className="post-content-images-general-caption">{parse(paragraph.generalCaption)}</p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           );
         })}

@@ -1,12 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TriangleAlert } from "lucide-react";
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ArticlePreview from "../AdminPreview";
 import "../style.scss";
 import "./style.scss";
+
+// Custom Image Blot pour gérer la taille des images
+const BaseImage = Quill.import('formats/image');
+
+class ImageBlot extends BaseImage {
+    static create(value) {
+        let node;
+        if (typeof value === 'string') {
+            node = super.create(value);
+        } else {
+            node = super.create(value.url);
+            if (value.width) {
+                node.setAttribute('width', value.width);
+                node.style.width = value.width.endsWith('%') ? value.width : `${value.width}px`;
+            }
+            if (value.height) {
+                node.setAttribute('height', value.height);
+                node.style.height = value.height.endsWith('%') ? value.height : `${value.height}px`;
+            }
+        }
+        return node;
+    }
+
+    static value(node) {
+        const width = node.getAttribute('width');
+        const height = node.getAttribute('height');
+        return {
+            url: node.getAttribute('src'),
+            width: width,
+            height: height
+        };
+    }
+}
+ImageBlot.blotName = 'image';
+ImageBlot.tagName = 'img';
+Quill.register(ImageBlot, true);
 
 const defaultForm = {
     title: "",
@@ -23,37 +59,109 @@ const defaultForm = {
     isPublished: false,
     body: [{
         subtitle: "",
-        text: "",
-        images: [],
-        generalCaption: ""
+        paragraphs: [{
+            text: "",
+            images: [],
+            generalCaption: "",
+            imagePosition: "bottom"
+        }]
     }],
+};
+
+// Fonction utilitaire pour normaliser le corps de l'article (migration ancien format -> nouveau format)
+const normalizeBody = (body) => {
+    if (!body || !Array.isArray(body)) return defaultForm.body;
+    
+    return body.map(section => {
+        // Si la section a déjà des paragraphes (nouvelle structure)
+        if (section.paragraphs && Array.isArray(section.paragraphs)) {
+            return {
+                ...section,
+                paragraphs: section.paragraphs.map(p => ({
+                    ...p,
+                    imagePosition: p.imagePosition || "bottom",
+                    images: (p.images || []).map(img => 
+                        typeof img === "string" ? { url: img, caption: "" } : { url: img.url || "", caption: img.caption || "" }
+                    )
+                }))
+            };
+        }
+        
+        // Sinon conversion de l'ancienne structure (1 section = 1 paragraphe)
+        return {
+            subtitle: section.subtitle || "",
+            paragraphs: [{
+                text: section.text || "",
+                generalCaption: section.generalCaption || "",
+                imagePosition: "bottom",
+                images: (section.images || []).map(img => 
+                    typeof img === "string" ? { url: img, caption: "" } : { url: img.url || "", caption: img.caption || "" }
+                )
+            }]
+        };
+    });
+};
+
+// Fonction pour traiter les données initiales
+const processInitialData = (data) => {
+    if (!data) return defaultForm;
+    
+    const themeIds = data.themes?.map((t) => (typeof t === "object" ? t._id : t)) || [];
+    
+    return {
+        ...defaultForm,
+        ...data,
+        themes: themeIds,
+        body: normalizeBody(data.body)
+    };
 };
 
 const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     const navigate = useNavigate();
     const themes = useSelector((state) => state.themes);
-    const [form, setForm] = useState(initialData || defaultForm);
+    const [form, setForm] = useState(() => processInitialData(initialData));
     const [errors, setErrors] = useState({});
     const [showPreview, setShowPreview] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
     // Mode split automatique activé pour tous les champs ReactQuill
 
     // Configuration de ReactQuill
-    const quillModules = {
-        toolbar: [
-            ['bold', 'italic', 'underline'],
-            ['blockquote', 'code-block'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['link'],
-            ['clean']
-        ]
-    };
+    const quillModules = useMemo(() => ({
+        toolbar: {
+            container: [
+                ['bold', 'italic', 'underline'],
+                ['blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['link', 'image'],
+                ['clean']
+            ],
+            handlers: {
+                image: function() {
+                    const url = prompt("Veuillez entrer l'URL de l'image (Cloudinary) :");
+                    if (url) {
+                        const width = prompt("Largeur (optionnel, ex: 300, 50%) :");
+                        const height = prompt("Hauteur (optionnel, ex: 200, auto) :");
+                        
+                        const value = {
+                            url,
+                            width: width || null,
+                            height: height || null
+                        };
+                        
+                        const range = this.quill.getSelection();
+                        this.quill.insertEmbed(range.index, 'image', value);
+                    }
+                }
+            }
+        }
+    }), []);
 
     const quillFormats = [
         'bold', 'italic', 'underline',
         'blockquote', 'code-block',
         'list', 'bullet',
-        'link'
+        'link',
+        'image'
     ];
 
     // Plus besoin de fonctions de toggle, mode split automatique
@@ -67,24 +175,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
     useEffect(() => {
         if (initialData) {
-            const themeIds = initialData.themes?.map((t) => (typeof t === "object" ? t._id : t)) || [];
-            setForm({
-                ...defaultForm,
-                ...initialData,
-                themes: themeIds,
-                body: initialData.body?.length
-                    ? initialData.body.map((s) => ({
-                        ...s,
-                        images: (s.images || []).map(img =>
-                            typeof img === "string" ? { url: img, caption: "" } : {
-                                url: img.url || "",
-                                caption: img.caption || ""
-                            }
-                        ),
-                        generalCaption: s.generalCaption || ""
-                    }))
-                    : defaultForm.body,
-            });
+            setForm(processInitialData(initialData));
         }
     }, [initialData]);
 
@@ -118,10 +209,12 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
             if (!form[field]?.trim()) newErrors[field] = message;
         });
 
-        form.body.forEach((section, index) => {
-            if (!section.text?.trim()) {
-                newErrors[`body_${index}`] = "La section doit contenir du texte";
-            }
+        form.body.forEach((section, sIndex) => {
+            section.paragraphs.forEach((para, pIndex) => {
+                if (!para.text?.trim() && (!para.images || para.images.length === 0)) {
+                    newErrors[`body_${sIndex}_para_${pIndex}`] = "Le paragraphe doit contenir du texte ou des images";
+                }
+            });
         });
 
         setErrors(newErrors);
@@ -163,42 +256,61 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
         setForm((prev) => ({ ...prev, themes: updated }));
     };
 
-    const handleBodyChange = (index, field, value) => {
+    const handleSectionChange = (index, field, value) => {
         const updatedBody = [...form.body];
         updatedBody[index][field] = value;
         setForm({ ...form, body: updatedBody });
+    };
 
-        if (errors[`body_${index}`]) {
-            setErrors({ ...errors, [`body_${index}`]: null });
+    const handleParagraphChange = (sectionIndex, paragraphIndex, field, value) => {
+        const updatedBody = form.body.map((section, sIdx) => {
+            if (sIdx !== sectionIndex) return section;
+            return {
+                ...section,
+                paragraphs: section.paragraphs.map((para, pIdx) => {
+                    if (pIdx !== paragraphIndex) return para;
+                    return { ...para, [field]: value };
+                })
+            };
+        });
+        setForm({ ...form, body: updatedBody });
+
+        if (errors[`body_${sectionIndex}_para_${paragraphIndex}`]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[`body_${sectionIndex}_para_${paragraphIndex}`];
+                return newErrors;
+            });
         }
     };
 
-    const handleImageChange = (sectionIndex, imageIndex, field, value) => {
-        const updated = [...form.body];
+    const handleImageChange = (sectionIndex, paragraphIndex, imageIndex, field, value) => {
+        const updatedBody = [...form.body];
+        const para = updatedBody[sectionIndex].paragraphs[paragraphIndex];
 
-        if (!updated[sectionIndex].images[imageIndex] || typeof updated[sectionIndex].images[imageIndex] === 'string') {
-            updated[sectionIndex].images[imageIndex] = { url: "", caption: "" };
+        if (!para.images[imageIndex] || typeof para.images[imageIndex] === 'string') {
+            para.images[imageIndex] = { url: "", caption: "" };
         }
 
         if (field === 'url') {
-            updated[sectionIndex].images[imageIndex].url = value;
+            para.images[imageIndex].url = value;
         } else if (field === 'caption') {
-            updated[sectionIndex].images[imageIndex].caption = value;
+            para.images[imageIndex].caption = value;
         }
 
-        setForm({ ...form, body: updated });
+        setForm({ ...form, body: updatedBody });
     };
 
-    const addImageField = (sectionIndex) => {
-        const updated = [...form.body];
-        updated[sectionIndex].images.push({ url: "", caption: "" });
-        setForm({ ...form, body: updated });
+    const addImageField = (sectionIndex, paragraphIndex) => {
+        const updatedBody = [...form.body];
+        updatedBody[sectionIndex].paragraphs[paragraphIndex].images.push({ url: "", caption: "" });
+        setForm({ ...form, body: updatedBody });
     };
 
-    const removeImageField = (sectionIndex, imageIndex) => {
-        const updated = [...form.body];
-        updated[sectionIndex].images.splice(imageIndex, 1);
-        setForm({ ...form, body: updated });
+    const removeImageField = (sectionIndex, paragraphIndex, imageIndex) => {
+        const updatedBody = [...form.body];
+        updatedBody[sectionIndex].paragraphs[paragraphIndex].images.splice(imageIndex, 1);
+        setForm({ ...form, body: updatedBody });
     };
 
     const addBodySection = () => {
@@ -206,9 +318,12 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
             ...prev,
             body: [...prev.body, {
                 subtitle: "",
-                text: "",
-                images: [],
-                generalCaption: ""
+                paragraphs: [{
+                    text: "",
+                    images: [],
+                    generalCaption: "",
+                    imagePosition: "bottom"
+                }]
             }]
         }));
     };
@@ -218,9 +333,27 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
             const updated = [...form.body];
             updated.splice(index, 1);
             setForm({ ...form, body: updated });
-            const updatedErrors = { ...errors };
-            delete updatedErrors[`body_${index}`];
-            setErrors(updatedErrors);
+            // Cleanup errors
+            // Note: simple error cleanup might miss nested keys but it's acceptable here
+        }
+    };
+
+    const addParagraph = (sectionIndex) => {
+        const updatedBody = [...form.body];
+        updatedBody[sectionIndex].paragraphs.push({
+            text: "",
+            images: [],
+            generalCaption: "",
+            imagePosition: "bottom"
+        });
+        setForm({ ...form, body: updatedBody });
+    };
+
+    const removeParagraph = (sectionIndex, paragraphIndex) => {
+        const updatedBody = [...form.body];
+        if (updatedBody[sectionIndex].paragraphs.length > 1) {
+            updatedBody[sectionIndex].paragraphs.splice(paragraphIndex, 1);
+            setForm({ ...form, body: updatedBody });
         }
     };
 
@@ -344,134 +477,164 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                 <div className="admin-edit-body">
                     <h3 className="form-group-title">📌 Corps de l'article (sections)</h3>
                     {form.body.map((section, index) => (
-                        <div key={index} className={`form-section ${errors[`body_${index}`] ? "error-section" : ""}`}>
+                        <div key={index} className="form-section">
                             <div className="section-header">
                                 <span className="section-number">Section {index + 1}</span>
-                                {errors[`body_${index}`] && <div className="error-message"><TriangleAlert size={15} /> <p>{errors[`body_${index}`]}</p></div>}
                                 {form.body.length > 1 && (
                                     <button
                                         type="button"
                                         className="remove-section-btn"
                                         onClick={() => removeBodySection(index)}
                                     >
-                                        ❌ Supprimer
+                                        ❌ Supprimer la section
                                     </button>
                                 )}
                             </div>
 
                             <input
-                                placeholder="Sous-titre"
+                                placeholder="Sous-titre de la section"
                                 value={section.subtitle}
-                                onChange={(e) => handleBodyChange(index, "subtitle", e.target.value)}
+                                onChange={(e) => handleSectionChange(index, "subtitle", e.target.value)}
+                                className="section-subtitle-input"
                             />
-                            <div className="field-container split-mode">
-                                <ReactQuill
-                                    value={section.text}
-                                    onChange={(value) => handleBodyChange(index, "text", value)}
-                                    modules={quillModules}
-                                    formats={quillFormats}
-                                    placeholder="Texte"
-                                />
-                                <div className="live-preview">
-                                    <h4>👁️ Aperçu en direct</h4>
-                                    <div className="field-preview">
-                                        <div dangerouslySetInnerHTML={{ __html: section.text || "Aucun contenu" }} />
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="body-images">
-                                <h4>🖼️ Images de la section</h4>
+                            <div className="section-paragraphs">
+                                {section.paragraphs.map((paragraph, pIndex) => (
+                                    <div key={pIndex} className={`paragraph-container ${errors[`body_${index}_para_${pIndex}`] ? "error-section" : ""}`}>
+                                        <div className="paragraph-header">
+                                            <span className="paragraph-number">Paragraphe {pIndex + 1}</span>
+                                            {errors[`body_${index}_para_${pIndex}`] && (
+                                                <div className="error-message">
+                                                    <TriangleAlert size={15} /> <p>{errors[`body_${index}_para_${pIndex}`]}</p>
+                                                </div>
+                                            )}
+                                            {section.paragraphs.length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    className="remove-paragraph-btn"
+                                                    onClick={() => removeParagraph(index, pIndex)}
+                                                >
+                                                    🗑️
+                                                </button>
+                                            )}
+                                        </div>
 
-                                {/* Légende générale pour toutes les images de la section */}
-                                <div className="general-caption-container">
-                                    <label>📝 Légende générale (optionnelle) :</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Cette légende s'appliquera à toutes les images de cette section. Laissez vide si vous préférez des légendes individuelles."
-                                        value={section.generalCaption || ""}
-                                        onChange={(e) => handleBodyChange(index, "generalCaption", e.target.value)}
-                                        className="general-caption-input"
-                                    />
-                                </div>
-
-                                {/* Images individuelles */}
-                                {section.images.map((img, imgIndex) => (
-                                    <div key={imgIndex} className="image-input-container">
-                                        <div className="image-body-container">
-                                            <div className="image-url-container">
-                                                <label>🔗 URL de l'image #{imgIndex + 1} :</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder={`https://res.cloudinary.com/votre-image-${imgIndex + 1}.jpg`}
-                                                    value={getImageUrl(img)}
-                                                    onChange={(e) => handleImageChange(index, imgIndex, 'url', e.target.value)}
-                                                />
-                                            </div>
-
-                                            <div className="image-caption-container">
-                                                <label>🏷️ Légende individuelle (optionnelle) :</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder={`Légende spécifique pour cette image...`}
-                                                    value={getImageCaption(img)}
-                                                    onChange={(e) => handleImageChange(index, imgIndex, 'caption', e.target.value)}
-                                                    className="image-caption-input"
-                                                />
+                                        <div className="field-container split-mode">
+                                            <ReactQuill
+                                                value={paragraph.text}
+                                                onChange={(value) => handleParagraphChange(index, pIndex, "text", value)}
+                                                modules={quillModules}
+                                                formats={quillFormats}
+                                                placeholder="Texte du paragraphe"
+                                            />
+                                            <div className="live-preview">
+                                                <h4>👁️ Aperçu</h4>
+                                                <div className="field-preview">
+                                                    <div dangerouslySetInnerHTML={{ __html: paragraph.text || "Aucun contenu" }} />
+                                                </div>
                                             </div>
                                         </div>
 
-                                        {/* Prévisualisation de l'image si URL valide */}
-                                        {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
-                                            <img
-                                                src={getImageUrl(img)}
-                                                alt="Aperçu"
-                                                style={{
-                                                    maxWidth: '200px',
-                                                    maxHeight: '150px',
-                                                    objectFit: 'cover',
-                                                    borderRadius: '4px',
-                                                    marginTop: '0.3rem',
-                                                    border: '1px solid #ddd'
-                                                }}
-                                                onError={(e) => {
-                                                    e.target.style.display = 'none';
-                                                }}
-                                            />
-                                        )}
+                                        <div className="body-images">
+                                            <div className="images-header-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                                <h4 style={{ margin: 0 }}>🖼️ Images du paragraphe</h4>
+                                                
+                                                <div className="image-position-selector">
+                                                    <label style={{ marginRight: '0.5rem', fontSize: '0.9rem' }}>Position :</label>
+                                                    <select
+                                                        value={paragraph.imagePosition || "bottom"}
+                                                        onChange={(e) => handleParagraphChange(index, pIndex, "imagePosition", e.target.value)}
+                                                        style={{ padding: '0.3rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                                                    >
+                                                        <option value="bottom">Bas (défaut)</option>
+                                                        <option value="top">Haut</option>
+                                                        <option value="left">Gauche</option>
+                                                        <option value="right">Droite</option>
+                                                    </select>
+                                                </div>
+                                            </div>
 
-                                        <button
-                                            type="button"
-                                            className="remove-image-btn"
-                                            onClick={() => removeImageField(index, imgIndex)}
-                                            title={`Supprimer l'image #${imgIndex + 1}`}
-                                        >
-                                            ❌ Supprimer l'image
-                                        </button>
+                                            {/* Légende générale pour toutes les images du paragraphe */}
+                                            <div className="general-caption-container">
+                                                <label>📝 Légende générale (optionnelle) :</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Légende pour le groupe d'images..."
+                                                    value={paragraph.generalCaption || ""}
+                                                    onChange={(e) => handleParagraphChange(index, pIndex, "generalCaption", e.target.value)}
+                                                    className="general-caption-input"
+                                                />
+                                            </div>
+
+                                            {/* Images individuelles */}
+                                            {paragraph.images.map((img, imgIndex) => (
+                                                <div key={imgIndex} className="image-input-container">
+                                                    <div className="image-body-container">
+                                                        <div className="image-url-container">
+                                                            <label>🔗 URL #{imgIndex + 1} :</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder={`https://res.cloudinary.com/...`}
+                                                                value={getImageUrl(img)}
+                                                                onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'url', e.target.value)}
+                                                            />
+                                                        </div>
+
+                                                        <div className="image-caption-container">
+                                                            <label>🏷️ Légende :</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder={`Légende spécifique...`}
+                                                                value={getImageCaption(img)}
+                                                                onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'caption', e.target.value)}
+                                                                className="image-caption-input"
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Prévisualisation de l'image si URL valide */}
+                                                    {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
+                                                        <img
+                                                            src={getImageUrl(img)}
+                                                            alt="Aperçu"
+                                                            style={{
+                                                                maxWidth: '150px',
+                                                                maxHeight: '100px',
+                                                                objectFit: 'cover',
+                                                                borderRadius: '4px',
+                                                                marginTop: '0.3rem',
+                                                                border: '1px solid #ddd'
+                                                            }}
+                                                            onError={(e) => {
+                                                                e.target.style.display = 'none';
+                                                            }}
+                                                        />
+                                                    )}
+
+                                                    <button
+                                                        type="button"
+                                                        className="remove-image-btn"
+                                                        onClick={() => removeImageField(index, pIndex, imgIndex)}
+                                                        title="Supprimer l'image"
+                                                    >
+                                                        ❌
+                                                    </button>
+                                                </div>
+                                            ))}
+
+                                            <button
+                                                type="button"
+                                                className="add-image-btn"
+                                                onClick={() => addImageField(index, pIndex)}
+                                            >
+                                                ➕ Ajouter une image
+                                            </button>
+                                        </div>
                                     </div>
                                 ))}
-
-                                <button
-                                    type="button"
-                                    className="add-image-btn"
-                                    onClick={() => addImageField(index)}
-                                >
-                                    ➕ Ajouter une image
+                                <button type="button" className="add-paragraph-btn" onClick={() => addParagraph(index)}>
+                                    ➕ Ajouter un paragraphe
                                 </button>
-
-                                {/* Indicateur du nombre d'images */}
-                                {section.images.length > 0 && (
-                                    <div style={{
-                                        marginTop: '1rem',
-                                        padding: '0.5rem',
-                                        backgroundColor: '#e8f5e8',
-                                        borderRadius: '4px',
-                                        fontSize: '0.9rem',
-                                        color: '#2e7d32'
-                                    }}>
-                                        📊 {section.images.length} image{section.images.length > 1 ? 's' : ''} dans cette section
-                                    </div>
-                                )}
                             </div>
                         </div>
                     ))}

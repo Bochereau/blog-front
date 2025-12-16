@@ -28,6 +28,12 @@ const ArticlePreview = ({form, togglePreview }) => {
     const adaptBodyForPost = (formBody) => {
         if (!Array.isArray(formBody)) return [];
         return formBody.map(section => {
+            // Support de la nouvelle structure (paragraphes)
+            if (section.paragraphs && Array.isArray(section.paragraphs)) {
+                return section;
+            }
+
+            // Ancienne structure (rétrocompatibilité)
             let images = [];
             let imageCaptions = [];
             // Si images est un tableau d'objets {url, caption}, on garde tel quel

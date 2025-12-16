@@ -38,7 +38,7 @@ const AdminPosts = () => {
     };
 
     return (
-        <div className={classNames("admin-posts", { "bk-p--light": light, "bk-p--dark": !light })}>
+        <div className={classNames("admin-posts")}>
             <Link to="/admin/dashboard" className="admin-return">&#8592; Retour</Link>
 
             <h2 className="admin-page-title">Gestion des articles</h2>
