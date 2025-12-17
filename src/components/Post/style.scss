@@ -280,12 +280,17 @@
             border-bottom: 3px solid black;
             background-color: vars.$light;
 
+            @media (max-width: 426px) {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
             &-body {
                 overflow: hidden;
 
                 @media (max-width: 426px) {
                     border: none;
-                    padding: vars.$gutter;
+                    padding: 0;
                 }
             }
 
