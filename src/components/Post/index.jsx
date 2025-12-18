@@ -163,6 +163,7 @@ const Post = ({
         <h3 className="post-header-title">
           {title}
         </h3>
+        <span className="post-header-triangle"></span>
       </div>
 
       <h4 className="post-subtitle">{subtitle}</h4>
@@ -196,13 +197,15 @@ const Post = ({
           <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{parse(introduction)}</p>
         </div>
 
-        {context && (
+        {context ? (
           <div className="post-content-context">
             <p className="post-content-context-title">
               Un peu de contexte
             </p>
             <p className="post-content-context-text" style={{ whiteSpace: 'pre-line' }}>{parse(context)}</p>
           </div>
+        ) : (
+          <span className="post-content-separator"></span>
         )}
 
         {body && body.map((section, index) => {
@@ -259,13 +262,15 @@ const Post = ({
           );
         })}
 
-        {firstContact && (
+        {firstContact ? (
           <div className="post-content-contact">
             <p className="post-content-contact-title">
               Premier contact
             </p>
             <p className="post-content-contact-text" style={{ whiteSpace: 'pre-line' }}>{parse(firstContact)}</p>
           </div>
+        ) : (
+          <span className="post-content-separator"></span>
         )}
 
         <div className="post-content-outro-wrapper">

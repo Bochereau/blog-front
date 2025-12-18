@@ -16,13 +16,12 @@
     &-header {
         width: 100%;
         text-align: center;
-        position: relative;
+        // position: relative;
 
         &-img {
             width: 100%;
-            height: calc(100vh - 110px);
+            height: calc(100vh - 186px);
             object-fit: cover;
-            // border-bottom: 5px solid vars.$background-secondary;
 
             @media(max-width: 426px) {
                 height: 300px;
@@ -30,12 +29,12 @@
         }
 
         &-title {
-            position: absolute;
+            // position: absolute;
             bottom: 0;
             width: 100%;
             background-color: vars.$background-secondary;
             padding: vars.$gutter vars.$gutter*2;
-            margin-top: - (vars.$gutter*3.5);
+            margin-top: -3px;
             font-size: vars.$gutter*3;
             font-weight: bold;
             text-transform: uppercase;
@@ -46,6 +45,18 @@
                 font-size: vars.$gutter*2;
             }
         }
+
+        &-triangle {
+            display: block;
+            width: 100%;
+            height: vars.$gutter*3;
+            background-color: vars.$background-secondary;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+
+            @media(max-width: 426px) {
+                display: none;
+            }
+        }
     }
 
     &-subtitle {
@@ -53,7 +64,7 @@
         font-size: vars.$gutter*1.8;
         font-family: 'Orbitron', sans-serif;
         font-weight: bold;
-        padding: vars.$gutter;
+        padding: vars.$gutter*2 0 vars.$gutter;
         color: vars.$background-secondary;
         text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
 
@@ -373,7 +384,6 @@
             }
         }
 
-
         &-context,
         &-contact {
             margin-bottom: 20px;
@@ -398,92 +408,24 @@
             }
         }
 
-        &-context-title {
-            text-align: right;
-        }
-
-        &-context-triangle {
-            &-top {
-                position: relative;
-                width: 100%;
-                height: 30px;
-                overflow: hidden;
-                margin-bottom: -1px;
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: vars.$background-secondary;
-                    clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% 100%);
-                }
-            }
-
-            &-bottom {
-                position: relative;
-                width: 100%;
-                height: 30px;
-                overflow: hidden;
-                margin-top: -1px;
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: vars.$background-secondary;
-                    clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
-                }
+        &-context{
+            &-title {
+                text-align: right;
             }
         }
 
-        &-contact-title {
-            text-align: left;
+        &-contact{
+            &-title {
+                text-align: left;
+            }
         }
-
-        &-contact-triangle {
-            &-top {
-                position: relative;
-                width: 100%;
-                height: 30px;
-                overflow: hidden;
-                margin-bottom: -1px;
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: vars.$background-secondary;
-                    clip-path: polygon(0% 0%, 100% 100%, 0% 100%, 0% 100%);
-                }
-            }
-
-            &-bottom {
-                position: relative;
-                width: 100%;
-                height: 30px;
-                overflow: hidden;
-                margin-top: -1px;
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: vars.$background-secondary;
-                    clip-path: polygon(100% 100%, 0% 0%, 100% 0%, 100% 0%);
-                }
-            }
+        
+        &-separator {
+            display: block;
+            width: 100%;
+            border-bottom: vars.$gutter*2 solid vars.$background-secondary;
+            margin: vars.$gutter*2 0;
+            transform: skewY(-1deg);
         }
     }
 }
