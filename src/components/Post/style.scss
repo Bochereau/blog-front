@@ -29,7 +29,6 @@
         }
 
         &-title {
-            // position: absolute;
             bottom: 0;
             width: 100%;
             background-color: vars.$background-secondary;
@@ -52,6 +51,7 @@
             height: vars.$gutter*3;
             background-color: vars.$background-secondary;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
+            margin-top: -3px;
 
             @media(max-width: 426px) {
                 display: none;
