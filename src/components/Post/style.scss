@@ -53,14 +53,9 @@
         font-size: vars.$gutter*1.8;
         font-family: 'Orbitron', sans-serif;
         font-weight: bold;
-        margin-top: 15px;
-        margin-bottom: vars.$gutter;
-        background-color: vars.$background-secondary;
-        -webkit-background-clip: text;
-        -moz-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: rgba(255, 255, 255, 0.7) 0px 3px 3px;
+        padding: vars.$gutter;
+        color: vars.$background-secondary;
+        text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
 
         @media(max-width: 426px) {
             font-size: vars.$gutter*1.4;
@@ -103,6 +98,7 @@
         margin: 0 auto;
         font-size: vars.$gutter*1.2;
         line-height: 1.5;
+        background-color: vars.$light;
 
         @media(max-width: 1025px) {
             width: 85%;
@@ -222,7 +218,6 @@
             display: flex;
             flex-direction: column;
             gap: vars.$gutter;
-            transform: skewY(1deg);
 
             // Gestion des positions d'images
             &.layout-top {
@@ -289,15 +284,7 @@
         }
 
         &-section {
-            margin-bottom: vars.$gutter * 3;
-            transform: skewY(-1deg);
-            border-bottom: 3px solid black;
             background-color: vars.$light;
-
-            @media (max-width: 426px) {
-                border-bottom: none;
-                margin-bottom: 0;
-            }
 
             &-body {
                 overflow: hidden;
@@ -329,6 +316,7 @@
             padding: 1rem;
             margin: 2rem 0 -1rem;
             font-family: 'Orbitron', sans-serif;
+            transform: skewY(-1deg);
 
             span {
                 display: inline-block;
