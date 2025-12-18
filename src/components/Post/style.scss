@@ -121,6 +121,22 @@
             position: relative;
             margin: vars.$gutter*3 0;
         }
+
+        &-intro {
+            border-top: 5px solid vars.$background-secondary;
+
+            @media(max-width: 426px) {
+                border-top: none;
+            }
+        }
+
+        &-outro {
+            border-bottom: 5px solid vars.$background-secondary;
+
+            @media(max-width: 426px) {
+                border-bottom: none;
+            }
+        }
         
         &-intro, &-outro {
             font-weight: bold;
@@ -130,8 +146,7 @@
             text-align: justify;
             background: vars.$light;
             padding: vars.$gutter*6 vars.$gutter*4 vars.$gutter*3;
-            position: relative;
-            border-left: 8px solid vars.$background-secondary;
+            position: relative;          
             
             // Première lettre enluminée (lettrine médiévale)
             &::first-letter {
@@ -152,7 +167,6 @@
             @media(max-width: 426px) {
                 font-size: vars.$gutter*1.1;
                 padding: vars.$gutter*3 vars.$gutter*1.5 vars.$gutter*2;
-                border-left: none;
                 
                 &::first-letter {
                     font-size: 3em;
@@ -178,24 +192,24 @@
                 }
                 
                 &--top-left {
-                    top: 0;
-                    left: 10px;
+                    top: 5px;
+                    left: 0;
                     transform: scaleX(-1);
                 }
                 
                 &--top-right {
-                    top: 0;
+                    top: 5px;
                     right: 0;
                 }
 
                 &--bottom-left {
-                    bottom: 0;
-                    left: 10px;
+                    bottom: 5px;
+                    left: 0;
                     transform: scale(-1, -1);
                 }
                 
                 &--bottom-right {
-                    bottom: 0;
+                    bottom: 5px;
                     right: 0;
                     transform: scale(1, -1);
                 }
@@ -606,15 +620,15 @@
         height: 300px;
         margin-bottom: vars.$gutter * 0.5;
 
-        @media (max-width: 769px) {
-            height: 250px;
-        }
+                @media (max-width: 769px) {
+                    height: 250px;
+                }
 
-        @media (max-width: 426px) {
-            height: 200px;
+                @media (max-width: 426px) {
+                    height: 200px;
+                }
+            }
         }
-    }
-}
 
 // Légende individuelle pour chaque image
 .post-content-image-caption {

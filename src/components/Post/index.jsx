@@ -193,16 +193,6 @@ const Post = ({
             alt="" 
             className="post-content-intro-decoration post-content-intro-decoration--top-right"
           />
-          <img 
-            src={enluminureCorner} 
-            alt="" 
-            className="post-content-intro-decoration post-content-intro-decoration--bottom-left"
-          />
-          <img 
-            src={enluminureCorner} 
-            alt="" 
-            className="post-content-intro-decoration post-content-intro-decoration--bottom-right"
-          />
           <p className="post-content-intro" style={{ whiteSpace: 'pre-line' }}>{parse(introduction)}</p>
         </div>
 
@@ -279,16 +269,6 @@ const Post = ({
         )}
 
         <div className="post-content-outro-wrapper">
-          <img 
-            src={enluminureCorner} 
-            alt="" 
-            className="post-content-intro-decoration post-content-intro-decoration--top-left"
-          />
-          <img 
-            src={enluminureCorner} 
-            alt="" 
-            className="post-content-intro-decoration post-content-intro-decoration--top-right"
-          />
           <img 
             src={enluminureCorner} 
             alt="" 
