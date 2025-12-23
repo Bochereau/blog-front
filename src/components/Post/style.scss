@@ -247,7 +247,7 @@
                 }
 
                 .post-content-images {
-                    flex: 0 0 30%; // 40% largeur pour les images
+                    flex: 0 0 30%;
                     margin-top: 0;
                     margin-left: 0;
                     margin-right: vars.$gutter;
@@ -255,7 +255,7 @@
                 }
                 
                 @media (max-width: 768px) {
-                    flex-direction: column-reverse; // Repasse en haut sur mobile
+                    flex-direction: column;
                     .post-content-images {
                         flex: auto;
                         width: 100%;
@@ -309,10 +309,6 @@
             &-text {
                 text-align: justify;
                 font-family: 'Inter', sans-serif;
-
-                @media (max-width: 426px) {
-                    padding: 0 vars.$gutter;
-                }
             }
         }
 
