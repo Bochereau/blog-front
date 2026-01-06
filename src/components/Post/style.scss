@@ -48,7 +48,7 @@
         &-triangle {
             display: block;
             width: 100%;
-            height: vars.$gutter*3;
+            height: vars.$gutter*2;
             background-color: vars.$background-secondary;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
             margin-top: -3px;
@@ -225,7 +225,7 @@
 
         // Style pour les paragraphes
         &-paragraph {
-            padding: vars.$gutter*3 vars.$gutter;
+            padding: vars.$gutter*3 vars.$gutter*2;
             display: flex;
             flex-direction: column;
             gap: vars.$gutter;
@@ -339,27 +339,19 @@
             display: grid;
             gap: vars.$gutter;
             margin-top: vars.$gutter;
-
-            // Par défaut : 1 image = 1 colonne (pour mobile)
             grid-template-columns: 1fr;
-
+        
             @media (min-width: 426px) {
                 &[class*="has-"] {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 }
-
-
             }
-
+        
             @media (min-width: 769px) {
-                &.has-1 img {
+                &.has-1 .post-content-image-container .post-content-image {
                     height: 400px;
                 }
-            }
-
-            @media (max-width: 426px) {
-                padding: 0 vars.$gutter;
             }
 
             img {
@@ -467,7 +459,7 @@
         font-size: vars.$gutter * 1.1;
         color: vars.$background-secondary;
         text-align: center;
-        background-color: rgba(0,0,0,0.6);
+        background-color: vars.$background-secondary;
         color: white;
         padding: vars.$gutter*1.5 vars.$gutter;
         width: 100%;
@@ -598,31 +590,5 @@
         padding: vars.$gutter*0.8;
         margin: vars.$gutter*0.5 vars.$gutter 0;
         transform: skewY(1deg);
-    }
-}
-
-// Ajustement des grilles d'images pour les conteneurs
-.post-content-images {
-    display: grid;
-    gap: vars.$gutter;
-    margin-top: vars.$gutter;
-    padding: vars.$gutter;
-    grid-template-columns: 1fr;
-
-    @media (min-width: 426px) {
-        &[class*="has-"] {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
-    }
-
-    @media (min-width: 769px) {
-        &.has-1 .post-content-image-container .post-content-image {
-            height: 400px;
-        }
-    }
-
-    @media (max-width: 426px) {
-        padding: 0 vars.$gutter;
     }
 }
