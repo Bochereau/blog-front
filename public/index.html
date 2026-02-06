@@ -10,8 +10,9 @@
       content="Web site created using create-react-app"
     />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload des polices pour limiter le FOUT au chargement -->
+    <link rel="preload" href="%PUBLIC_URL%/fonts/Orbitron.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="%PUBLIC_URL%/fonts/VT323.ttf" as="font" type="font/ttf" crossorigin />
     <title>Limit Break</title>
   </head>
   <body>
