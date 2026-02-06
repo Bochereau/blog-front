@@ -1,0 +1,17 @@
+/* Orbitron */
+@font-face {
+    font-family: 'Orbitron';
+    src: url('/fonts/Orbitron.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+  
+/* VT323 */
+@font-face {
+    font-family: 'VT323';
+    src: url('/fonts/VT323.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
