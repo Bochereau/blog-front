@@ -177,6 +177,9 @@ const Post = ({
                    (max-width: 1200px) 90vw,
                    1400px"
             alt={title}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
         )}
         <h3 className="post-header-title">

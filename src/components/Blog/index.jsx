@@ -17,6 +17,7 @@ import NotFound from "../NotFound";
 import AdminRoute from '../Admin/AdminRoute';
 import ScrollToTopButton from "../ScrollToTopButton";
 import Footer from "../Footer";
+import Loader from "../Loader";
 
 // Lazy-loaded routes (non critiques pour la home)
 const Article = lazy(() => import("../Article"));
@@ -45,7 +46,7 @@ const Blog = () => {
                 <Menu />
                 <Alert />
                 <div className="page">
-                    <Suspense fallback={<div>Chargement...</div>}>
+                    <Suspense fallback={<Loader />}>
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/list" element={<List />} />

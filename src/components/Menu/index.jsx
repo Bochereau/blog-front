@@ -13,9 +13,9 @@ const Menu = () => {
 
   return (
     <div className="menu">
-      <Link to="/">
+      <Link to="/" aria-label="Limit Break - Retour à l'accueil">
         <div className="menu-small">
-          <img className="menu-small-logo" src={Logo} alt="logo limit break" />
+          <img className="menu-small-logo" src={Logo} alt="" />
         </div>
       </Link>
       <nav
@@ -23,27 +23,36 @@ const Menu = () => {
           "bk-s--light": light === true,
           "bk-s--dark": light === false,
         })}
+        aria-label="Navigation principale"
       >
         <ul className="menu-list">
-          <NavLink to="/" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            <li className="menu-list-link hvr-shutter-out-horizontal">Accueil</li>
-          </NavLink>
-          <NavLink to="/list" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            <li className="menu-list-link">Articles</li>
-          </NavLink>
+          <li className="menu-list-link hvr-shutter-out-horizontal">
+            <NavLink to="/" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              Accueil
+            </NavLink>
+          </li>
+          <li className="menu-list-link">
+            <NavLink to="/list" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              Articles
+            </NavLink>
+          </li>
         </ul>
 
-        <Link to="/">
-          <img className="menu-list-logo" src={Logo} alt="logo limit break" />
+        <Link to="/" aria-label="Limit Break - Accueil">
+          <img className="menu-list-logo" src={Logo} alt="" />
         </Link>
 
         <ul className="menu-list">
-          <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            <li className="menu-list-link">À propos</li>
-          </NavLink>
-          <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : undefined)}>
-            <li className="menu-list-link">Contact</li>
-          </NavLink>
+          <li className="menu-list-link">
+            <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              À propos
+            </NavLink>
+          </li>
+          <li className="menu-list-link">
+            <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              Contact
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>

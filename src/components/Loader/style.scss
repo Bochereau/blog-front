@@ -1,0 +1,13 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  text-align: center;
+  font-size: 1.25rem;
+
+  &-text {
+    margin: 1rem 0 0;
+  }
+}

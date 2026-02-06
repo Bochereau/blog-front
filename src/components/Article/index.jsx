@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getPostId } from "../../actions";
@@ -6,8 +6,8 @@ import { getPostId } from "../../actions";
 import Post from "../Post";
 import Comment from "../Comment";
 import Related from "../Related";
+import Loader from "../Loader";
 
-import { DualRing } from "react-css-spinners/dist/DualRing";
 import "./style.scss";
 
 const Article = () => {
@@ -19,6 +19,19 @@ const Article = () => {
 
   const currentPost = posts.find((post) => post.slug === slug);
 
+  // Preload de l'image hero dès qu'on a le post → même URL que la home, meilleur cache + LCP plus rapide
+  useLayoutEffect(() => {
+    if (!currentPost) return;
+    const url = currentPost.mainImageLarge || currentPost.mainImageMedium || currentPost.mainImage;
+    if (!url) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = url;
+    document.head.appendChild(link);
+    return () => link.remove();
+  }, [currentPost]);
+
   useEffect(() => {
     if (currentPost) {
       dispatch(getPostId(currentPost._id));
@@ -26,12 +39,7 @@ const Article = () => {
   }, [currentPost, dispatch]);
 
   if (loading) {
-    return (
-      <div className="article-loading">
-        <DualRing color={"#000"} />
-        <p className="article-loading-text">Chargement de l'article...</p>
-      </div>
-    );
+    return <Loader text="Chargement de l'article..." className="article-loading" />;
   }
 
   if (!currentPost) {
