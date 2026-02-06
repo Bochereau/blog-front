@@ -5,7 +5,7 @@ import { MoveRight } from "lucide-react";
 
 import './style.scss';
 
-const Card = ({ post }) => {
+const Card = ({ post, isLCP = false }) => {
     const {
         title,
         subtitle,
@@ -35,7 +35,8 @@ const Card = ({ post }) => {
                        (max-width: 1200px) 80vw,
                        1200px"
                 alt={title}
-                loading="lazy"
+                loading={isLCP ? "eager" : "lazy"}
+                fetchpriority={isLCP ? "high" : "auto"}
                 decoding="async"
             />
             <h3 className="card-title">{title}</h3>
@@ -55,6 +56,7 @@ Card.propTypes = {
         subtitle: PropTypes.string,
         mainImage: PropTypes.string,
     }).isRequired,
+    isLCP: PropTypes.bool,
 };
 
 export default Card;

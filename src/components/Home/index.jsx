@@ -28,8 +28,12 @@ const Home = () => {
           </div>
         )}
         {!loading &&
-          publishedPosts.map((post) => (
-            <Card key={post._id || post.id} post={post} />
+          publishedPosts.map((post, index) => (
+            <Card
+              key={post._id || post.id}
+              post={post}
+              isLCP={index < 2}
+            />
           ))}
       </ul>
     </div>
