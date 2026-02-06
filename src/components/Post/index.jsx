@@ -10,6 +10,9 @@ const Post = ({
   title,
   subtitle,
   mainImage,
+  mainImageSmall,
+  mainImageMedium,
+  mainImageLarge,
   publishedAt,
   author,
   introduction,
@@ -145,6 +148,8 @@ const Post = ({
             }}
             width={width}
             height={height}
+            loading="lazy"
+            decoding="async"
           />
         );
       }
@@ -157,8 +162,22 @@ const Post = ({
         <div className="reading-progress-bar" id="reading-progress" />
       </div>      
       <div className="post-header">
-        {mainImage && (
-          <img className="post-header-img" src={mainImage} alt={title} />
+        {(mainImage || mainImageMedium || mainImageLarge) && (
+          <img
+            className="post-header-img"
+            src={mainImageLarge || mainImageMedium || mainImage}
+            srcSet={[
+              mainImageSmall ? `${mainImageSmall} 700w` : null,
+              mainImageMedium ? `${mainImageMedium} 1400w` : null,
+              mainImageLarge ? `${mainImageLarge} 2200w` : null,
+            ]
+              .filter(Boolean)
+              .join(", ") || undefined}
+            sizes="(max-width: 600px) 100vw,
+                   (max-width: 1200px) 90vw,
+                   1400px"
+            alt={title}
+          />
         )}
         <h3 className="post-header-title">
           {title}
@@ -242,6 +261,8 @@ const Post = ({
                               alt={captions[idx] || `illustration-${idx}`}
                               className="post-content-image"
                               onClick={() => openModal(urls, captions, idx)}
+                              loading="lazy"
+                              decoding="async"
                             />
                             {captions[idx] && (
                               <p className="post-content-image-caption">{parse(captions[idx])}</p>

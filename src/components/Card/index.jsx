@@ -6,11 +6,38 @@ import { MoveRight } from "lucide-react";
 import './style.scss';
 
 const Card = ({ post }) => {
-    const { title, subtitle, slug, mainImage } = post;
+    const {
+        title,
+        subtitle,
+        slug,
+        mainImage,
+        mainImageSmall,
+        mainImageMedium,
+        mainImageLarge,
+    } = post;
+
+    const fallback = mainImageMedium || mainImageSmall || mainImage;
+    const srcSetParts = [];
+
+    if (mainImageSmall) srcSetParts.push(`${mainImageSmall} 700w`);
+    if (mainImageMedium) srcSetParts.push(`${mainImageMedium} 1400w`);
+    if (mainImageLarge) srcSetParts.push(`${mainImageLarge} 2200w`);
+
+    const srcSet = srcSetParts.length > 0 ? srcSetParts.join(", ") : undefined;
     
     return (
         <li className="card">
-            <img className="card-img" src={mainImage} alt={title} />
+            <img
+                className="card-img"
+                src={fallback}
+                srcSet={srcSet}
+                sizes="(max-width: 600px) 100vw,
+                       (max-width: 1200px) 80vw,
+                       1200px"
+                alt={title}
+                loading="lazy"
+                decoding="async"
+            />
             <h3 className="card-title">{title}</h3>
             <h4 className="card-subtitle">{subtitle}</h4>
             <Link to={`/posts/${slug}`} className="card-link">

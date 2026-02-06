@@ -225,10 +225,14 @@
 
         // Style pour les paragraphes
         &-paragraph {
-            padding: vars.$gutter*3 vars.$gutter*2;
+            padding: vars.$gutter*3 vars.$gutter*2 vars.$gutter;
             display: flex;
             flex-direction: column;
             gap: vars.$gutter;
+
+            @media(max-width: 426px) {
+                padding: vars.$gutter*2.5 vars.$gutter*1.5 0;
+            }
 
             // Gestion des positions d'images
             &.layout-top {
@@ -321,7 +325,7 @@
             font-size: 1.25rem;
             text-align: center;
             padding: 1rem;
-            margin: 2rem 0 -1rem;
+            margin: vars.$gutter*4 0 0;
             font-family: 'Orbitron', sans-serif;
             transform: skewY(-1deg);
 
@@ -374,7 +378,7 @@
 
         &-context,
         &-contact {
-            margin-bottom: 20px;
+            margin: vars.$gutter*2 0;
             text-align: justify;
             transform: skewY(-1deg);
             background-color: vars.$background-secondary;
@@ -437,7 +441,7 @@
     align-items: center;
     z-index: 999;
 
-    .modal-image-container {
+    &-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -453,7 +457,7 @@
         }
     }
     
-    .modal-image-caption {
+    &-caption {
         position: static;
         bottom: 0;
         font-size: vars.$gutter * 1.1;
@@ -538,15 +542,15 @@
         height: 300px;
         margin-bottom: vars.$gutter * 0.5;
 
-                @media (max-width: 769px) {
-                    height: 250px;
-                }
-
-                @media (max-width: 426px) {
-                    height: 200px;
-                }
-            }
+        @media (max-width: 769px) {
+            height: 250px;
         }
+
+        @media (max-width: 426px) {
+            height: 200px;
+        }
+    }
+}
 
 // Légende individuelle pour chaque image
 .post-content-image-caption {
@@ -572,7 +576,7 @@
 
 // Légende générale pour un groupe d'images
 .post-content-images-general-caption {
-    font-size: vars.$gutter * 1.4;
+    font-size: vars.$gutter * 1.2;
     color: vars.$background-secondary;
     text-align: center;
     margin: -32px auto 0;
@@ -580,15 +584,14 @@
     padding: vars.$gutter;
     position: relative;
     z-index: 2;
-    width: 80%;
+    width: 90%;
     font-family: "VT323", 'Comic Sans MS', cursive, sans-serif;
     box-shadow: 2px 2px 5px vars.$background-secondary;
     
     @media (max-width: 426px) {
-        width: fit-content;
-        font-size: vars.$gutter*1.1;
+        width: 100%;
+        font-size: vars.$gutter*0.9;
         padding: vars.$gutter*0.8;
-        margin: vars.$gutter*0.5 vars.$gutter 0;
-        transform: skewY(1deg);
+        margin: -16px 0 0;
     }
 }

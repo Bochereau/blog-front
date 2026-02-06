@@ -55,6 +55,10 @@ const defaultForm = {
     conclusion: "",
     readingTime: "",
     mainImage: "",
+    // variantes responsives générées automatiquement depuis mainImage
+    mainImageSmall: "",
+    mainImageMedium: "",
+    mainImageLarge: "",
     themes: [],
     isPublished: false,
     body: [{
@@ -114,6 +118,27 @@ const processInitialData = (data) => {
         themes: themeIds,
         body: normalizeBody(data.body)
     };
+};
+
+// Construit une URL Cloudinary avec des transformations données (w_..., f_auto, q_...)
+const buildCloudinaryVariant = (url, width, quality = "auto") => {
+    if (!url || typeof url !== "string") return "";
+
+    const marker = "/upload/";
+    const index = url.indexOf(marker);
+    if (index === -1) return url; // pas une URL Cloudinary, on renvoie tel quel
+
+    const prefix = url.slice(0, index + marker.length);
+    const suffix = url.slice(index + marker.length); // ex: v1234/dossier/image.png
+
+    const transformations = `w_${width},f_auto,q_${quality}`;
+
+    // si des transformations existent déjà, on ne double pas (on garde l'URL telle quelle)
+    if (suffix && !suffix.startsWith("v")) {
+        return url;
+    }
+
+    return `${prefix}${transformations}/${suffix}`;
 };
 
 const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
@@ -359,7 +384,18 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
     const handleSave = () => {
         setFormSubmitted(true);
-        onSubmit({ ...form });
+
+        // Génération des variantes responsives si possible
+        const small = form.mainImageSmall || buildCloudinaryVariant(form.mainImage, 700);
+        const medium = form.mainImageMedium || buildCloudinaryVariant(form.mainImage, 1400);
+        const large = form.mainImageLarge || buildCloudinaryVariant(form.mainImage, 2200, "auto:good");
+
+        onSubmit({
+            ...form,
+            mainImageSmall: small,
+            mainImageMedium: medium,
+            mainImageLarge: large,
+        });
     };
 
     // Fonction pour obtenir l'URL d'une image (compatibilité ancien/nouveau format)
