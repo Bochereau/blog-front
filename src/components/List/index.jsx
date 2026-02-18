@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { X, Search, Check } from "lucide-react";
 
-import { reverseDate } from "../../utils";
+import { reverseDate, buildCloudinaryVariant } from "../../utils";
 
 import "./style.scss";
 
@@ -88,21 +88,26 @@ const List = () => {
         {filteredPosts.map((post) => (
           <Link to={`/posts/${post.slug}`} key={post._id}>
             <div className="list-post">
+              <img
+                src={buildCloudinaryVariant(post.mainImage, 200) || post.mainImage}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
               <div className="list-post-link">
-                <img src={post.mainImage}></img>
                 <div className="list-post-text">
                   <p><span className="list-post-title">{post.title}</span>{post.subtitle && ", " + post.subtitle}</p>
                   <p className="list-post-meta">
                     Par <strong className="important">{post.author}</strong> le <time className="important">{reverseDate(post.publishedAt)}</time>
                   </p>
                 </div>
-              </div>
-              <div className="list-post-themes">
-                {post.themes.map((theme) => (
-                  <p className="list-post-themes-item" key={theme.name}>
-                    {theme.name}
-                  </p>
-                ))}
+                <div className="list-post-themes">
+                  {post.themes.map((theme) => (
+                    <p className="list-post-themes-item" key={theme.name}>
+                      {theme.name}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </Link>

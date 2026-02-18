@@ -5,6 +5,7 @@ import { TriangleAlert } from "lucide-react";
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ArticlePreview from "../AdminPreview";
+import { buildCloudinaryVariant } from "../../../utils";
 import "../style.scss";
 import "./style.scss";
 
@@ -118,27 +119,6 @@ const processInitialData = (data) => {
         themes: themeIds,
         body: normalizeBody(data.body)
     };
-};
-
-// Construit une URL Cloudinary avec des transformations données (w_..., f_auto, q_...)
-const buildCloudinaryVariant = (url, width, quality = "auto") => {
-    if (!url || typeof url !== "string") return "";
-
-    const marker = "/upload/";
-    const index = url.indexOf(marker);
-    if (index === -1) return url; // pas une URL Cloudinary, on renvoie tel quel
-
-    const prefix = url.slice(0, index + marker.length);
-    const suffix = url.slice(index + marker.length); // ex: v1234/dossier/image.png
-
-    const transformations = `w_${width},f_auto,q_${quality}`;
-
-    // si des transformations existent déjà, on ne double pas (on garde l'URL telle quelle)
-    if (suffix && !suffix.startsWith("v")) {
-        return url;
-    }
-
-    return `${prefix}${transformations}/${suffix}`;
 };
 
 const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
@@ -385,10 +365,11 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     const handleSave = () => {
         setFormSubmitted(true);
 
-        // Génération des variantes responsives si possible
-        const small = form.mainImageSmall || buildCloudinaryVariant(form.mainImage, 700);
-        const medium = form.mainImageMedium || buildCloudinaryVariant(form.mainImage, 1400);
-        const large = form.mainImageLarge || buildCloudinaryVariant(form.mainImage, 2200, "auto:good");
+        // Toujours recalculer les variantes à partir de mainImage pour que leur mise à jour
+        // soit bien enregistrée quand on change l'image principale (sinon on garde les anciennes URLs).
+        const small = buildCloudinaryVariant(form.mainImage, 700) || form.mainImageSmall;
+        const medium = buildCloudinaryVariant(form.mainImage, 1400) || form.mainImageMedium;
+        const large = buildCloudinaryVariant(form.mainImage, 2200, "auto:good") || form.mainImageLarge;
 
         onSubmit({
             ...form,

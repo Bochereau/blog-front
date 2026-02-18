@@ -4,6 +4,16 @@
 .list {
   text-align: center;
   color: vars.$background-secondary;
+  width: 75%;
+  margin: 0 auto;
+
+  @media (max-width: 769px) {
+    width: 90%;
+  }
+
+  @media (max-width: 426px) {
+    width: 95%;
+  }
 
   &-title {
     font-size: vars.$gutter * 2;
@@ -26,18 +36,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    width: 75%;
+    flex-wrap: wrap;    
     margin: vars.$gutter auto;
     gap: 15px;
-
-    @media (max-width: 769px) {
-      width: 85%;
-    }
-
-    @media (max-width: 426px) {
-      width: 95%;
-    }
   }
 
   &-search {
@@ -116,56 +117,48 @@
     }
   }
 
-  &-results {
-    width: 75%;
-    margin: 0 auto;
-
-    @media (max-width: 769px) {
-      width: 85%;
-    }
-
-    @media (max-width: 426px) {
-      width: 95%;
-    }
-  }
-
   &-post {
-    margin-bottom: vars.$gutter * 0.5;
-    padding: vars.$gutter 0;
+    margin-bottom: vars.$gutter*0.5;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 5px solid vars.$background-secondary;
+    align-items: stretch;
+    border-bottom: 4px solid vars.$background-secondary;
     background-color: #fff;
-    padding: vars.$gutter;
 
     &:hover {
       transform: translateY(-2px);
     }
 
-    @media (max-width: 426px) {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
+    // Image alignée sur toute la hauteur de la ligne
+    & > img{
+      align-self: stretch;
+      width: 150px;
+      object-fit: cover;
+      object-position: center;
+
+      @media (max-width: 768px) {
+        width: 120px;
+      }
+
+      @media (max-width: 426px) {
+        width: 100px;
+      }
+
+      @media (max-width: 320px) {
+        display: none;
+      }
     }
 
     &-link{
+      flex: 1;
       display: flex;
       align-items: center;
-      gap: 15px;
-      @media (max-width: 769px) {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      justify-content: space-between;
+      padding: vars.$gutter*0.8;
 
-      & img{
-        width: 100px;
-        max-height: 50px;
-        object-fit: cover;
-        @media (max-width: 769px) {
-          display: none;
-        }
+      @media (max-width: 426px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
       }
     }
 
@@ -174,6 +167,11 @@
       flex-direction: column;
       align-items: flex-start;
       gap: vars.$gutter*0.7;
+
+      @media (max-width: 426px) {
+        flex: 1;
+        align-items: center;
+      }
     }
 
     &-title {
@@ -190,6 +188,7 @@
       justify-self: end;
       display: flex;
       gap: 10px;
+
       &-item{
         color: white;
         padding: vars.$gutter*0.5 vars.$gutter;

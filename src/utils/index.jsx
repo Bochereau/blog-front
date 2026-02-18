@@ -1,3 +1,21 @@
+// Construit une URL Cloudinary avec des transformations (w_..., f_auto, q_...)
+export const buildCloudinaryVariant = (url, width, quality = "auto") => {
+    if (!url || typeof url !== "string") return "";
+
+    const marker = "/upload/";
+    const index = url.indexOf(marker);
+    if (index === -1) return url;
+
+    const prefix = url.slice(0, index + marker.length);
+    const suffix = url.slice(index + marker.length);
+
+    const transformations = `w_${width},f_auto,q_${quality}`;
+    if (suffix && !suffix.startsWith("v")) {
+        return url;
+    }
+    return `${prefix}${transformations}/${suffix}`;
+};
+
 // function to return DD/MM/YYYY date
 export const reverseDate = (str) => {
     let newDate = str.replaceAll('-', '/').substring(0, 10);
