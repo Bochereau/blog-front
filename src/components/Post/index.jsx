@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import parse from 'html-react-parser';
+import parse, { domToReact } from 'html-react-parser';
 import classNames from "classnames";
 
 import { reverseDate } from "../../utils";
@@ -126,7 +126,7 @@ const Post = ({
     return { urls: [], captions: [], hasIndividualCaptions: false };
   };
 
-  // Options pour le parser HTML afin de gérer les images inline
+  // Options pour le parser HTML afin de gérer les images inline et le formatage (gras/italique)
   const parseOptions = {
     replace: (domNode) => {
       // Si c'est une image, on la remplace pour ajouter le comportement de la modale
@@ -138,9 +138,9 @@ const Post = ({
             alt={alt || ''}
             className="post-content-image inline-image"
             onClick={() => openModal([src], [alt || ''], 0)}
-            style={{ 
-              cursor: 'pointer', 
-              maxWidth: '100%', 
+            style={{
+              cursor: 'pointer',
+              maxWidth: '100%',
               height: height || 'auto',
               width: width || 'auto',
               display: 'block',
@@ -152,6 +152,13 @@ const Post = ({
             decoding="async"
           />
         );
+      }
+      // S'assurer que gras et italique (Quill/HTML) sont bien rendus
+      if (domNode.name === 'strong' || domNode.name === 'b') {
+        return <strong>{domNode.children?.length ? domToReact(domNode.children, parseOptions) : null}</strong>;
+      }
+      if (domNode.name === 'em' || domNode.name === 'i') {
+        return <em>{domNode.children?.length ? domToReact(domNode.children, parseOptions) : null}</em>;
       }
     }
   };
