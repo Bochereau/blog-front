@@ -52,6 +52,15 @@ export const sortedByCreationArray = (array) => {
     return newArray;
 }
 
+// function to sort posts by publication date (newest first)
+export const sortedByPublishedAtDesc = (array) => {
+    return [...array].sort((a, b) => {
+        const dateA = new Date(a?.publishedAt || 0).getTime();
+        const dateB = new Date(b?.publishedAt || 0).getTime();
+        return dateB - dateA;
+    });
+}
+
 // function to sort an array by name
 export const sortedByNameArray = (array) => {
     let newArray = array.sort(function (a, b) {

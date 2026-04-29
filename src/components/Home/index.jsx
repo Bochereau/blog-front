@@ -3,12 +3,15 @@ import { useSelector } from "react-redux";
 
 import "./style.scss";
 import Card from "../Card";
+import { sortedByPublishedAtDesc } from "../../utils";
 
 const Home = () => {
   const posts = useSelector((state) => state.posts);
   const loading = useSelector((state) => state.loading);
 
-  const publishedPosts = posts.filter(post => post.isPublished === true);
+  const publishedPosts = sortedByPublishedAtDesc(
+    posts.filter(post => post.isPublished === true)
+  );
 
   return (
     <div className="home-posts">

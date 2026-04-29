@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { X, Search, Check } from "lucide-react";
 
-import { reverseDate, buildCloudinaryVariant } from "../../utils";
+import { reverseDate, buildCloudinaryVariant, sortedByPublishedAtDesc } from "../../utils";
 
 import "./style.scss";
 
@@ -11,7 +11,9 @@ const List = () => {
   const posts = useSelector((state) => state.posts);
   const themes = useSelector((state) => state.themes);
 
-  const publishedPosts = posts.filter(post => post.isPublished === true);
+  const publishedPosts = sortedByPublishedAtDesc(
+    posts.filter(post => post.isPublished === true)
+  );
 
   const [search, setSearch] = useState("");
   const [selectedThemes, setSelectedThemes] = useState([]);
