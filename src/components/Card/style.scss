@@ -11,6 +11,9 @@
     box-shadow: 8px 10px 0 black;
     border: 1px solid white;
     border-radius: 8px;
+    @media(max-width: 426px) {
+        box-shadow: 5px 10px 0 black;
+    }
 
     &-img {
         width: 100%;

@@ -2,14 +2,9 @@
 @use 'sass:color';
 
 .menu{
-    // position: sticky;
-    // top: 0;
-    // z-index: 1000;
-    @media (max-width: 426px) {
-        position: sticky !important;
-        top: 0;
-        z-index: 1000;
-    }
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     &-small {
         width: 100%;
         background-color: vars.$background-secondary;
@@ -27,7 +22,7 @@
     }
     &-nav{
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-around;
         font-family: "VT323", monospace;
         @media (max-width: 426px) {
@@ -36,20 +31,19 @@
     }
     &-list{
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-around;
         flex: 1;
-        padding: vars.$gutter;
         @media (max-width: 426px) {
             padding: 0;
         }
         &-link{
-            padding: vars.$gutter 0 vars.$gutter*0.5;
             text-transform: uppercase;
             font-weight: bold;
             text-align: center;
             color: white;
             font-size: vars.$gutter*1.8;
+            padding: vars.$gutter;
             &:hover{
                 transform: translateY(-3px);
                 transition: all 200ms ease-in-out;
@@ -62,7 +56,8 @@
             }
         }
         &-logo{
-            height:100px;
+            height:70px;
+            vertical-align: middle;
             @media (max-width: 426px) {
                 display: none;
             }
