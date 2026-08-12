@@ -420,6 +420,49 @@
             margin: vars.$gutter*2 0;
             transform: skewY(-1deg);
         }
+
+        u {
+            text-decoration: underline;
+            text-decoration-color: vars.$background-secondary;
+            text-decoration-thickness: 2px;
+        }
+
+        blockquote {
+            border-left: 4px solid vars.$background-secondary;
+            margin: 1rem 0;
+            background-color: #eee;
+            padding: 1rem;
+        }
+
+        .ql-size-small{
+            font-size: vars.$gutter*0.8;
+        }
+
+        .ql-size-large{
+            font-size: vars.$gutter*1.5;
+        }
+
+        .ql-size-huge{
+            font-size: vars.$gutter*2;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
     }
 }
 
@@ -595,47 +638,4 @@
         padding: vars.$gutter*0.8;
         margin: -16px 0 0;
     }
-}
-
-u {
-    text-decoration: underline;
-    text-decoration-color: vars.$background-secondary;
-    text-decoration-thickness: 2px;
-}
-
-blockquote {
-    border-left: 4px solid vars.$background-secondary;
-    margin: 1rem 0;
-    background-color: #eee;
-    padding: 1rem;
-}
-
-.ql-size-small{
-    font-size: vars.$gutter*0.8;
-}
-
-.ql-size-large{
-    font-size: vars.$gutter*1.5;
-}
-
-.ql-size-huge{
-    font-size: vars.$gutter*2;
-}
-
-code {
-    background-color: #f4f4f4;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9em;
-    color: #d63384;
-}
-
-ul, ol {
-    margin: 1rem 0;
-    padding-left: 2rem;
-}
-
-li {
-    margin: 0.5rem 0;
 }
