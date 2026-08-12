@@ -697,13 +697,21 @@
   
   blockquote {
     border-left: 4px solid vars.$background-secondary;
-    padding-left: 1rem;
     margin: 1rem 0;
-    font-style: italic;
-    color: #666;
-    background-color: #f8f9fa;
+    background-color: #eee;
     padding: 1rem;
-    border-radius: 0 6px 6px 0;
+  }
+
+  .ql-size-small{
+      font-size: vars.$gutter*0.8;
+  }
+
+  .ql-size-large{
+      font-size: vars.$gutter*1.5;
+  }
+
+  .ql-size-huge{
+      font-size: vars.$gutter*2;
   }
   
   code {
@@ -919,13 +927,21 @@
   
   blockquote {
     border-left: 4px solid vars.$background-secondary;
-    padding-left: 1rem;
     margin: 1rem 0;
-    font-style: italic;
-    color: #666;
-    background-color: #f8f9fa;
+    background-color: #eee;
     padding: 1rem;
-    border-radius: 0 6px 6px 0;
+  }
+
+  .ql-size-small{
+    font-size: vars.$gutter*0.8;
+  }
+
+  .ql-size-large{
+      font-size: vars.$gutter*1.5;
+  }
+
+  .ql-size-huge{
+      font-size: vars.$gutter*2;
   }
   
   code {

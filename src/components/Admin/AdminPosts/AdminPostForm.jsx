@@ -135,6 +135,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
         toolbar: {
             container: [
                 ['bold', 'italic', 'underline'],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
                 ['blockquote', 'code-block'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                 ['link', 'image'],
@@ -163,6 +164,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
     const quillFormats = [
         'bold', 'italic', 'underline',
+        'size',
         'blockquote', 'code-block',
         'list', 'bullet',
         'link',
