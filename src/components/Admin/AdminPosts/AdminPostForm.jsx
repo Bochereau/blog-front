@@ -469,7 +469,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group post-intro">
                     <h3 className="form-group-title">📝 Introduction</h3>
                     <textarea
                         name="introduction"
@@ -481,7 +481,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                     {errors.introduction && <div className="error-message"><TriangleAlert size={15} /> <p>{errors.introduction}</p></div>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group post-context">
                     <h3 className="form-group-title">🌍 Contexte</h3>
                     <textarea
                         name="context"
@@ -493,11 +493,11 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                     {errors.context && <div className="error-message"><TriangleAlert size={15} /> <p>{errors.context}</p></div>}
                 </div>
 
-                <div className="admin-edit-body">
-                    <h3 className="form-group-title">📌 Corps de l'article (sections)</h3>
+                <div className="post-body form-group">
+                    <h3 className="form-group-title">📌 Corps de l'article</h3>
                     {form.body.map((section, index) => (
                         <div key={index} className="form-section">
-                            <div className="section-header">
+                            <div className="form-section-header">
                                 <span className="section-number">Section {index + 1}</span>
                                 {form.body.length > 1 && (
                                     <button
@@ -514,10 +514,10 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                                 placeholder="Sous-titre de la section"
                                 value={section.subtitle}
                                 onChange={(e) => handleSectionChange(index, "subtitle", e.target.value)}
-                                className="section-subtitle-input"
+                                className="form-section-subtitle-input"
                             />
 
-                            <div className="section-paragraphs">
+                            <div className="form-section-paragraphs">
                                 {section.paragraphs.map((paragraph, pIndex) => (
                                     <div key={pIndex} className={`paragraph-container ${errors[`body_${index}_para_${pIndex}`] ? "error-section" : ""}`}>
                                         <div className="paragraph-header">
@@ -546,108 +546,104 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                                                 formats={quillFormats}
                                                 placeholder="Texte du paragraphe"
                                             />
-                                            <div className="live-preview">
-                                                <h4>👁️ Aperçu</h4>
-                                                <div className="field-preview">
-                                                    <div dangerouslySetInnerHTML={{ __html: paragraph.text || "Aucun contenu" }} />
+
+                                            <div className="body-images">
+                                                <div className="images-header-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                                    <h4 style={{ margin: 0 }}>🖼️ Images du paragraphe</h4>
+                                                    
+                                                    <div className="image-position-selector">
+                                                        <label style={{ marginRight: '0.5rem', fontSize: '0.9rem' }}>Position :</label>
+                                                        <select
+                                                            value={paragraph.imagePosition || "bottom"}
+                                                            onChange={(e) => handleParagraphChange(index, pIndex, "imagePosition", e.target.value)}
+                                                            style={{ padding: '0.3rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                                                        >
+                                                            <option value="bottom">Bas (défaut)</option>
+                                                            <option value="top">Haut</option>
+                                                            <option value="left">Gauche</option>
+                                                            <option value="right">Droite</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div className="body-images">
-                                            <div className="images-header-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                                <h4 style={{ margin: 0 }}>🖼️ Images du paragraphe</h4>
-                                                
-                                                <div className="image-position-selector">
-                                                    <label style={{ marginRight: '0.5rem', fontSize: '0.9rem' }}>Position :</label>
-                                                    <select
-                                                        value={paragraph.imagePosition || "bottom"}
-                                                        onChange={(e) => handleParagraphChange(index, pIndex, "imagePosition", e.target.value)}
-                                                        style={{ padding: '0.3rem', borderRadius: '4px', border: '1px solid #ccc' }}
-                                                    >
-                                                        <option value="bottom">Bas (défaut)</option>
-                                                        <option value="top">Haut</option>
-                                                        <option value="left">Gauche</option>
-                                                        <option value="right">Droite</option>
-                                                    </select>
+                                                {/* Légende générale pour toutes les images du paragraphe */}
+                                                <div className="general-caption-container">
+                                                    <label>📝 Légende générale (optionnelle) :</label>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Légende pour le groupe d'images..."
+                                                        value={paragraph.generalCaption || ""}
+                                                        onChange={(e) => handleParagraphChange(index, pIndex, "generalCaption", e.target.value)}
+                                                        className="general-caption-input"
+                                                    />
                                                 </div>
-                                            </div>
 
-                                            {/* Légende générale pour toutes les images du paragraphe */}
-                                            <div className="general-caption-container">
-                                                <label>📝 Légende générale (optionnelle) :</label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Légende pour le groupe d'images..."
-                                                    value={paragraph.generalCaption || ""}
-                                                    onChange={(e) => handleParagraphChange(index, pIndex, "generalCaption", e.target.value)}
-                                                    className="general-caption-input"
-                                                />
-                                            </div>
+                                                {/* Images individuelles */}
+                                                {paragraph.images.map((img, imgIndex) => (
+                                                    <div key={imgIndex} className="image-input">
+                                                        <div className="image-body">
+                                                            <div className="image-url">
+                                                                <label>🔗 URL #{imgIndex + 1} :</label>
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder={`https://res.cloudinary.com/...`}
+                                                                    value={getImageUrl(img)}
+                                                                    onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'url', e.target.value)}
+                                                                />
+                                                            </div>
 
-                                            {/* Images individuelles */}
-                                            {paragraph.images.map((img, imgIndex) => (
-                                                <div key={imgIndex} className="image-input-container">
-                                                    <div className="image-body-container">
-                                                        <div className="image-url-container">
-                                                            <label>🔗 URL #{imgIndex + 1} :</label>
-                                                            <input
-                                                                type="text"
-                                                                placeholder={`https://res.cloudinary.com/...`}
-                                                                value={getImageUrl(img)}
-                                                                onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'url', e.target.value)}
-                                                            />
+                                                            <div className="image-caption">
+                                                                <label>🏷️ Légende :</label>
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder={`Légende spécifique...`}
+                                                                    value={getImageCaption(img)}
+                                                                    onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'caption', e.target.value)}
+                                                                    className="image-caption-input"
+                                                                />
+                                                            </div>
                                                         </div>
 
-                                                        <div className="image-caption-container">
-                                                            <label>🏷️ Légende :</label>
-                                                            <input
-                                                                type="text"
-                                                                placeholder={`Légende spécifique...`}
-                                                                value={getImageCaption(img)}
-                                                                onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'caption', e.target.value)}
-                                                                className="image-caption-input"
-                                                            />
+                                                        <div className="image-preview">
+                                                            <button
+                                                                type="button"
+                                                                className="image-remove-btn"
+                                                                onClick={() => removeImageField(index, pIndex, imgIndex)}
+                                                                title="Supprimer l'image"
+                                                            >
+                                                                ❌
+                                                            </button>
+                                                            {/* Prévisualisation de l'image si URL valide */}
+                                                            {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
+                                                                <img
+                                                                    src={getImageUrl(img)}
+                                                                    alt="Aperçu"
+                                                                    style={{
+                                                                        maxWidth: '150px',
+                                                                        maxHeight: '100px',
+                                                                        objectFit: 'cover',
+                                                                        borderRadius: '4px',
+                                                                        marginTop: '0.3rem',
+                                                                        border: '1px solid #ddd'
+                                                                    }}
+                                                                    onError={(e) => {
+                                                                        e.target.style.display = 'none';
+                                                                    }}
+                                                                />
+                                                            )}
+
                                                         </div>
                                                     </div>
+                                                ))}
 
-                                                    {/* Prévisualisation de l'image si URL valide */}
-                                                    {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
-                                                        <img
-                                                            src={getImageUrl(img)}
-                                                            alt="Aperçu"
-                                                            style={{
-                                                                maxWidth: '150px',
-                                                                maxHeight: '100px',
-                                                                objectFit: 'cover',
-                                                                borderRadius: '4px',
-                                                                marginTop: '0.3rem',
-                                                                border: '1px solid #ddd'
-                                                            }}
-                                                            onError={(e) => {
-                                                                e.target.style.display = 'none';
-                                                            }}
-                                                        />
-                                                    )}
-
-                                                    <button
-                                                        type="button"
-                                                        className="remove-image-btn"
-                                                        onClick={() => removeImageField(index, pIndex, imgIndex)}
-                                                        title="Supprimer l'image"
-                                                    >
-                                                        ❌
-                                                    </button>
-                                                </div>
-                                            ))}
-
-                                            <button
-                                                type="button"
-                                                className="add-image-btn"
-                                                onClick={() => addImageField(index, pIndex)}
-                                            >
-                                                ➕ Ajouter une image
-                                            </button>
+                                                <button
+                                                    type="button"
+                                                    className="image-add-btn"
+                                                    onClick={() => addImageField(index, pIndex)}
+                                                >
+                                                    ➕ Ajouter une image
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -662,7 +658,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                     </button>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group post-contact">
                     <h3 className="form-group-title">📞 Premier contact</h3>
                     <textarea
                         name="firstContact"
@@ -674,7 +670,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                     {errors.firstContact && <div className="error-message"><TriangleAlert size={15} /> <p>{errors.firstContact}</p></div>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group post-conclusion">
                     <h3 className="form-group-title">✅ Conclusion</h3>
                     <textarea
                         name="conclusion"
