@@ -241,7 +241,7 @@
 
             &.layout-left {
                 flex-direction: row-reverse;
-                align-items: flex-start;
+                align-items: stretch;
 
                 .post-content-section-body {
                     flex: 1;
@@ -270,7 +270,7 @@
 
             &.layout-right {
                 flex-direction: row;
-                align-items: flex-start;
+                align-items: stretch;
 
                 .post-content-section-body {
                     flex: 1;
