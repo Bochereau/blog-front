@@ -247,8 +247,12 @@ const Post = ({
           }];
           
           return (
-            <div key={index} className="post-content-section">
-              {section.subtitle && <h4 className="post-content-subtitle"><span>{parse(section.subtitle)}</span></h4>}
+            <div className="post-content-section">
+              {section.subtitle && 
+                <div className="post-content-subtitle">
+                <h4 className="post-content-subtitle-text">{parse(section.subtitle)}</h4>
+                <span className="post-content-subtitle-triangle"></span>
+              </div>}
               
               {paragraphs.map((paragraph, pIndex) => {
                 const { urls, captions, hasIndividualCaptions } = processImagesData(paragraph);

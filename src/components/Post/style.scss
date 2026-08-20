@@ -317,26 +317,54 @@
         }
 
         &-subtitle {
-            position: relative;
-            width: 100%;
-            background: vars.$background-secondary;
-            color: white;
-            font-weight: 700;
-            font-size: 1.25rem;
-            text-align: center;
-            padding: 1rem;
             margin: vars.$gutter*4 0 0;
-            font-family: 'Orbitron', sans-serif;
-            transform: skewY(-1deg);
+            display: inline-flex;
+            align-items: flex-end;
+            position: relative;
+            height: 80px;
+            padding-right: 50px;
+            max-width: 100%;
 
-            span {
-                display: inline-block;
-                transform: skewY(1deg);
-                letter-spacing: 1.5px;
+            @media (max-width: 1024px) {
+                display: flex;
+                height: auto;
+                padding-right: 0;
             }
 
-            @media(max-width: 426px) {
-                font-size: 1.1rem;
+            &-text {
+                min-width: 33%;
+                background: vars.$background-secondary;
+                color: white;
+                font-weight: 700;
+                letter-spacing: 1.5px;
+                font-size: vars.$gutter*1.4;
+                padding: 0 vars.$gutter*2;
+                font-family: 'Orbitron', sans-serif;
+                height: 60px;
+                line-height: 60px;
+                position: relative;
+                z-index: 1;
+
+                @media (max-width: 1024px) {
+                    font-size: vars.$gutter*1.1;
+                    width: 100%;
+                    height: auto;
+                    line-height: 50px;
+                }
+            }
+
+            &-triangle {
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 60px 100px 0 0;
+                border-color: black transparent transparent transparent;
+                position: relative;
+                z-index: 1;
+                flex-shrink: 0;
+                @media (max-width: 1024px) {
+                    display: none;
+                }
             }
         }
 
