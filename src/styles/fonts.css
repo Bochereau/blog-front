@@ -24,3 +24,11 @@
     font-weight: 400;
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Rationale';
+    src: url('/fonts/Rationale-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}

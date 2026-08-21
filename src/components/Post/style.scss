@@ -61,8 +61,9 @@
 
     &-subtitle {
         text-align: center;
-        font-size: vars.$gutter*1.8;
-        font-family: 'Orbitron', sans-serif;
+        font-size: vars.$gutter*3;
+        letter-spacing: 1.5px;
+        font-family: 'Rationale', sans-serif;
         font-weight: bold;
         padding: vars.$gutter*2 0 vars.$gutter;
         color: vars.$background-secondary;
@@ -317,18 +318,18 @@
         }
 
         &-subtitle {
-            margin: vars.$gutter*4 0 0;
+            margin: vars.$gutter*4 0 0 -8px;
             display: inline-flex;
             align-items: flex-end;
             position: relative;
-            height: 80px;
             padding-right: 50px;
             max-width: 100%;
 
-            @media (max-width: 1024px) {
+            @media (max-width: 768px) {
                 display: flex;
                 height: auto;
                 padding-right: 0;
+                margin-left: 0;
             }
 
             &-text {
@@ -336,20 +337,29 @@
                 background: vars.$background-secondary;
                 color: white;
                 font-weight: 700;
-                letter-spacing: 1.5px;
-                font-size: vars.$gutter*1.4;
+                font-size: vars.$gutter*2.5;
                 padding: 0 vars.$gutter*2;
-                font-family: 'Orbitron', sans-serif;
+                font-family: 'Rationale', sans-serif;
                 height: 60px;
                 line-height: 60px;
-                position: relative;
                 z-index: 1;
+                text-transform: uppercase;
+                border-radius: 8px 0 0 8px;
 
                 @media (max-width: 1024px) {
-                    font-size: vars.$gutter*1.1;
+                    font-size: vars.$gutter*2;
+                }
+
+                @media (max-width: 768px) {
                     width: 100%;
                     height: auto;
                     line-height: 50px;
+                    border-radius: 0;
+                }
+                
+                @media (max-width: 426px) {
+                    font-size: vars.$gutter*1.8;
+                    padding: 0 vars.$gutter*1.5;
                 }
             }
 
@@ -362,7 +372,8 @@
                 position: relative;
                 z-index: 1;
                 flex-shrink: 0;
-                @media (max-width: 1024px) {
+
+                @media (max-width: 768px) {
                     display: none;
                 }
             }
