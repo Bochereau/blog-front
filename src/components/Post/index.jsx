@@ -228,9 +228,10 @@ const Post = ({
 
         {context ? (
           <div className="post-content-context">
-            <p className="post-content-context-title">
-              Un peu de contexte
-            </p>
+            <div className="post-content-context-title">
+              <p className="post-content-context-title-text">Un peu de contexte</p>
+              <span className="post-content-context-title-triangle"></span>
+            </div>
             <p className="post-content-context-text" style={{ whiteSpace: 'pre-line' }}>{parse(context)}</p>
           </div>
         ) : (
@@ -250,9 +251,10 @@ const Post = ({
             <div className="post-content-section">
               {section.subtitle && 
                 <div className="post-content-subtitle">
-                <h4 className="post-content-subtitle-text">{parse(section.subtitle)}</h4>
-                <span className="post-content-subtitle-triangle"></span>
-              </div>}
+                  <h4 className="post-content-subtitle-text">{parse(section.subtitle)}</h4>
+                  <span className="post-content-subtitle-triangle"></span>
+                </div>
+              }
               
               {paragraphs.map((paragraph, pIndex) => {
                 const { urls, captions, hasIndividualCaptions } = processImagesData(paragraph);
@@ -299,9 +301,10 @@ const Post = ({
 
         {firstContact ? (
           <div className="post-content-contact">
-            <p className="post-content-contact-title">
-              Premier contact
-            </p>
+            <div className="post-content-contact-title">
+              <p className="post-content-contact-title-text">Premier contact</p>
+              <span className="post-content-contact-title-triangle"></span>
+            </div>
             <p className="post-content-contact-text" style={{ whiteSpace: 'pre-line' }}>{parse(firstContact)}</p>
           </div>
         ) : (

@@ -426,30 +426,79 @@
             padding: vars.$gutter*2 0 vars.$gutter*3;
 
             &-title {
-                padding: vars.$gutter vars.$gutter*2;
-                text-transform: uppercase;
-                font-weight: bold;
-                display: block;
-                font-family: 'Orbitron', sans-serif;
+                margin: vars.$gutter*0.5 0 vars.$gutter*2 -8px;
+                display: inline-flex;
+                align-items: flex-end;
+                position: relative;
+                padding-right: 50px;
+                max-width: 100%;
+                border: 2px solid vars.$background-secondary;
+                border-radius: 8px 0 0 8px;
                 transform: skewY(1deg);
+
+                @media (max-width: 768px) {
+                    display: flex;
+                    height: auto;
+                    padding-right: 0;
+                    margin-left: 0;
+                    border: none;
+                    margin-bottom: vars.$gutter;
+                }
+
+                &-text {
+                    min-width: 33%;
+                    background: vars.$light;
+                    color: vars.$background-secondary;
+                    font-weight: 700;
+                    font-size: vars.$gutter*2.5;
+                    padding: 0 vars.$gutter*2;
+                    font-family: 'Rationale', sans-serif;
+                    height: 60px;
+                    line-height: 60px;
+                    z-index: 1;
+                    text-transform: uppercase;
+                    border-radius: 8px 0 0 8px;
+
+                    @media (max-width: 1024px) {
+                        font-size: vars.$gutter*2;
+                    }
+
+                    @media (max-width: 768px) {
+                        width: 100%;
+                        height: auto;
+                        line-height: 50px;
+                        border-radius: 0;
+                        background: vars.$background-secondary;
+                        color: vars.$light;
+                    }
+                    
+                    @media (max-width: 426px) {
+                        font-size: vars.$gutter*1.8;
+                    }
+                }
+
+                &-triangle {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 60px 100px 0 0;
+                    border-color: vars.$light transparent transparent transparent;
+                    position: relative;
+                    z-index: 1;
+                    flex-shrink: 0;
+
+                    @media (max-width: 768px) {
+                        display: none;
+                    }
+                }
             }
 
             &-text {
                 padding: vars.$gutter vars.$gutter*2;
                 transform: skewY(1deg);
             }
-        }
 
-        &-context{
-            &-title {
-                text-align: right;
-            }
-        }
 
-        &-contact{
-            &-title {
-                text-align: left;
-            }
         }
         
         &-separator {
