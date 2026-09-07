@@ -496,6 +496,43 @@
             &-text {
                 padding: vars.$gutter vars.$gutter*2;
                 transform: skewY(1deg);
+
+                // Quill sur fond sombre : ne pas écraser le blanc
+                strong,
+                b {
+                    font-weight: bold;
+                    color: inherit;
+                }
+
+                em,
+                i {
+                    font-style: italic;
+                    color: inherit;
+                    opacity: 0.9;
+                }
+
+                u {
+                    text-decoration-color: currentColor;
+                }
+
+                a {
+                    color: #ffcb69;
+
+                    &:hover {
+                        color: #ffe0a3;
+                    }
+                }
+
+                blockquote {
+                    border-left-color: rgba(255, 255, 255, 0.7);
+                    background-color: rgba(255, 255, 255, 0.08);
+                    color: inherit;
+                }
+
+                code {
+                    background-color: rgba(255, 255, 255, 0.12);
+                    color: #ffcb69;
+                }
             }
 
 

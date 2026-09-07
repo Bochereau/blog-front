@@ -483,11 +483,12 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
                 <div className="form-group post-context">
                     <h3 className="form-group-title">🌍 Contexte</h3>
-                    <textarea
-                        name="context"
-                        placeholder="Contexte"
+                    <ReactQuill
                         value={form.context || ""}
-                        onChange={handleChange}
+                        onChange={(value) => setForm((prev) => ({ ...prev, context: value }))}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Contexte"
                         className={errors.context ? "error-input" : ""}
                     />
                     {errors.context && <div className="error-message"><TriangleAlert size={15} /> <p>{errors.context}</p></div>}
@@ -660,11 +661,12 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
                 <div className="form-group post-contact">
                     <h3 className="form-group-title">📞 Premier contact</h3>
-                    <textarea
-                        name="firstContact"
-                        placeholder="Premier contact"
+                    <ReactQuill
                         value={form.firstContact || ""}
-                        onChange={handleChange}
+                        onChange={(value) => setForm((prev) => ({ ...prev, firstContact: value }))}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Premier contact"
                         className={errors.firstContact ? "error-input" : ""}
                     />
                     {errors.firstContact && <div className="error-message"><TriangleAlert size={15} /> <p>{errors.firstContact}</p></div>}

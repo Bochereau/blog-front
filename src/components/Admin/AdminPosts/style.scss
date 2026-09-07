@@ -853,11 +853,9 @@
   border-radius: 0 0 6px 6px;
 }
 
-/* Styles pour les balises générées par Quill dans les articles */
+/* Styles pour les balises générées par Quill dans les articles (fond clair) */
 .post-content-intro,
-.post-content-context-text,
 .post-content-section-text,
-.post-content-contact-text,
 .post-content-outro {
   strong {
     font-weight: bold;
@@ -919,6 +917,77 @@
     
     &:hover {
       color: color.adjust(vars.$background-secondary, $lightness: -20%);
+    }
+  }
+}
+
+/* Contexte / Premier contact : fond sombre → garder le texte clair */
+.post-content-context-text,
+.post-content-contact-text {
+  strong,
+  b {
+    font-weight: bold;
+    color: inherit;
+    text-shadow: none;
+  }
+
+  em,
+  i {
+    font-style: italic;
+    color: inherit;
+    opacity: 0.9;
+  }
+
+  u {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+  }
+
+  blockquote {
+    border-left: 4px solid rgba(255, 255, 255, 0.7);
+    margin: 1rem 0;
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 1rem;
+    color: inherit;
+  }
+
+  .ql-size-small {
+    font-size: vars.$gutter * 0.8;
+  }
+
+  .ql-size-large {
+    font-size: vars.$gutter * 1.5;
+  }
+
+  .ql-size-huge {
+    font-size: vars.$gutter * 2;
+  }
+
+  code {
+    background-color: rgba(255, 255, 255, 0.12);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #ffcb69;
+  }
+
+  ul, ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+  }
+
+  li {
+    margin: 0.5rem 0;
+  }
+
+  a {
+    color: #ffcb69;
+    text-decoration: underline;
+
+    &:hover {
+      color: #ffe0a3;
     }
   }
 }
