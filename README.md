@@ -13,11 +13,11 @@ Afin de me lancer un __nouveau challenge__, j'ai décidé de créer un blog qui 
 
 🎮 __Article de blog__ :
 
-    &#10149; les éléments constitutifs de l'article (intro, corps, conclu + auteur, date de publication).
+    ➤ les éléments constitutifs de l'article (intro, corps, conclu + auteur, date de publication).
 
-    &#10149; un espace commentaire dédié à chaque article (lire les coms, ajouter un nouveau com).
+    ➤ un espace commentaire dédié à chaque article (lire les coms, ajouter un nouveau com).
 
-    &#10149; une suggestion d'articles similaires pour prolonger la lecture (thèmes identiques en priorité).
+    ➤ une suggestion d'articles similaires pour prolonger la lecture (thèmes identiques en priorité).
 
 📋 __Liste des jeux__ : une page sur laquelle on retrouve facilement l'ensemble des articles du blog par catégorie.
 
