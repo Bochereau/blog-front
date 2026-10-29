@@ -1101,3 +1101,56 @@
     border-left: 8px solid #997b66;
   }
 }
+
+.paragraph-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.paragraph-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+// Case à cocher présentée comme un bouton bascule
+.paragraph-interactive-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid white;
+  border-radius: 4px;
+  background: transparent;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s, color 0.2s;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  &:focus-within {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  &.is-active {
+    background: white;
+    color: vars.$paragraph-header;
+  }
+}
+

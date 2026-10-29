@@ -1,0 +1,469 @@
+
+.interactive-editor {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #d8d0c5;
+  border-radius: 8px;
+  background: #faf8f5;
+  color: #302d29;
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+
+    h4 {
+      margin: 0.25rem 0 0.5rem;
+    }
+
+    p {
+      margin: 0;
+      color: #6f675e;
+      line-height: 1.5;
+    }
+  }
+
+  &__eyebrow {
+    color: #88704f !important;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  &__add,
+  &__secondary {
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #b7a58e;
+    border-radius: 5px;
+    background: #fff;
+    color: #40372d;
+  }
+
+  &__add {
+    flex-shrink: 0;
+    background: #40372d;
+    border-color: #40372d;
+    color: #fff;
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.8fr) minmax(0, 2fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  &__sidebar {
+    min-width: 0;
+    padding: 0.85rem;
+    border: 1px solid #e0d8cd;
+    border-radius: 6px;
+    background: #f3efe9;
+
+    h5 {
+      margin: 0 0 0.75rem;
+    }
+  }
+
+  &__node-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__node {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: #fff;
+    color: #38332e;
+    text-align: left;
+    overflow-wrap: anywhere;
+
+    &.is-active {
+      border-color: #8d7352;
+      background: #eee3d4;
+    }
+
+    small {
+      color: #777067;
+    }
+  }
+
+  // Renvoi vers un passage déjà présent dans l'arbre
+  &__node.is-reference {
+    padding: 0.4rem 0.6rem;
+    border: 1px dashed #cfc5b8;
+    background: transparent;
+    color: #6f675e;
+    font-size: 0.85rem;
+
+    &.is-active {
+      border-style: solid;
+      border-color: #8d7352;
+      background: #eee3d4;
+    }
+  }
+
+  // Arbre des passages avec connecteurs
+  &__tree {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    ul {
+      margin: 0.4rem 0 0 0.6rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    ul li {
+      position: relative;
+      padding: 0.4rem 0 0 1rem;
+
+      // Trait vertical vers le frère suivant
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        border-left: 1px solid #b7a58e;
+      }
+
+      // Coude vers le passage
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0.75rem;
+        height: 1.25rem;
+        border-bottom: 1px solid #b7a58e;
+        border-left: 1px solid #b7a58e;
+        border-bottom-left-radius: 6px;
+      }
+
+      &:last-child::before {
+        display: none;
+      }
+    }
+  }
+
+  // Texte du choix qui mène au passage, posé sur le connecteur
+  &__tree-via {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #88704f;
+    font-size: 0.75rem;
+    font-style: italic;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  &__tree-heading {
+    margin: 1rem 0 0.5rem;
+    color: #853f24;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  // Panneau de vérifications
+  &__checks {
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid #c9d8c0;
+    border-radius: 6px;
+    background: #eef5ea;
+    color: #3c5a2e;
+    font-size: 0.9rem;
+
+    summary {
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    &.has-issues {
+      border-color: #e5c2ad;
+      background: #f9e9df;
+      color: #853f24;
+    }
+
+    ul {
+      margin: 0.6rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin: 0.25rem 0;
+    }
+
+    button {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      text-align: left;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+
+  &__node-title {
+    font-weight: 600;
+  }
+
+  &__start-label {
+    color: #725638;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__end-label {
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    background: #302d29;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    min-width: 0;
+  }
+
+  // Case « Fin du récit » présentée comme une carte cliquable
+  &__ending-toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid #cfc5b8;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+
+    input {
+      margin-top: 0.2rem;
+      accent-color: #302d29;
+    }
+
+    span {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    small {
+      color: #6f675e;
+      line-height: 1.4;
+    }
+
+    &.is-active {
+      border-color: #302d29;
+      background: #eee8df;
+    }
+  }
+
+  // Titre + texte à gauche, choix du lecteur à droite
+  &__columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(240px, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  &__main,
+  &__choices {
+    min-width: 0;
+  }
+
+  &__choices {
+    padding: 0.85rem;
+    border: 1px solid #e0d8cd;
+    border-radius: 6px;
+    background: #f3efe9;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+    padding: 0.75rem;
+    border-radius: 5px;
+    background: #eee8df;
+    color: #776b5d;
+    font-size: 0.85rem;
+
+    button {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #66513a;
+      text-align: left;
+
+      &.is-current {
+        color: #302d29;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      padding: 0.7rem;
+      border: 1px solid #cfc5b8;
+      border-radius: 5px;
+      background: #fff;
+      color: #302d29;
+    }
+
+    textarea {
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    small {
+      color: #777067;
+      line-height: 1.4;
+    }
+  }
+
+  &__choices-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 0 0 1rem;
+
+    h5 {
+      margin: 0 0 0.35rem;
+    }
+
+    p {
+      margin: 0;
+      color: #6f675e;
+      font-size: 0.85rem;
+    }
+  }
+
+  &__choice {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ded4c8;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  &__choice-top,
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+  }
+
+  &__actions {
+    justify-content: flex-start;
+    margin-top: 1.25rem;
+  }
+
+  &__delete {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #c9a9a3;
+    border-radius: 4px;
+    background: #fff;
+    color: #8a3f36;
+  }
+
+  &__empty {
+    padding: 1rem;
+    border: 1px dashed #cfc5b8;
+    border-radius: 5px;
+    color: #6f675e;
+    line-height: 1.5;
+  }
+
+  &__warning {
+    padding: 0.75rem;
+    border-radius: 5px;
+    background: #f9e9df;
+    color: #853f24;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .interactive-editor {
+    padding: 0.85rem;
+
+    &__heading {
+      flex-direction: column;
+    }
+
+    &__layout,
+    &__columns {
+      grid-template-columns: 1fr;
+    }
+
+    &__node-list {
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    &__choices-heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+}
+
+// Sur écran moyen, la colonne des choix repasse sous le texte
+@media (max-width: 1200px) {
+  .interactive-editor__columns {
+    grid-template-columns: 1fr;
+  }
+}

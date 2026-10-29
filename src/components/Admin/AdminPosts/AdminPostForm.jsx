@@ -5,6 +5,8 @@ import { TriangleAlert } from "lucide-react";
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ArticlePreview from "../AdminPreview";
+import InteractiveStory from "../../InteractiveStory";
+import { getStoryIssues } from "../../InteractiveStory/storyChecks";
 import { buildCloudinaryVariant } from "../../../utils";
 import "../style.scss";
 import "./style.scss";
@@ -68,7 +70,9 @@ const defaultForm = {
             text: "",
             images: [],
             generalCaption: "",
-            imagePosition: "bottom"
+            imagePosition: "bottom",
+            interactive: false,
+            interactiveStory: null
         }]
     }],
 };
@@ -85,8 +89,12 @@ const normalizeBody = (body) => {
                 paragraphs: section.paragraphs.map(p => ({
                     ...p,
                     imagePosition: p.imagePosition || "bottom",
-                    images: (p.images || []).map(img => 
-                        typeof img === "string" ? { url: img, caption: "" } : { url: img.url || "", caption: img.caption || "" }
+                    interactive: Boolean(p.interactive),
+                    interactiveStory: p.interactiveStory || null,
+                    images: (p.images || []).map(img =>
+                        typeof img === "string"
+                            ? { url: img, caption: "" }
+                            : { url: img.url || "", caption: img.caption || "" }
                     )
                 }))
             };
@@ -120,6 +128,19 @@ const processInitialData = (data) => {
         body: normalizeBody(data.body)
     };
 };
+
+// Hisoires interactives dans l'article
+const createInteractiveStory = () => ({
+    startNodeId: "depart",
+    nodes: [
+        {
+            id: "depart",
+            title: "Début de l'aventure",
+            text: "",
+            choices: []
+        }
+    ]
+});
 
 const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     const navigate = useNavigate();
@@ -218,7 +239,7 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
 
         form.body.forEach((section, sIndex) => {
             section.paragraphs.forEach((para, pIndex) => {
-                if (!para.text?.trim() && (!para.images || para.images.length === 0)) {
+                if (!para.interactive && !para.text?.trim() && (!para.images || para.images.length === 0)) {
                     newErrors[`body_${sIndex}_para_${pIndex}`] = "Le paragraphe doit contenir du texte ou des images";
                 }
             });
@@ -270,22 +291,27 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
     };
 
     const handleParagraphChange = (sectionIndex, paragraphIndex, field, value) => {
-        const updatedBody = form.body.map((section, sIdx) => {
-            if (sIdx !== sectionIndex) return section;
-            return {
-                ...section,
-                paragraphs: section.paragraphs.map((para, pIdx) => {
-                    if (pIdx !== paragraphIndex) return para;
-                    return { ...para, [field]: value };
-                })
-            };
-        });
-        setForm({ ...form, body: updatedBody });
+        setForm(prev => ({
+            ...prev,
+            body: prev.body.map((section, sIdx) => {
+                if (sIdx !== sectionIndex) return section;
 
-        if (errors[`body_${sectionIndex}_para_${paragraphIndex}`]) {
+                return {
+                    ...section,
+                    paragraphs: section.paragraphs.map((para, pIdx) => {
+                        if (pIdx !== paragraphIndex) return para;
+                        return { ...para, [field]: value };
+                    })
+                };
+            })
+        }));
+
+        const errorKey = `body_${sectionIndex}_para_${paragraphIndex}`;
+
+        if (errors[errorKey]) {
             setErrors(prev => {
                 const newErrors = { ...prev };
-                delete newErrors[`body_${sectionIndex}_para_${paragraphIndex}`];
+                delete newErrors[errorKey];
                 return newErrors;
             });
         }
@@ -329,7 +355,9 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                     text: "",
                     images: [],
                     generalCaption: "",
-                    imagePosition: "bottom"
+                    imagePosition: "bottom",
+                    interactive: false,
+                    interactiveStory: null
                 }]
             }]
         }));
@@ -351,7 +379,9 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
             text: "",
             images: [],
             generalCaption: "",
-            imagePosition: "bottom"
+            imagePosition: "bottom",
+            interactive: false,
+            interactiveStory: null
         });
         setForm({ ...form, body: updatedBody });
     };
@@ -364,7 +394,50 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
         }
     };
 
+    const toggleParagraphInteractive = (sectionIndex, paragraphIndex, checked) => {
+        setForm((prev) => ({
+            ...prev,
+            body: prev.body.map((section, sIndex) => {
+                if (sIndex !== sectionIndex) return section;
+
+                return {
+                    ...section,
+                    paragraphs: section.paragraphs.map((paragraph, pIndex) => {
+                        if (pIndex !== paragraphIndex) return paragraph;
+
+                        return {
+                            ...paragraph,
+                            interactive: checked,
+                            interactiveStory: checked
+                                ? paragraph.interactiveStory || createInteractiveStory()
+                                : paragraph.interactiveStory
+                        };
+                    })
+                };
+            })
+        }));
+    };
+
     const handleSave = () => {
+        // Récits interactifs incomplets : on prévient sans bloquer l'enregistrement
+        const storyWarnings = [];
+        form.body.forEach((section, sIndex) => {
+            section.paragraphs.forEach((para, pIndex) => {
+                if (!para.interactive) return;
+                const count = getStoryIssues(para.interactiveStory).length;
+                if (count > 0) {
+                    storyWarnings.push(`• Section ${sIndex + 1}, paragraphe ${pIndex + 1} : ${count} point(s) à vérifier`);
+                }
+            });
+        });
+
+        if (
+            storyWarnings.length > 0 &&
+            !window.confirm(`Récit interactif incomplet :\n${storyWarnings.join("\n")}\n\nEnregistrer quand même ?`)
+        ) {
+            return;
+        }
+
         setFormSubmitted(true);
 
         // Toujours recalculer les variantes à partir de mainImage pour que leur mise à jour
@@ -522,7 +595,17 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                                 {section.paragraphs.map((paragraph, pIndex) => (
                                     <div key={pIndex} className={`paragraph-container ${errors[`body_${index}_para_${pIndex}`] ? "error-section" : ""}`}>
                                         <div className="paragraph-header">
-                                            <span className="paragraph-number">Paragraphe {pIndex + 1}</span>
+                                            <div className="paragraph-header-title">
+                                                <span className="paragraph-number">Paragraphe {pIndex + 1}</span>
+                                                <label className={`paragraph-interactive-toggle ${paragraph.interactive ? "is-active" : ""}`}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={Boolean(paragraph.interactive)}
+                                                        onChange={(event) => toggleParagraphInteractive(index, pIndex, event.target.checked)}
+                                                    />
+                                                    <span>{paragraph.interactive ? "✓ Interactif" : "Interactif"}</span>
+                                                </label>
+                                            </div>
                                             {errors[`body_${index}_para_${pIndex}`] && (
                                                 <div className="error-message">
                                                     <TriangleAlert size={15} /> <p>{errors[`body_${index}_para_${pIndex}`]}</p>
@@ -539,112 +622,123 @@ const AdminPostForm = ({ initialData = null, onSubmit, mode = "create" }) => {
                                             )}
                                         </div>
 
-                                        <div className="field-container split-mode">
-                                            <ReactQuill
-                                                value={paragraph.text}
-                                                onChange={(value) => handleParagraphChange(index, pIndex, "text", value)}
-                                                modules={quillModules}
-                                                formats={quillFormats}
-                                                placeholder="Texte du paragraphe"
-                                            />
-
-                                            <div className="body-images">
-                                                <div className="images-header-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                                    <h4 style={{ margin: 0 }}>🖼️ Images du paragraphe</h4>
-                                                    
-                                                    <div className="image-position-selector">
-                                                        <label style={{ marginRight: '0.5rem', fontSize: '0.9rem' }}>Position :</label>
-                                                        <select
-                                                            value={paragraph.imagePosition || "bottom"}
-                                                            onChange={(e) => handleParagraphChange(index, pIndex, "imagePosition", e.target.value)}
-                                                            style={{ padding: '0.3rem', borderRadius: '4px', border: '1px solid #ccc' }}
-                                                        >
-                                                            <option value="bottom">Bas (défaut)</option>
-                                                            <option value="top">Haut</option>
-                                                            <option value="left">Gauche</option>
-                                                            <option value="right">Droite</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                {/* Légende générale pour toutes les images du paragraphe */}
-                                                <div className="general-caption-container">
-                                                    <label>📝 Légende générale (optionnelle) :</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Légende pour le groupe d'images..."
-                                                        value={paragraph.generalCaption || ""}
-                                                        onChange={(e) => handleParagraphChange(index, pIndex, "generalCaption", e.target.value)}
-                                                        className="general-caption-input"
+                                        <div className={`field-container ${paragraph.interactive ? "interactive-mode" : "split-mode"}`}>
+                                            {paragraph.interactive ? (
+                                                <InteractiveStory
+                                                    value={paragraph.interactiveStory}
+                                                    onChange={(value) => handleParagraphChange(index, pIndex, "interactiveStory", value)}
+                                                    modules={quillModules}
+                                                    formats={quillFormats}
+                                                />
+                                                ) : (
+                                                <>
+                                                    <ReactQuill
+                                                        value={paragraph.text}
+                                                        onChange={(value) => handleParagraphChange(index, pIndex, "text", value)}
+                                                        modules={quillModules}
+                                                        formats={quillFormats}
+                                                        placeholder="Texte du paragraphe"
                                                     />
-                                                </div>
-
-                                                {/* Images individuelles */}
-                                                {paragraph.images.map((img, imgIndex) => (
-                                                    <div key={imgIndex} className="image-input">
-                                                        <div className="image-body">
-                                                            <div className="image-url">
-                                                                <label>🔗 URL #{imgIndex + 1} :</label>
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder={`https://res.cloudinary.com/...`}
-                                                                    value={getImageUrl(img)}
-                                                                    onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'url', e.target.value)}
-                                                                />
-                                                            </div>
-
-                                                            <div className="image-caption">
-                                                                <label>🏷️ Légende :</label>
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder={`Légende spécifique...`}
-                                                                    value={getImageCaption(img)}
-                                                                    onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'caption', e.target.value)}
-                                                                    className="image-caption-input"
-                                                                />
+                                                    <div className="body-images">
+                                                        <div className="images-header-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                                            <h4 style={{ margin: 0 }}>🖼️ Images du paragraphe</h4>
+                                                            
+                                                            <div className="image-position-selector">
+                                                                <label style={{ marginRight: '0.5rem', fontSize: '0.9rem' }}>Position :</label>
+                                                                <select
+                                                                    value={paragraph.imagePosition || "bottom"}
+                                                                    onChange={(e) => handleParagraphChange(index, pIndex, "imagePosition", e.target.value)}
+                                                                    style={{ padding: '0.3rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                                                                >
+                                                                    <option value="bottom">Bas (défaut)</option>
+                                                                    <option value="top">Haut</option>
+                                                                    <option value="left">Gauche</option>
+                                                                    <option value="right">Droite</option>
+                                                                </select>
                                                             </div>
                                                         </div>
 
-                                                        <div className="image-preview">
-                                                            <button
-                                                                type="button"
-                                                                className="image-remove-btn"
-                                                                onClick={() => removeImageField(index, pIndex, imgIndex)}
-                                                                title="Supprimer l'image"
-                                                            >
-                                                                ❌
-                                                            </button>
-                                                            {/* Prévisualisation de l'image si URL valide */}
-                                                            {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
-                                                                <img
-                                                                    src={getImageUrl(img)}
-                                                                    alt="Aperçu"
-                                                                    style={{
-                                                                        maxWidth: '150px',
-                                                                        maxHeight: '100px',
-                                                                        objectFit: 'cover',
-                                                                        borderRadius: '4px',
-                                                                        marginTop: '0.3rem',
-                                                                        border: '1px solid #ddd'
-                                                                    }}
-                                                                    onError={(e) => {
-                                                                        e.target.style.display = 'none';
-                                                                    }}
-                                                                />
-                                                            )}
-
+                                                        {/* Légende générale pour toutes les images du paragraphe */}
+                                                        <div className="general-caption-container">
+                                                            <label>📝 Légende générale (optionnelle) :</label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Légende pour le groupe d'images..."
+                                                                value={paragraph.generalCaption || ""}
+                                                                onChange={(e) => handleParagraphChange(index, pIndex, "generalCaption", e.target.value)}
+                                                                className="general-caption-input"
+                                                            />
                                                         </div>
+
+                                                        {/* Images individuelles */}
+                                                        {paragraph.images.map((img, imgIndex) => (
+                                                            <div key={imgIndex} className="image-input">
+                                                                <div className="image-body">
+                                                                    <div className="image-url">
+                                                                        <label>🔗 URL #{imgIndex + 1} :</label>
+                                                                        <input
+                                                                            type="text"
+                                                                            placeholder={`https://res.cloudinary.com/...`}
+                                                                            value={getImageUrl(img)}
+                                                                            onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'url', e.target.value)}
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className="image-caption">
+                                                                        <label>🏷️ Légende :</label>
+                                                                        <input
+                                                                            type="text"
+                                                                            placeholder={`Légende spécifique...`}
+                                                                            value={getImageCaption(img)}
+                                                                            onChange={(e) => handleImageChange(index, pIndex, imgIndex, 'caption', e.target.value)}
+                                                                            className="image-caption-input"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="image-preview">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="image-remove-btn"
+                                                                        onClick={() => removeImageField(index, pIndex, imgIndex)}
+                                                                        title="Supprimer l'image"
+                                                                    >
+                                                                        ❌
+                                                                    </button>
+                                                                    {/* Prévisualisation de l'image si URL valide */}
+                                                                    {getImageUrl(img) && getImageUrl(img).startsWith('http') && (
+                                                                        <img
+                                                                            src={getImageUrl(img)}
+                                                                            alt="Aperçu"
+                                                                            style={{
+                                                                                maxWidth: '150px',
+                                                                                maxHeight: '100px',
+                                                                                objectFit: 'cover',
+                                                                                borderRadius: '4px',
+                                                                                marginTop: '0.3rem',
+                                                                                border: '1px solid #ddd'
+                                                                            }}
+                                                                            onError={(e) => {
+                                                                                e.target.style.display = 'none';
+                                                                            }}
+                                                                        />
+                                                                    )}
+
+                                                                </div>
+                                                            </div>
+                                                        ))}
+
+                                                        <button
+                                                            type="button"
+                                                            className="image-add-btn"
+                                                            onClick={() => addImageField(index, pIndex)}
+                                                        >
+                                                            ➕ Ajouter une image
+                                                        </button>
                                                     </div>
-                                                ))}
-
-                                                <button
-                                                    type="button"
-                                                    className="image-add-btn"
-                                                    onClick={() => addImageField(index, pIndex)}
-                                                >
-                                                    ➕ Ajouter une image
-                                                </button>
-                                            </div>
+                                                </>
+                                            )}                                 
+                                           
                                         </div>
                                     </div>
                                 ))}

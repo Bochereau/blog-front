@@ -6,6 +6,8 @@ import { reverseDate } from "../../utils";
 import enluminureCorner from "../../assets/image/enluminure_corner.png";
 import './style.scss';
 
+import InteractiveStoryPlayer from "../InteractiveStory/InteractiveStoryPlayer";
+
 const Post = ({
   title,
   subtitle,
@@ -257,44 +259,72 @@ const Post = ({
               }
               
               {paragraphs.map((paragraph, pIndex) => {
-                const { urls, captions, hasIndividualCaptions } = processImagesData(paragraph);
+                const { urls, captions, hasIndividualCaptions } =
+                  processImagesData(paragraph);
+
                 const imagePosition = paragraph.imagePosition || "bottom";
-                
+
                 return (
-                  <div key={pIndex} className={`post-content-paragraph layout-${imagePosition}`}>
-                    {paragraph.text && (
-                      <div className="post-content-section-body">
-                        <div className="post-content-section-text" style={{ whiteSpace: 'pre-line' }}>{paragraph.text ? parse(paragraph.text, parseOptions) : ''}</div>
-                      </div>
-                    )}
-                    
-                    {urls.length > 0 && (
-                      <div className={`post-content-images has-${urls.length}`}>
-                        {urls.map((url, idx) => (
-                          <div key={idx} className="post-content-image-container">
-                            <img
-                              src={url}
-                              alt={captions[idx] || `illustration-${idx}`}
-                              className="post-content-image"
-                              onClick={() => openModal(urls, captions, idx)}
-                              loading="lazy"
-                              decoding="async"
-                            />
-                            {captions[idx] && (
-                              <p className="post-content-image-caption">{parse(captions[idx])}</p>
-                            )}
+                  <div
+                    key={pIndex}
+                    className={`post-content-paragraph layout-${imagePosition}`}
+                  >
+                    {paragraph.interactive ? (
+                      <InteractiveStoryPlayer
+                        key={`${paragraph.interactiveStory?.startNodeId || "story"}-${pIndex}`}
+                        story={paragraph.interactiveStory}
+                      />
+                    ) : (
+                      <>
+                        {paragraph.text && (
+                          <div className="post-content-section-body">
+                            <div
+                              className="post-content-section-text"
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {paragraph.text
+                                ? parse(paragraph.text, parseOptions)
+                                : ""}
+                            </div>
                           </div>
-                        ))}
-                      </div>
-                    )}
-                    
-                    {/* Légende générale du paragraphe */}
-                    {urls.length > 0 && !hasIndividualCaptions && paragraph.generalCaption && (
-                      <p className="post-content-images-general-caption">{parse(paragraph.generalCaption)}</p>
+                        )}
+
+                        {urls.length > 0 && (
+                          <div className={`post-content-images has-${urls.length}`}>
+                            {urls.map((url, idx) => (
+                              <div key={idx} className="post-content-image-container">
+                                <img
+                                  src={url}
+                                  alt={captions[idx] || `illustration-${idx}`}
+                                  className="post-content-image"
+                                  onClick={() => openModal(urls, captions, idx)}
+                                  loading="lazy"
+                                  decoding="async"
+                                />
+
+                                {captions[idx] && (
+                                  <p className="post-content-image-caption">
+                                    {parse(captions[idx])}
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {urls.length > 0 &&
+                          !hasIndividualCaptions &&
+                          paragraph.generalCaption && (
+                            <p className="post-content-images-general-caption">
+                              {parse(paragraph.generalCaption)}
+                            </p>
+                          )}
+                      </>
                     )}
                   </div>
                 );
               })}
+              
             </div>
           );
         })}

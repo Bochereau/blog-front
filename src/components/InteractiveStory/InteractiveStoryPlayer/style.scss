@@ -1,0 +1,444 @@
+
+@use '../../../styles/vars';
+
+.interactive-player {
+    --story-ink: #030303;
+    --story-muted: #777;
+    --story-line: #d5d5d5;
+    --story-paper: #fff;
+    --story-contrast: #e5e5e5;
+
+    width: 100%;
+    margin: vars.$gutter*1.5 0;
+    // Laisse la place au menu collant lors du défilement automatique
+    scroll-margin-top: 90px;
+    color: var(--story-ink);
+    background: var(--story-paper);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+
+    // État vide
+    &--empty {
+        padding: vars.$gutter*2;
+        border: 1px solid var(--story-line);
+        color: var(--story-muted);
+        text-align: center;
+        font-style: italic;
+    }
+
+    // En-tête du récit : simple étiquette
+    &__header {
+        display: inline-block;
+        padding: vars.$gutter*0.3 vars.$gutter*0.9;
+        background: vars.$background-secondary;
+        color: vars.$light;
+        font-family: 'Rationale', sans-serif;
+        font-size: 0.9rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    // Passage courant
+    &__passage {
+        padding: vars.$gutter 0;
+        border-bottom: 1px solid var(--story-line);
+
+        h4 {
+            margin: 0 0 vars.$gutter*0.75;
+            padding-bottom: vars.$gutter*0.4;
+            border-bottom: 3px solid vars.$background-secondary;
+            color: vars.$background-secondary;
+            font-family: 'Rationale', sans-serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: bold;
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            // Le focus est posé par script : pas de contour visible
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    // Texte riche
+    &__text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        text-align: justify;
+        overflow-wrap: anywhere;
+
+        p {
+            margin: 0 0 vars.$gutter*0.6;
+        }
+
+        // Lignes vides ajoutées dans Quill (<p><br></p>) : l'espacement des paragraphes suffit
+        p:has(> br:only-child) {
+            display: none;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: vars.$gutter*0.75 auto;
+        }
+
+        a {
+            color: #111;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+
+            &:hover {
+                text-decoration-thickness: 3px;
+            }
+        }
+
+        blockquote {
+            margin: vars.$gutter*1.5 0;
+            padding: vars.$gutter vars.$gutter*1.5;
+            border-left: 4px solid vars.$background-secondary;
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        strong,
+        b {
+            font-weight: 700;
+        }
+
+        code {
+            padding: 0.2rem 0.4rem;
+            border-radius: 2px;
+            background: #f1f1f1;
+            color: #222;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        ul,
+        ol {
+            margin: vars.$gutter 0;
+            padding-left: vars.$gutter*2;
+        }
+
+        li {
+            margin: vars.$gutter*0.5 0;
+        }
+
+        .ql-size-small {
+            font-size: vars.$gutter*0.8;
+        }
+
+        .ql-size-large {
+            font-size: vars.$gutter*1.5;
+        }
+
+        .ql-size-huge {
+            font-size: vars.$gutter*2;
+        }
+    }
+
+    // Illustrations
+    &__figure {
+        margin: vars.$gutter*2 auto;
+        text-align: center;
+
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 620px;
+            height: auto;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+
+        figcaption {
+            display: inline-block;
+            max-width: 90%;
+            margin: vars.$gutter vars.$gutter*0.5 0;
+            padding: vars.$gutter*0.5 vars.$gutter;
+            background: vars.$light;
+            color: #555;
+            font-family: 'Indie Flower', cursive;
+            font-size: vars.$gutter;
+            box-shadow: 2px 2px 0 #ccc;
+            transform: rotate(-1deg);
+        }
+    }
+
+    // Choix proposés au lecteur
+    &__choices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: vars.$gutter*0.5;
+        margin-top: vars.$gutter;
+        padding: vars.$gutter*0.75;
+        background: #f5f5f5;
+        border-top: 3px solid vars.$background-secondary;
+
+        h5 {
+            flex-basis: 100%;
+            margin: 0;
+            color: vars.$background-secondary;
+            font-family: 'Rationale', sans-serif;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1 1 auto;
+            gap: vars.$gutter;
+            padding: vars.$gutter*0.55 vars.$gutter*0.9;
+            border: 1px solid vars.$background-secondary;
+            border-radius: 8px;
+            background: vars.$light;
+            color: vars.$background-secondary;
+            // Ombre décalée nette : donne du relief sans alourdir
+            box-shadow: 3px 3px 0 vars.$background-secondary;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.4;
+            text-align: left;
+            cursor: pointer;
+            transition:
+                background-color 160ms ease,
+                color 160ms ease,
+                box-shadow 160ms ease,
+                transform 160ms ease;
+
+            &::after {
+                content: "→";
+                flex-shrink: 0;
+                font-size: 1rem;
+                transition: transform 160ms ease;
+            }
+
+            &:hover {
+                background: vars.$background-secondary;
+                color: vars.$light;
+
+                &::after {
+                    transform: translateX(3px);
+                }
+            }
+
+            // Effet d'enfoncement au clic
+            &:active {
+                box-shadow: 0 0 0 vars.$background-secondary;
+                transform: translate(3px, 3px);
+            }
+
+            &:focus-visible {
+                outline: 2px solid vars.$background-secondary;
+                outline-offset: 3px;
+            }
+        }
+    }
+
+    // Fins de branche : impasse (sobre) ou vraie fin du récit (marquante)
+    &__ending {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: vars.$gutter*0.6;
+        margin-top: vars.$gutter*1.25;
+        padding: vars.$gutter*1.25 vars.$gutter;
+        border-radius: 8px;
+        text-align: center;
+        animation: interactive-ending-in 400ms ease both;
+
+        p {
+            margin: 0;
+            font-style: italic;
+        }
+
+        button {
+            padding: vars.$gutter*0.4 vars.$gutter;
+            border: 1px solid currentColor;
+            border-radius: 8px;
+            background: transparent;
+            color: inherit;
+            font-family: 'Rationale', sans-serif;
+            font-size: 0.95rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 160ms ease, color 160ms ease;
+
+            &:focus-visible {
+                outline: 2px solid currentColor;
+                outline-offset: 3px;
+            }
+        }
+
+        // Impasse : on invite à revenir en arrière
+        &--dead-end {
+            border: 1px dashed #9a9a9a;
+            background: #f5f5f5;
+            color: vars.$background-secondary;
+
+            p {
+                color: #555;
+            }
+
+            button:hover {
+                background: vars.$background-secondary;
+                color: vars.$light;
+            }
+        }
+
+        // Vraie fin : bloc noir à double filet
+        &--final {
+            gap: vars.$gutter*0.75;
+            padding: vars.$gutter*2 vars.$gutter;
+            background: vars.$background-secondary;
+            color: vars.$light;
+            outline: 1px solid vars.$light;
+            outline-offset: -6px;
+
+            p {
+                color: #c5c5c5;
+            }
+
+            button:hover {
+                background: vars.$light;
+                color: vars.$background-secondary;
+            }
+        }
+    }
+
+    &__ending-eyebrow {
+        color: #bdbdbd;
+        font-family: 'Rationale', sans-serif;
+        font-size: 0.85rem;
+        font-weight: bold;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    // Titre encadré de deux filets
+    &__ending-title {
+        display: flex;
+        align-items: center;
+        gap: vars.$gutter;
+        width: min(100%, 320px);
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        font-weight: bold;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+
+        &::before,
+        &::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: currentColor;
+            opacity: 0.5;
+        }
+
+        .interactive-player__ending--final & {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            letter-spacing: 10px;
+        }
+    }
+
+    &__ending-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: vars.$gutter*0.5;
+        margin-top: vars.$gutter*0.4;
+    }
+
+    // Navigation
+    &__controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: vars.$gutter*0.5;
+        padding: vars.$gutter*0.6 0;
+        border-top: 2px solid vars.$background-secondary;
+
+        button {
+            padding: vars.$gutter*0.3 vars.$gutter*0.75;
+            border: 1px solid vars.$background-secondary;
+            border-radius: 0;
+            background: vars.$light;
+            color: vars.$background-secondary;
+            font-family: 'Rationale', sans-serif;
+            font-size: 0.95rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 160ms ease, color 160ms ease;
+
+            &:hover:not(:disabled) {
+                background: vars.$background-secondary;
+                color: vars.$light;
+            }
+
+            &:focus-visible {
+                outline: 2px solid vars.$background-secondary;
+                outline-offset: 3px;
+            }
+
+            &:disabled {
+                opacity: 0.35;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    @media (max-width: 426px) {
+        margin: vars.$gutter 0;
+
+        &__text {
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        &__choices {
+            padding: vars.$gutter*0.5;
+        }
+
+        &__choices button {
+            flex-basis: 100%;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+@keyframes interactive-ending-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .interactive-player__ending {
+        animation: none;
+    }
+}
