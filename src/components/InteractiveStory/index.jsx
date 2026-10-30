@@ -481,6 +481,7 @@ const InteractiveStory = ({ value, onChange }) => {
 
                 <div className="interactive-editor__quill-editor">
                   <ReactQuill
+                    key={selectedNode.id}
                     theme="snow"
                     value={selectedNode.text || ""}
                     onChange={(value) =>
